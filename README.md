@@ -6,10 +6,10 @@
 
 # 1. Transfomer Models
 
-## Introduction
+## 1.1 Introduction
 
 Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几章处理CV任务的不用看。
 
-## Natural Language Processing
+## 1.2 Natural Language Processing
 
-## Transformers, what can they do?
+## 1.3 Transformers, what can they do?
