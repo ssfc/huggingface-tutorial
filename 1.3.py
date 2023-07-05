@@ -47,7 +47,7 @@ result = ner("My name is Sylvain and I work at Hugging Face in Brooklyn.")
 print(result)
 '''
 
-# Section 5: Question answering
+# Section 6: Question answering
 '''
 question_answerer = pipeline("question-answering")
 result = question_answerer(
@@ -57,7 +57,7 @@ result = question_answerer(
 print(result)
 '''
 
-# Section 6: summarization
+# Section 7: summarization
 summarizer = pipeline("summarization")
 result = summarizer(
     """

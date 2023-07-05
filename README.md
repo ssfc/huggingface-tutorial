@@ -13,3 +13,17 @@ Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几
 ## 1.2 Natural Language Processing
 
 ## 1.3 Transformers, what can they do?
+
+Section 1: sentiment analysis
+
+Section 2: text classification
+
+Section 3: text generation
+
+Section 4: fill-mask
+
+Section 5: Named entity recognition
+
+Section 6: Question answering
+
+Section 7: summarization
