@@ -27,3 +27,5 @@ Section 5: Named entity recognition
 Section 6: Question answering
 
 Section 7: summarization
+
+Section 8: translation
