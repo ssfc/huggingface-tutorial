@@ -29,3 +29,11 @@ Section 6: Question answering
 Section 7: summarization
 
 Section 8: translation
+
+## 1.4 How do Transformers work?
+
+A bit of Transformer history
+
+- GPT-like (also called *auto-regressive* Transformer models)
+- BERT-like (also called *auto-encoding* Transformer models)
+- BART/T5-like (also called *sequence-to-sequence* Transformer models)
