@@ -58,6 +58,7 @@ print(result)
 '''
 
 # Section 7: summarization
+'''
 summarizer = pipeline("summarization")
 result = summarizer(
     """
@@ -82,10 +83,11 @@ result = summarizer(
 """
 )
 print(result)
+'''
 
-
-
-
-
+# Section 8: translation
+translator = pipeline("translation", model="Helsinki-NLP/opus-mt-fr-en")
+result = translator("Ce cours est produit par Hugging Face.")
+print(result)
 
 
