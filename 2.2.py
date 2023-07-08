@@ -12,6 +12,8 @@ result = classifier(
 print(result)
 '''
 
+# Section 1: Preprocessing with a tokenizer
+'''
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
@@ -21,6 +23,9 @@ raw_inputs = [
 ]
 inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
 print(inputs)
+'''
+
+
 
 
 
