@@ -38,6 +38,16 @@ ids = tokenizer.convert_tokens_to_ids(tokens)
 
 print(ids)
 
+raw_inputs = "Using a Transformer network is simple"
+inputs = tokenizer(raw_inputs)
+print(inputs)
+# Comment: 输出是不一样的，头部尾部多了俩元素
+
+# 2.4.9 Decoding
+decoded_string = tokenizer.decode([7993, 170, 11303, 1200, 2443, 1110, 3014])
+print(decoded_string)
+
+
 
 
 
