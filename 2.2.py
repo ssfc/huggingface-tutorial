@@ -44,7 +44,7 @@ model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
 outputs = model(**inputs)
 print(outputs.logits.shape)
 
-
-
+# Section 5: Postprocessing the output
+print(outputs.logits)
 
 
