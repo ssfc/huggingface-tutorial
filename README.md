@@ -137,6 +137,16 @@ political correctness.
 - 将每个标记映射到一个整数
 - 添加可能对模型有用的其他输入
 
+*Section 1: Preprocessing with a tokenizer*
+
+*Section 2: Going through the model*
+
+*Section 3: A high-dimensional vector?*
+
+*Section 4: Model heads: Making sense out of numbers*
+
+*Section 5: Postprocessing the output*
+
 ### Q: 什么是logits?
 
 在机器学习和深度学习中，Logits 是指模型的输出层（或最后一层）的原始预测结果，尚未经过概率化转换的值。Logits 是一个向量，其中的每个元素表示模型对于不同类别的预测得分或原始输出值。
