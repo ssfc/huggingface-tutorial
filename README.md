@@ -122,3 +122,8 @@ political correctness.
 | Encoder         | ALBERT, BERT, DistilBERT, ELECTRA, RoBERTa | Sentence classification, named entity recognition, extractive question answering |
 | Decoder         | CTRL, GPT, GPT-2, Transformer XL           | Text generation                                              |
 | Encoder-decoder | BART, T5, Marian, mBART                    | Summarization, translation, generative question answering    |
+
+## 1.10 Quiz
+
+# 2. USING 🤗 TRANSFORMERS
+
