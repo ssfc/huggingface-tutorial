@@ -33,6 +33,7 @@ checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 model = AutoModel.from_pretrained(checkpoint)
 print(model)
 
+# Section 3: A high-dimensional vector?
 outputs = model(**inputs)
 print(outputs.last_hidden_state.shape)
 
