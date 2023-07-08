@@ -163,7 +163,7 @@ Logits 的值通常不具有直接的概率解释，它们可以是任意实数�
 
 ### 2.3.2 Different loading methods
 
-Section 3: Saving methods
+### 2.3.3 Saving methods
 
 Section 4: Using a Transformer model for inference
 
