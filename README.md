@@ -101,3 +101,12 @@ GPT-2
 Transformer XL
 
 ## 1.7 Sequence-to-sequence models[sequence-to-sequence-models]
+
+编码器-解码器模型（也称为序列*到序列模型*）使用转换器体系结构的两个部分。在每个阶段，编码器的注意力层可以访问初始句子中的所有单词，而解码器的注意层只能访问输入中给定单词之前的位置。
+
+序列到序列模型最适合围绕根据给定输入生成新句子的任务，例如摘要、翻译或生成问答。
+
+BART
+mBART
+Marian
+T5
