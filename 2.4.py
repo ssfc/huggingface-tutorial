@@ -20,6 +20,13 @@ print(tokenizer)
 
 result = tokenizer("Using a Transformer network is simple")
 print(result)
+tokenizer.save_pretrained("directory_on_my_computer")
+
+# Section 6: Encoding
+
+# Section 7: Tokenization
+
+
 
 
 
