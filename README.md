@@ -127,3 +127,6 @@ political correctness.
 
 # 2. USING 🤗 TRANSFORMERS
 
+## 2.1 Introduction
+
+## 2.2 Behind the pipeline
