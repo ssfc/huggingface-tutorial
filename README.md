@@ -145,7 +145,7 @@ political correctness.
 
 ### 2.3.4 Model heads: Making sense out of numbers
 
-Section 5: Postprocessing the output
+### 2.3.5 Postprocessing the output
 
 ### Q: 什么是logits?
 
