@@ -31,7 +31,7 @@ print(inputs)
 # Section 2: Going through the model
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 model = AutoModel.from_pretrained(checkpoint)
-print(model)
+# print(model)
 
 # Section 3: A high-dimensional vector?
 outputs = model(**inputs)
