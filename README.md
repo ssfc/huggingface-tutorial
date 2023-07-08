@@ -82,3 +82,5 @@ fine-tune属于迁移学习。
 (3) “编码器”模型 - Hugging Face NLP Course. https://huggingface.co/course/zh-CN/chapter1/5?fw=pt.
 
 ## 1.6 Decoder models
+
+解码器模型仅使用转换器模型的解码器。在每个阶段，对于给定的单词，注意力层只能访问句子中位于其前面的单词。这些模型通常称为*自回归模型*。
