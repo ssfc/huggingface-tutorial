@@ -139,7 +139,7 @@ political correctness.
 
 ### 2.2.1 Preprocessing with a tokenizer
 
-Section 2: Going through the model
+### 2.2.2 Going through the model
 
 Section 3: A high-dimensional vector?
 
