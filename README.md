@@ -137,15 +137,15 @@ political correctness.
 - 将每个标记映射到一个整数
 - 添加可能对模型有用的其他输入
 
-*Section 1: Preprocessing with a tokenizer*
+Section 1: Preprocessing with a tokenizer
 
-*Section 2: Going through the model*
+Section 2: Going through the model
 
-*Section 3: A high-dimensional vector?*
+Section 3: A high-dimensional vector?
 
-*Section 4: Model heads: Making sense out of numbers*
+Section 4: Model heads: Making sense out of numbers
 
-*Section 5: Postprocessing the output*
+Section 5: Postprocessing the output
 
 ### Q: 什么是logits?
 
