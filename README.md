@@ -186,3 +186,7 @@ Logits 的值通常不具有直接的概率解释，它们可以是任意实数�
 ### 2.4.6 Encoding
 
 ### 2.4.7 Tokenization
+
+原来一个单词transformer也可以分成两个。
+
+### 2.4.8 From tokens to input IDs

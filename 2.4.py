@@ -33,7 +33,10 @@ tokens = tokenizer.tokenize(sequence)
 
 print(tokens)
 
+# Section 8: From tokens to input IDs
+ids = tokenizer.convert_tokens_to_ids(tokens)
 
+print(ids)
 
 
 
