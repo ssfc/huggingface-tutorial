@@ -1,4 +1,5 @@
 from transformers import AutoModel
+from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import pipeline
 
@@ -37,9 +38,11 @@ model = AutoModel.from_pretrained(checkpoint)
 outputs = model(**inputs)
 print(outputs.last_hidden_state.shape)
 
-
-
-
+# Section 4: Model heads: Making sense out of numbers
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+outputs = model(**inputs)
+print(outputs.logits.shape)
 
 
 
