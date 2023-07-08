@@ -1,5 +1,7 @@
-from transformers import pipeline
+from transformers import AutoModel
 from transformers import AutoTokenizer
+from transformers import pipeline
+
 
 '''
 classifier = pipeline("sentiment-analysis")
@@ -26,7 +28,10 @@ print(inputs)
 '''
 # 奇怪的是，怎么输出向量的维数和输入单词的数量不一样？
 
-
+# Section 2: Going through the model
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+model = AutoModel.from_pretrained(checkpoint)
+print(model)
 
 
 
