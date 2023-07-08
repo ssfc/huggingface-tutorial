@@ -1,3 +1,4 @@
+import torch
 from transformers import AutoModel
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
@@ -46,5 +47,16 @@ print(outputs.logits.shape)
 
 # Section 5: Postprocessing the output
 print(outputs.logits)
+
+predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
+print(predictions)
+
+
+
+
+
+
+
+
 
 
