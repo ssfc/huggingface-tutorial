@@ -22,9 +22,9 @@ Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几
 
 ### 1.3.4 fill-mask
 
-Section 5: Named entity recognition
+### 1.3.5 Named entity recognition
 
-Section 6: Question answering
+### 1.3.6 Question answering
 
 Section 7: summarization
 
