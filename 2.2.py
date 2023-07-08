@@ -51,7 +51,7 @@ print(outputs.logits)
 predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
 print(predictions)
 
-
+print(model.config.id2label)
 
 
 
