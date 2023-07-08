@@ -166,3 +166,5 @@ Section 2: Different loading methods
 Section 3: Saving methods
 
 Section 4: Using a Transformer model for inference
+
+## 2.4 Tokenizers
