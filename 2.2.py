@@ -24,7 +24,7 @@ raw_inputs = [
 inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
 print(inputs)
 '''
-
+# 奇怪的是，怎么输出向量的维数和输入单词的数量不一样？
 
 
 
