@@ -14,13 +14,13 @@ Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几
 
 ## 1.3 Transformers, what can they do?
 
-Section 1: sentiment analysis
+### 1.3.1 sentiment analysis
 
-Section 2: text classification
+### 1.3.2 text classification
 
-Section 3: text generation
+### 1.3.3 text generation
 
-Section 4: fill-mask
+### 1.3.4 fill-mask
 
 Section 5: Named entity recognition
 
@@ -168,3 +168,7 @@ Section 3: Saving methods
 Section 4: Using a Transformer model for inference
 
 ## 2.4 Tokenizers
+
+如果我们想用基于单词的分词器完全覆盖一种语言，我们需要为语言中的每个单词都有一个标识符，这将生成大量的标记。例如，英语中有超过 500，000 个单词，因此要构建从每个单词到输入 ID 的映射，我们需要跟踪这么多 ID。此外，像“dog”这样的单词与像“dogs”这样的单词表示不同，并且模型最初无法知道“dog”和“dogs”是相似的：它会将这两个单词识别为不相关的。这同样适用于其他类似的单词，如“run”和“running”，模型最初不会看到它们相似。
+
+最后，我们需要一个自定义标记来表示不在词汇表中的单词。这称为“未知”标记，通常表示为“[UNK]”或“”。如果您看到分词器正在生成大量这些标记，这通常是一个不好的迹象，因为它无法检索单词的合理表示，并且您在此过程中丢失了信息。制作词汇表时的目标是以这样的方式进行，即分词器将尽可能少的单词标记到未知标记中。
