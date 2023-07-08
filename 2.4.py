@@ -29,6 +29,7 @@ tokenizer.save_pretrained("directory_on_my_computer")
 tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 
 # sequence = "Using a Transformer network is simple"
+# tokenize object code
 sequence = "*146*171*5*171*1*38*171*23*38*171*23*38*171*23*17*5*"
 tokens = tokenizer.tokenize(sequence)
 
