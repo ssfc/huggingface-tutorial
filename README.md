@@ -137,7 +137,7 @@ political correctness.
 - 将每个标记映射到一个整数
 - 添加可能对模型有用的其他输入
 
-Section 1: Preprocessing with a tokenizer
+### 2.2.1 Preprocessing with a tokenizer
 
 Section 2: Going through the model
 
