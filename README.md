@@ -130,3 +130,9 @@ political correctness.
 ## 2.1 Introduction
 
 ## 2.2 Behind the pipeline
+
+*分词器*，它将负责：
+
+- 将输入拆分为称为*标记*的单词、子单词或符号（如标点符号）
+- 将每个标记映射到一个整数
+- 添加可能对模型有用的其他输入
