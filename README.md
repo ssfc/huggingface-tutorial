@@ -141,9 +141,9 @@ political correctness.
 
 ### 2.2.2 Going through the model
 
-Section 3: A high-dimensional vector?
+### 2.3.3 A high-dimensional vector?
 
-Section 4: Model heads: Making sense out of numbers
+### 2.3.4 Model heads: Making sense out of numbers
 
 Section 5: Postprocessing the output
 
