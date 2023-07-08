@@ -28,7 +28,7 @@ Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几
 
 ### 1.3.7 summarization
 
-Section 8: translation
+### 1.3.8 translation
 
 ## 1.4 How do Transformers work?
 
