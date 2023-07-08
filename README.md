@@ -158,3 +158,11 @@ Logits 的值通常不具有直接的概率解释，它们可以是任意实数�
 总结起来，logits 是指模型输出层的原始预测结果，表示模型对不同类别的预测得分或原始输出值，尚未经过概率化转换。通过应用 softmax 函数，可以将 logits 转换为概率分布，提供类别预测的概率信息。
 
 ## 2.3 Models
+
+*Section 1: Creating a Transformer*
+
+*Section 2: Different loading methods*
+
+*Section 3: Saving methods*
+
+*Section 4: Using a Transformer model for inference*
