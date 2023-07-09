@@ -30,7 +30,14 @@ tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 
 # sequence = "Using a Transformer network is simple"
 # tokenize object code
-sequence = "*146*171*5*171*1*38*171*23*38*171*23*38*171*23*17*5*"
+# sequence = "*146*171*5*171*1*38*171*23*38*171*23*38*171*23*17*5*"
+# tokens = tokenizer.tokenize(sequence)
+
+# tokenize source code
+sequence = "left(rotate(tree, var));<br>var = right(var);<br>right(var) = left(var);<br>if (left(var) == parent(root(" \
+           "tree)) ){<br>    parent(left(var)) = var }<br>parent(var) = parent(var);<br>if (parent(var) == parent(" \
+           "root(tree)) ){<br>   root(tree) = var}<br>if (var == left(parent(var))){<br>    left(parent(var)) = var " \
+           "}<br>else(){ right(parent(var)) = var;<br>    left(var) = var}<br>parent(var) = var;<br>"
 tokens = tokenizer.tokenize(sequence)
 
 print("tokens: ", tokens)
