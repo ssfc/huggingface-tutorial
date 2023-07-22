@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
+# 2.5.1 Models expect a batch of inputs
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
@@ -32,7 +33,22 @@ batched_ids = [
 
 print(model(torch.tensor(sequence1_ids)).logits)
 print(model(torch.tensor(sequence2_ids)).logits)
-print(model(torch.tensor(batched_ids)).logits)
+print("without attention mask: ", model(torch.tensor(batched_ids)).logits)
+
+# 2.5.3 Attention masks
+batched_ids = [
+    [200, 200, 200],
+    [200, 200, tokenizer.pad_token_id],
+]
+
+attention_mask = [
+    [1, 1, 1],
+    [1, 1, 0],
+]
+
+outputs = model(torch.tensor(batched_ids), attention_mask=torch.tensor(attention_mask))
+print("with attention mask: ", outputs.logits)
+
 
 
 
