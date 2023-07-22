@@ -235,6 +235,41 @@ https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
 
 ### 2.4.9 Decoding
 
+### Q: AutoTokenizer是干啥的？
+
+`AutoTokenizer` 是 Hugging Face Transformers 库中的一个类，它是一个自动加载预训练模型的分词器（Tokenizer）的工具类。在自然语言处理（NLP）中，分词器用于将输入文本（句子、段落等）拆分成单词或子词的序列，以便机器学习模型能够处理和理解文本。
+
+`AutoTokenizer` 的主要作用是根据给定的模型名称或 checkpoint 来自动选择和加载对应的预训练模型的分词器。这样，你可以通过一个简单的 API 调用来加载不同模型的分词器，而不需要手动指定特定模型的分词器。
+
+使用 `AutoTokenizer` 有以下几个优点：
+
+1. 自动选择模型：无需手动指定模型名称，`AutoTokenizer` 会根据提供的模型名称自动选择和加载对应的分词器。
+
+2. 多种模型支持：`AutoTokenizer` 支持加载各种不同的预训练模型的分词器，如 BERT、GPT、RoBERTa 等。
+
+3. 方便的代码迁移：如果你在代码中使用了 `AutoTokenizer` 来加载分词器，当你改变模型时，只需更改模型名称，而不需要修改其他代码。
+
+使用 `AutoTokenizer` 的示例代码如下：
+
+```python
+from transformers import AutoTokenizer
+
+# 指定模型名称或 checkpoint
+checkpoint = "bert-base-uncased"
+
+# 自动选择和加载对应的分词器
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+
+# 使用分词器对输入文本进行分词
+text = "Hello, how are you?"
+tokens = tokenizer(text)
+
+# 输出分词结果
+print(tokens)
+```
+
+在上述示例中，我们使用 `AutoTokenizer.from_pretrained(checkpoint)` 来自动加载名为 "bert-base-uncased" 的 BERT 模型的分词器。之后，我们使用分词器对输入文本进行分词，并输出分词结果。通过 `AutoTokenizer` 的使用，我们可以很方便地加载和切换不同的预训练模型的分词器，从而进行文本处理和 NLP 任务。
+
 ## 2.5 Handling multiple sequences
 
 https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
