@@ -1,6 +1,6 @@
 import torch
 from transformers import AdamW, AutoTokenizer, AutoModelForSequenceClassification
-
+'''
 # Same as before
 checkpoint = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -18,3 +18,18 @@ optimizer = AdamW(model.parameters())
 loss = model(**batch).loss
 loss.backward()
 optimizer.step()
+'''
+
+from datasets import load_dataset
+
+raw_datasets = load_dataset("glue", "mrpc")
+print(raw_datasets)
+
+raw_train_dataset = raw_datasets["train"]
+print(raw_train_dataset[0])
+
+
+
+
+
+
