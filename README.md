@@ -270,3 +270,11 @@ https://huggingface.co/learn/nlp-course/chapter2/7?fw=pt
 https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
 
 # 3. FINE-TUNING A PRETRAINED MODEL
+
+## 3.1 Introduction
+
+https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
+
+## 3.2 Processing the data
+
+https://huggingface.co/learn/nlp-course/chapter3/2?fw=pt
