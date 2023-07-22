@@ -20,3 +20,20 @@ tokenized_inputs = tokenizer(sequence, return_tensors="pt")
 print(tokenized_inputs)
 print(tokenized_inputs["input_ids"])
 
+# 2.5.2 Padding the inputs
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+
+sequence1_ids = [[200, 200, 200]]
+sequence2_ids = [[200, 200]]
+batched_ids = [
+    [200, 200, 200],
+    [200, 200, tokenizer.pad_token_id],
+]
+
+print(model(torch.tensor(sequence1_ids)).logits)
+print(model(torch.tensor(sequence2_ids)).logits)
+print(model(torch.tensor(batched_ids)).logits)
+
+
+
+
