@@ -361,6 +361,8 @@ model(**inputs)
 - `outputs.last_hidden_state` 是模型的中间表示，包含输入序列中每个位置的编码表示。
 - `logits` 是模型的预测输出，是在 `outputs.last_hidden_state` 基础上得到的，并用于计算类别的得分或概率分布。
 
+Comment: 其实last_hidden_state的维数远远大于logits的维数。
+
 ### 2.3.4 Model heads: Making sense out of numbers
 
 ### 2.3.5 Postprocessing the output
