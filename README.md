@@ -446,6 +446,64 @@ https://huggingface.co/learn/nlp-course/chapter2/3?fw=pt
 
 ### 2.3.1 Creating a Transformer
 
+### Q: huggingface中的BertConfig是什么？
+
+在 Hugging Face Transformers 库中，`BertConfig` 是用于配置 BERT 模型的类。BERT（Bidirectional Encoder Representations from Transformers）是一种流行的预训练模型，在自然语言处理（NLP）任务中取得了很好的效果。`BertConfig` 类用于定义和设置 BERT 模型的超参数和配置选项。
+
+通过 `BertConfig` 类，你可以指定以下超参数和配置选项：
+
+1. `vocab_size`: 词汇表的大小，即 BERT 模型支持的唯一词汇数量。
+
+2. `hidden_size`: BERT 模型的隐藏层大小（即每个位置的特征向量维度）。
+
+3. `num_hidden_layers`: BERT 模型的隐藏层数量。
+
+4. `num_attention_heads`: BERT 模型的注意力头（attention head）数量。
+
+5. `intermediate_size`: BERT 模型中全连接层的中间层大小。
+
+6. `hidden_act`: BERT 模型中的激活函数。
+
+7. `hidden_dropout_prob`: 隐藏层的 dropout 概率，用于模型训练时的随机失活。
+
+8. `attention_probs_dropout_prob`: 注意力层的 dropout 概率，用于模型训练时的随机失活。
+
+9. `max_position_embeddings`: 输入序列的最大长度（最大位置编码）。
+
+10. `type_vocab_size`: 类型词汇表的大小，用于区分单句和双句输入。
+
+11. `initializer_range`: 初始化权重的范围。
+
+等等。
+
+通过创建一个 `BertConfig` 的实例，你可以定义一个 BERT 模型的配置，然后将其传递给 `BertModel` 或 `BertForSequenceClassification` 等模型的构造函数，以创建相应的 BERT 模型。
+
+示例：
+
+```python
+from transformers import BertConfig, BertModel
+
+# 创建一个 BERT 模型的配置
+config = BertConfig(
+    vocab_size=30522,
+    hidden_size=768,
+    num_hidden_layers=12,
+    num_attention_heads=12,
+    intermediate_size=3072,
+    hidden_act="gelu",
+    hidden_dropout_prob=0.1,
+    attention_probs_dropout_prob=0.1,
+    max_position_embeddings=512,
+    type_vocab_size=2,
+    initializer_range=0.02
+)
+
+# 使用配置创建 BERT 模型
+model = BertModel(config)
+```
+
+在上述示例中，我们创建了一个 `BertConfig` 的实例 `config`，然后使用这个配置创建了一个 BERT 模型 `model`。通过 `config` 中的各种超参数和配置选项，可以灵活地定义和配置 BERT 模型的结构和特性。
+
 ### 2.3.2 Different loading methods
 
 ### 2.3.3 Saving methods
