@@ -8,11 +8,17 @@
 
 ## 1.1 Introduction
 
+https://huggingface.co/learn/nlp-course/chapter1/1?fw=pt
+
 Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几章处理CV任务的不用看。
 
 ## 1.2 Natural Language Processing
 
+https://huggingface.co/learn/nlp-course/chapter1/2?fw=pt
+
 ## 1.3 Transformers, what can they do?
+
+https://huggingface.co/learn/nlp-course/chapter1/3?fw=pt
 
 ### 1.3.1 sentiment analysis
 
@@ -31,6 +37,8 @@ Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几
 ### 1.3.8 translation
 
 ## 1.4 How do Transformers work?
+
+https://huggingface.co/learn/nlp-course/chapter1/4?fw=pt
 
 A bit of Transformer history
 
@@ -55,6 +63,8 @@ fine-tune属于迁移学习。
 解码器块中的第一个注意层关注解码器的所有（过去的）输入，但第二个注意层使用编码器的输出。
 
 ## 1.5 Encoder models
+
+https://huggingface.co/learn/nlp-course/chapter1/5?fw=pt
 
 编码器型号仅使用变压器型号的编码器。在每个阶段，注意力层可以访问初始句子中的所有单词。这些模型通常被描述为具有“双向”注意力，并且通常被称为*自动编码模型*。
 
@@ -89,6 +99,8 @@ RoBERTa
 
 ## 1.6 Decoder models
 
+https://huggingface.co/learn/nlp-course/chapter1/6?fw=pt
+
 解码器模型仅使用转换器模型的解码器。在每个阶段，对于给定的单词，注意力层只能访问句子中位于其前面的单词。这些模型通常称为*自回归模型*。
 
 解码器模型的预训练通常围绕预测句子中的下一个单词。
@@ -102,6 +114,8 @@ Transformer XL
 
 ## 1.7 Sequence-to-sequence models[sequence-to-sequence-models]
 
+https://huggingface.co/learn/nlp-course/chapter1/7?fw=pt
+
 编码器-解码器模型（也称为序列*到序列模型*）使用转换器体系结构的两个部分。在每个阶段，编码器的注意力层可以访问初始句子中的所有单词，而解码器的注意层只能访问输入中给定单词之前的位置。
 
 序列到序列模型最适合围绕根据给定输入生成新句子的任务，例如摘要、翻译或生成问答。
@@ -113,9 +127,13 @@ T5
 
 ## 1.8 Bias and limitations
 
+https://huggingface.co/learn/nlp-course/chapter1/8?fw=pt
+
 political correctness.
 
 ## 1.9 Summary
+
+https://huggingface.co/learn/nlp-course/chapter1/9?fw=pt
 
 | Model           | Examples                                   | Tasks                                                        |
 | --------------- | ------------------------------------------ | ------------------------------------------------------------ |
@@ -124,6 +142,8 @@ political correctness.
 | Encoder-decoder | BART, T5, Marian, mBART                    | Summarization, translation, generative question answering    |
 
 ## 1.10 Quiz
+
+https://huggingface.co/learn/nlp-course/chapter1/10?fw=pt
 
 # 2. USING 🤗 TRANSFORMERS
 
