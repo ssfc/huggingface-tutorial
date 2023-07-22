@@ -250,3 +250,5 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 ### 2.5.4 Longer sequences
 
 ## 2.6 Putting it all together
+
+### 2.6.1 Special tokens
