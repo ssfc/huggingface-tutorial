@@ -246,3 +246,5 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 类似于computer vision中给缺失的部分填充上。也类似于python的broadcast. 
 
 ### 2.5.3 Attention masks
+
+### 2.5.4 Longer sequences
