@@ -268,3 +268,5 @@ https://huggingface.co/learn/nlp-course/chapter2/7?fw=pt
 ## 2.8 End-of-chapter quiz
 
 https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
+
+# 3. FINE-TUNING A PRETRAINED MODEL
