@@ -220,6 +220,33 @@ Comment: 将端到端pipeline分解为各个步骤。
 - 将每个标记映射到一个整数
 - 添加可能对模型有用的其他输入
 
+### Q: huggingface AutoModel是干啥的？
+
+`AutoModel` 是 Hugging Face Transformers 库中的一个类，它是一个方便的工具，用于根据指定的模型名称或 checkpoint 来自动选择和加载相应的预训练模型。
+
+在深度学习中，使用预训练模型是一种常见的方式，可以为各种自然语言处理（NLP）任务提供强大的基础。然而，Hugging Face Transformers 库提供了许多不同类型的预训练模型（例如 BERT、GPT、RoBERTa 等），而每个模型可能有多个不同的变体和配置。为了方便用户加载和使用不同模型，`AutoModel` 类允许用户通过一个简单的 API 来加载预训练模型，而无需手动选择特定的模型或配置。
+
+`AutoModel` 的主要作用是根据给定的模型名称或 checkpoint 来自动选择和加载对应的预训练模型。这样，你只需要指定模型名称或 checkpoint，`AutoModel` 就会自动选择和加载与之对应的预训练模型。
+
+使用 `AutoModel` 的示例代码如下：
+
+```python
+from transformers import AutoModel
+
+# 指定模型名称或 checkpoint
+checkpoint = "bert-base-uncased"
+
+# 自动选择和加载对应的预训练模型
+model = AutoModel.from_pretrained(checkpoint)
+
+# 在模型中进行相应的处理和预测
+# ...
+```
+
+在上述示例中，我们使用 `AutoModel.from_pretrained(checkpoint)` 来自动加载名为 "bert-base-uncased" 的 BERT 模型。之后，我们可以在模型中进行相应的处理和预测，而不需要手动选择特定的模型或配置。
+
+总之，`AutoModel` 类是 Hugging Face Transformers 库中的一个实用工具，它为用户提供了一种简单的方式来自动加载指定模型的预训练权重，使得在不同任务和模型配置中的转换变得非常方便和灵活。
+
 ### 2.2.1 Preprocessing with a tokenizer
 
 ### 2.2.2 Going through the model
