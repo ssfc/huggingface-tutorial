@@ -409,6 +409,37 @@ tensor([[0.0900, 0.2447, 0.6652],
 
 在上述示例中，我们使用 `dim=-1` 对张量 `predictions` 进行 softmax 计算，即在 `num_classes` 这个维度上进行 softmax。最后，得到了两个样本的分类概率分布。注意，每个样本的分类概率之和等于 1。
 
+### Q: model.config.id2label是什么意思？
+
+在 Hugging Face Transformers 中，`model.config.id2label` 是一个词典（字典），用于将模型输出的类别标签 ID（整数值）映射回对应的类别标签（字符串标签）。
+
+在文本分类任务中，通常模型的输出是一个张量，每个元素代表一个类别的得分或概率。为了将这些得分或概率转换为对应的类别标签，我们需要一个映射关系，将类别标签的 ID 映射回实际的类别名称。
+
+`model.config.id2label` 就是用来构建这种映射关系的词典。它的键是类别标签的 ID（整数值），值是对应的类别名称（字符串标签）。
+
+例如，假设我们有一个文本分类任务，共有三个类别，其对应的 ID 和类别名称如下：
+
+```python
+id2label = {
+    0: "positive",
+    1: "neutral",
+    2: "negative"
+}
+```
+
+在这个例子中，类别 "positive" 对应 ID 0，类别 "neutral" 对应 ID 1，类别 "negative" 对应 ID 2。如果模型输出了一个包含三个类别得分的张量 `[0.1, 0.5, 0.4]`，我们可以使用 `model.config.id2label` 将得分映射回实际的类别标签：
+
+```python
+output = [0.1, 0.5, 0.4]
+predicted_label_id = torch.argmax(output, dim=-1)
+predicted_label = model.config.id2label[predicted_label_id.item()]
+print(predicted_label)
+```
+
+在上述代码中，我们首先使用 `torch.argmax` 函数找到得分最高的类别标签 ID，然后使用 `model.config.id2label` 将其映射回实际的类别名称。最后，输出预测的类别名称，例如 "neutral"。
+
+总结：`model.config.id2label` 是一个词典，用于将模型输出的类别标签 ID 映射回实际的类别名称，便于理解和展示模型的预测结果。
+
 ## 2.3 Models
 
 https://huggingface.co/learn/nlp-course/chapter2/3?fw=pt
