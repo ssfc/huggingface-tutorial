@@ -292,3 +292,31 @@ Dynamic Padding 是一种动态填充技术，它根据输入序列的实际长�
 具体来说，对于一个 batch 中的多个序列，首先找到 batch 中最长序列的长度，然后将其他较短的序列进行填充，使它们与最长序列长度相同。填充通常在序列的末尾添加特殊的填充标记（例如 0），以示区别原始数据和填充数据。在训练过程中，模型会忽略填充标记的影响，以确保填充部分不会影响模型的预测结果。
 
 Dynamic Padding 技术在 Transformer 中是一种非常常用的方法，它使得 Transformer 可以处理不等长的输入序列，使得模型更具通用性和适用性，同时减少了内存和计算资源的浪费。
+
+### Q: Hugging Face Datasets 库中的 map 函数是干啥的？
+
+在 Hugging Face Datasets 库中，`map()` 函数是用于对数据集中的每个样本应用指定的函数，并返回一个新的数据集。这个函数类似于 Python 内置的 `map()` 函数，但是它专门用于处理数据集，方便对数据进行批量处理和转换。
+
+`map()` 函数在 Hugging Face Datasets 库中的基本用法如下：
+
+```python
+map(function, batched=True, batch_size=None, num_proc=1, remove_columns=None, load_from_cache_file=True, cache_file_name=None)
+```
+
+- `function`：表示要对数据集中每个样本应用的函数，可以是一个函数或者一个处理数据的类。
+
+- `batched`：表示是否将数据集以批量的方式处理，默认为 `True`。如果为 `True`，`function` 将会以批量的方式处理数据，提高处理效率。
+
+- `batch_size`：表示批量处理的大小，默认为 `None`。当 `batched=True` 且 `batch_size` 不为 `None` 时，数据集会以指定的批量大小进行处理。
+
+- `num_proc`：表示并行处理的进程数，默认为 1。如果 `num_proc` 大于 1，则 `map()` 函数会使用多进程并行处理数据。
+
+- `remove_columns`：表示要从数据集中移除的列，通常用于移除不需要处理的列，以减少内存占用。
+
+- `load_from_cache_file`：表示是否从缓存文件中加载数据，默认为 `True`。如果为 `True`，并且数据集有缓存文件，则会从缓存文件中加载数据，加快数据加载速度。
+
+- `cache_file_name`：表示缓存文件的名称，默认为 `None`。如果指定了缓存文件名称，则会将数据缓存到指定的文件中，以便下次使用。
+
+`map()` 函数在 Hugging Face Datasets 库中通常用于对数据进行预处理、转换或者特征提取。通过传入不同的 `function` 参数，可以对数据集中的每个样本进行不同的处理。这个函数在深度学习中数据预处理和数据加载过程中非常实用，可以帮助提高数据处理效率和灵活性。
+
+## 3.3 Fine-tuning a model with the Trainer API
