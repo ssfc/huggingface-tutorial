@@ -163,6 +163,28 @@ https://huggingface.co/learn/nlp-course/chapter2/1?fw=pt
 
 Comment: 仅介绍，无代码。
 
+### Q: Hugging Face Transformers 库是什么？
+
+Hugging Face Transformers 库是由 Hugging Face 开发的一个开源自然语言处理（NLP）库，它提供了丰富的预训练模型、分词器、优化器以及用于自然语言处理任务的工具和功能。这个库是基于 PyTorch 和 TensorFlow 等深度学习框架的，并且提供了一种简单而强大的方式来使用和部署预训练的 NLP 模型。
+
+Hugging Face Transformers 库的主要特点和功能包括：
+
+1. 预训练模型：提供了大量的预训练 NLP 模型，包括 BERT、GPT、RoBERTa、DistilBERT 等，可以用于各种 NLP 任务。
+
+2. 分词器：提供了灵活高效的分词器，可以将文本序列转换为模型可接受的输入格式。
+
+3. 模型架构：支持多种不同的模型架构，包括编码器-解码器模型、自回归模型、文本分类模型等。
+
+4. 任务支持：提供了丰富的任务支持，如文本分类、序列标注、问答等，可以轻松地进行各种 NLP 任务。
+
+5. Fine-tuning：支持对预训练模型进行微调（Fine-tuning），使其适用于特定任务和数据集。
+
+6. 预训练模型库：提供了 Hugging Face 社区的模型分享和开源，用户可以从社区获取和共享预训练模型。
+
+7. 易用性：提供了简洁的 API 和工具，使得使用预训练模型和实现 NLP 任务变得非常简单和高效。
+
+Hugging Face Transformers 库受到广泛的欢迎和使用，它在学术界和工业界都有着很高的影响力。许多最新的 NLP 研究成果和应用都采用了 Hugging Face Transformers 库中的预训练模型和工具，因为它为 NLP 任务提供了强大而便捷的解决方案。
+
 ## 2.2 Behind the pipeline
 
 https://huggingface.co/learn/nlp-course/chapter2/2?fw=pt
