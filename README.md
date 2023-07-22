@@ -260,3 +260,5 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 ### 2.6.2 Wrapping up: From tokenizer to model
 
 ## 2.7 Basic usage completed!
+
+https://huggingface.co/learn/nlp-course/chapter2/7?fw=pt
