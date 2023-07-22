@@ -62,5 +62,11 @@ tokens = tokenizer.tokenize(sequence)
 ids = tokenizer.convert_tokens_to_ids(tokens)
 print(ids)
 
+print(tokenizer.decode(model_inputs["input_ids"]))
+print(tokenizer.decode(ids))
+
+
+
+
 
 
