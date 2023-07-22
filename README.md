@@ -347,6 +347,20 @@ model(**inputs)
 
 ### 2.3.3 A high-dimensional vector?
 
+### Q: outputs.last_hidden_state是在logits前一层吗？
+
+是的，`outputs.last_hidden_state` 在 `logits` 前一层。在 Transformers 模型中，`outputs.last_hidden_state` 包含了模型的中间表示，也称为上下文向量（contextual embeddings）或特征向量（feature embeddings）。它是模型在输入序列上进行处理后的最终输出，记录了输入序列中每个位置（单词或子词）的编码表示。
+
+`outputs.last_hidden_state` 的维度是 `[batch_size, sequence_length, hidden_size]`，其中 `batch_size` 表示批量大小，`sequence_length` 表示序列的长度，`hidden_size` 表示隐藏层的大小（即每个位置的特征向量维度）。
+
+`logits` 则是在 `outputs.last_hidden_state` 基础上通过模型的最后一层或特定输出层得到的预测输出。对于分类任务，`logits` 是模型在每个类别上的分数或得分，表示输入属于每个类别的概率。`logits` 的维度通常是 `[batch_size, num_classes]`，其中 `num_classes` 表示分类任务中的类别数。
+
+在文本分类任务中，通常会使用 `outputs.last_hidden_state` 来获取输入序列的表示，然后通过一些后续的操作（例如平均池化、最大池化等）来获得整个序列的固定表示。然后，这个固定表示可以作为输入传递给分类层，生成最终的 `logits`，并通过 softmax 函数获得分类概率。
+
+总结：
+- `outputs.last_hidden_state` 是模型的中间表示，包含输入序列中每个位置的编码表示。
+- `logits` 是模型的预测输出，是在 `outputs.last_hidden_state` 基础上得到的，并用于计算类别的得分或概率分布。
+
 ### 2.3.4 Model heads: Making sense out of numbers
 
 ### 2.3.5 Postprocessing the output
