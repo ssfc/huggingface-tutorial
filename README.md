@@ -241,3 +241,7 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 
 ### 2.5.1 Models expect a batch of inputs
 
+### 2.5.2 Padding the inputs
+
+类似于computer vision中给缺失的部分填充上。也类似于python的broadcast. 
+
