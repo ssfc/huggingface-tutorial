@@ -1,5 +1,6 @@
 import torch
 from transformers import AdamW, AutoTokenizer, AutoModelForSequenceClassification
+from transformers import DataCollatorWithPadding
 
 '''
 # Same as before
@@ -30,7 +31,7 @@ raw_train_dataset = raw_datasets["train"]
 print(raw_train_dataset[0])
 print(raw_train_dataset.features)
 
-checkpoint = "bert-base-uncased"
+checkpoint = "bert-base-uncased"  # 用的是bert呀
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 tokenized_sentences_1 = tokenizer(raw_datasets["train"]["sentence1"])
 tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
@@ -41,4 +42,25 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 inputs = tokenizer("This is the first sentence.", "This is the second one.")
 print("inputs: ", inputs)
 print(tokenizer.convert_ids_to_tokens(inputs["input_ids"]))
+
+
+def tokenize_function(example):
+    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+
+
+tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+print("tokenized datasets: ", tokenized_datasets)
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+samples = tokenized_datasets["train"][:8]
+samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
+print([len(x) for x in samples["input_ids"]])
+
+batch = data_collator(samples)
+print({k: v.shape for k, v in batch.items()})
+
+
+
+
+
 

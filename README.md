@@ -280,3 +280,5 @@ https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
 https://huggingface.co/learn/nlp-course/chapter3/2?fw=pt
 
 ### 3.2.1 Preprocessing a dataset
+
+### 3.2.2 Dynamic padding
