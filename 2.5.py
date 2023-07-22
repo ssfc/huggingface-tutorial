@@ -15,3 +15,8 @@ print("Input IDs:", input_ids)
 
 output = model(input_ids)
 print("Logits:", output.logits)
+
+tokenized_inputs = tokenizer(sequence, return_tensors="pt")
+print(tokenized_inputs)
+print(tokenized_inputs["input_ids"])
+
