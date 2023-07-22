@@ -27,10 +27,11 @@ raw_inputs = [
     "I've been waiting for a HuggingFace course my whole life.",
     "I hate this so much!",
 ]
+# padding是自动填充，truncation=true是超过最大长度截断，return_tensors是返回pytorch格式
 inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
 print(inputs)
 
-# 奇怪的是，怎么输出向量的维数和输入单词的数量不一样？
+# 奇怪的是，怎么输出向量的维数和输入单词的数量不一样？这因为是一些单词(比如huggingface)会被分词器分成两个
 
 # Section 2: Going through the model
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"

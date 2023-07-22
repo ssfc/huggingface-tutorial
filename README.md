@@ -307,6 +307,40 @@ print(tokens)
 
 在上述示例中，我们使用 `AutoTokenizer.from_pretrained(checkpoint)` 来自动加载名为 "bert-base-uncased" 的 BERT 模型的分词器。之后，我们使用分词器对输入文本进行分词，并输出分词结果。通过 `AutoTokenizer` 的使用，我们可以很方便地加载和切换不同的预训练模型的分词器，从而进行文本处理和 NLP 任务。
 
+### Q: model(**inputs)为什么inputs前面有\*\*?
+
+在 Python 中，双星号（`**`）用于解包字典（或关键字参数）并将其作为关键字参数传递给函数。在 `model(**inputs)` 中，`**inputs` 表示将 `inputs` 这个字典中的键值对解包，并将其中的键作为关键字参数名，将对应的值作为关键字参数值传递给函数 `model`。
+
+在 Hugging Face Transformers 库中，`model` 是一个预训练模型的实例，可以接受一组特定的输入参数，例如 `input_ids`、`attention_mask` 等。而 `inputs` 是一个字典，其中包含了这些输入参数，键为参数名，值为相应的张量数据。
+
+通过使用 `**inputs`，我们可以将字典 `inputs` 中的键值对解包，并将其传递给 `model` 函数作为关键字参数。这样做的好处是，可以根据需要轻松地添加或修改输入参数，而不需要显式地逐个传递每个参数。
+
+示例：
+
+假设 `inputs` 字典如下：
+
+```python
+inputs = {
+    "input_ids": [1, 2, 3, 4, 5],
+    "attention_mask": [1, 1, 1, 1, 1],
+    "token_type_ids": [0, 0, 0, 0, 0]
+}
+```
+
+如果我们想将这些输入参数传递给函数 `model`，传统的方式是：
+
+```python
+model(input_ids=inputs["input_ids"], attention_mask=inputs["attention_mask"], token_type_ids=inputs["token_type_ids"])
+```
+
+但使用 `**inputs` 可以更简洁地实现相同的效果：
+
+```python
+model(**inputs)
+```
+
+这样，Python 会自动将字典 `inputs` 中的键值对解包，并将其作为关键字参数传递给函数 `model`，使得代码更加简洁和易读。
+
 ### 2.2.1 Preprocessing with a tokenizer
 
 ### 2.2.2 Going through the model
