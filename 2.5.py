@@ -9,6 +9,9 @@ sequence = "I've been waiting for a HuggingFace course my whole life."
 
 tokens = tokenizer.tokenize(sequence)
 ids = tokenizer.convert_tokens_to_ids(tokens)
-input_ids = torch.tensor(ids)
-# This line will fail.
-model(input_ids)
+
+input_ids = torch.tensor([ids])
+print("Input IDs:", input_ids)
+
+output = model(input_ids)
+print("Logits:", output.logits)
