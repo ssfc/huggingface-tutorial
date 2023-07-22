@@ -1,9 +1,11 @@
+# https://huggingface.co/learn/nlp-course/chapter2/2?fw=pt
+# Comment: 将端到端pipeline分解为各个步骤。
+
 import torch
 from transformers import AutoModel
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import pipeline
-
 
 '''
 classifier = pipeline("sentiment-analysis")
