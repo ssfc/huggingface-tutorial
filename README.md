@@ -238,3 +238,6 @@ https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
 ## 2.5 Handling multiple sequences
 
 https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
+
+### 2.5.1 Models expect a batch of inputs
+
