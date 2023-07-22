@@ -22,6 +22,29 @@ https://huggingface.co/learn/nlp-course/chapter1/3?fw=pt
 
 Comment: 用代码示范了下列各项任务。
 
+### Q: huggingface pipline是干啥的？
+
+Hugging Face Transformers 库中的 `pipeline` 是一个方便的工具，用于通过预训练模型快速实现各种自然语言处理（NLP）任务，包括文本分类、命名实体识别、问答等。`pipeline` 提供了一种简单的方式，可以在几行代码内加载预训练模型并对文本进行处理，无需编写复杂的模型代码。
+
+`pipeline` 函数的主要作用是自动加载指定任务的预训练模型和相关配置，然后对输入文本进行预测，输出相应的任务结果。你只需要指定任务名称，`pipeline` 会自动选择和加载与任务相对应的预训练模型，并返回一个可以直接用于预测的函数。
+
+使用 `pipeline` 函数的示例代码如下：
+
+```python
+from transformers import pipeline
+
+# 加载文本分类任务的预训练模型
+text_classification = pipeline(task="text-classification", model="bert-base-uncased")
+
+# 输入文本，返回分类结果
+result = text_classification("This is a positive sentence.")
+print(result)
+```
+
+在上述示例中，我们使用 `pipeline` 函数加载了一个文本分类任务的预训练模型（使用 BERT 模型），然后将文本 "This is a positive sentence." 输入到模型中，返回了相应的分类结果。`pipeline` 函数的返回结果是一个包含任务预测结果的字典或列表，具体取决于任务类型。
+
+使用 `pipeline` 可以简化 NLP 任务的实现，尤其对于非常常见的任务，你可以快速部署和测试预训练模型，而不需要深入了解模型细节和编写复杂的代码。这使得 Hugging Face Transformers 库的功能更加易用和适用于广泛的 NLP 应用。
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.2 text classification
@@ -196,29 +219,6 @@ Comment: 将端到端pipeline分解为各个步骤。
 - 将输入拆分为称为*标记*的单词、子单词或符号（如标点符号）
 - 将每个标记映射到一个整数
 - 添加可能对模型有用的其他输入
-
-### Q: huggingface pipline是干啥的？
-
-Hugging Face Transformers 库中的 `pipeline` 是一个方便的工具，用于通过预训练模型快速实现各种自然语言处理（NLP）任务，包括文本分类、命名实体识别、问答等。`pipeline` 提供了一种简单的方式，可以在几行代码内加载预训练模型并对文本进行处理，无需编写复杂的模型代码。
-
-`pipeline` 函数的主要作用是自动加载指定任务的预训练模型和相关配置，然后对输入文本进行预测，输出相应的任务结果。你只需要指定任务名称，`pipeline` 会自动选择和加载与任务相对应的预训练模型，并返回一个可以直接用于预测的函数。
-
-使用 `pipeline` 函数的示例代码如下：
-
-```python
-from transformers import pipeline
-
-# 加载文本分类任务的预训练模型
-text_classification = pipeline(task="text-classification", model="bert-base-uncased")
-
-# 输入文本，返回分类结果
-result = text_classification("This is a positive sentence.")
-print(result)
-```
-
-在上述示例中，我们使用 `pipeline` 函数加载了一个文本分类任务的预训练模型（使用 BERT 模型），然后将文本 "This is a positive sentence." 输入到模型中，返回了相应的分类结果。`pipeline` 函数的返回结果是一个包含任务预测结果的字典或列表，具体取决于任务类型。
-
-使用 `pipeline` 可以简化 NLP 任务的实现，尤其对于非常常见的任务，你可以快速部署和测试预训练模型，而不需要深入了解模型细节和编写复杂的代码。这使得 Hugging Face Transformers 库的功能更加易用和适用于广泛的 NLP 应用。
 
 ### 2.2.1 Preprocessing with a tokenizer
 
