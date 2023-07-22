@@ -65,7 +65,7 @@ print(ids)
 print(tokenizer.decode(model_inputs["input_ids"]))
 print(tokenizer.decode(ids))
 
-
+# 2.6.2 Wrapping up: From tokenizer to model
 
 
 

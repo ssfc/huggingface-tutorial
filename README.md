@@ -252,3 +252,10 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 ## 2.6 Putting it all together
 
 ### 2.6.1 Special tokens
+
+```
+[CLS] i've been waiting for a huggingface course my whole life. [SEP]
+```
+
+### 2.6.2 Wrapping up: From tokenizer to model
+
