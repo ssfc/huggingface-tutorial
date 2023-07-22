@@ -320,6 +320,48 @@ https://huggingface.co/learn/nlp-course/chapter3/2?fw=pt
 
 ### 3.2.1 Preprocessing a dataset
 
+### Q: 结果中的token_type_ids是什么？
+
+在 Hugging Face Transformers 库中，`token_type_ids` 是用于处理输入序列中的分段信息的一种编码方式。对于一些预训练模型（例如 BERT、RoBERTa 等），它们在输入时需要同时考虑两个句子或分段的信息，因此需要一种方式来区分不同分段的内容。
+
+在处理文本序列时，通常将输入序列切分成多个片段，每个片段对应一个输入序列。例如，当处理句子对任务时，一个输入序列可能包含两个句子，其中一个句子放在前面，另一个句子放在后面，中间可能有一个特殊的分隔符。`token_type_ids` 就是用来区分这些不同片段的标识。
+
+`token_type_ids` 是一个与输入序列等长的向量，其长度与输入序列中的 token 数目相同。在处理句子对任务时，如果一个 token 属于第一个句子，那么它的 `token_type_ids` 就会被标记为 0；如果它属于第二个句子，那么它的 `token_type_ids` 就会被标记为 1。这样，模型就可以根据 `token_type_ids` 来区分不同句子的信息。
+
+示例：
+
+假设我们有两个句子："I love NLP." 和 "It is fascinating."，并且分词后的结果如下：
+
+```
+tokens = ['[CLS]', 'I', 'love', 'NLP', '.', '[SEP]', 'It', 'is', 'fascinating', '.', '[SEP]']
+```
+
+对应的 `token_type_ids` 为：
+
+```
+token_type_ids = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+```
+
+在上面的示例中，`token_type_ids` 将第一个句子中的 token 标记为 0，将第二个句子中的 token 标记为 1。这样，模型就可以根据 `token_type_ids` 来区分两个句子的内容，以更好地处理句子对任务。
+
+### Q: 如果有三个分段，token_type_ids显示什么？
+
+如果输入序列有三个分段（例如三个句子），则对应的 `token_type_ids` 将有三个不同的标识来区分这三个分段。每个分段的 `token_type_ids` 标识都是一个独立的整数值。
+
+例如，假设有三个句子："I love NLP."，"It is fascinating."，"Natural Language Processing is amazing."，并且分词后的结果如下：
+
+```
+tokens = ['[CLS]', 'I', 'love', 'NLP', '.', '[SEP]', 'It', 'is', 'fascinating', '.', '[SEP]', 'Natural', 'Language', 'Processing', 'is', 'amazing', '.', '[SEP]']
+```
+
+对应的 `token_type_ids` 可能为：
+
+```
+token_type_ids = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]
+```
+
+在上面的示例中，`token_type_ids` 将第一个句子中的 token 标记为 0，第二个句子中的 token 标记为 1，第三个句子中的 token 标记为 2。这样，模型就可以根据 `token_type_ids` 来区分三个不同分段的内容，以更好地处理多句子的任务。
+
 ### 3.2.2 Dynamic padding
 
 ### Q: 你知道transformer的Dynamic padding吗？
