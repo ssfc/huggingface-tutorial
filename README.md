@@ -20,6 +20,8 @@ https://huggingface.co/learn/nlp-course/chapter1/2?fw=pt
 
 https://huggingface.co/learn/nlp-course/chapter1/3?fw=pt
 
+Comment: 用代码示范了下列各项任务。
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.2 text classification
@@ -39,6 +41,8 @@ https://huggingface.co/learn/nlp-course/chapter1/3?fw=pt
 ## 1.4 How do Transformers work?
 
 https://huggingface.co/learn/nlp-course/chapter1/4?fw=pt
+
+Comment: 仅介绍，无代码。
 
 A bit of Transformer history
 
@@ -65,6 +69,8 @@ fine-tune属于迁移学习。
 ## 1.5 Encoder models
 
 https://huggingface.co/learn/nlp-course/chapter1/5?fw=pt
+
+Comment: 仅介绍，无代码。
 
 编码器型号仅使用变压器型号的编码器。在每个阶段，注意力层可以访问初始句子中的所有单词。这些模型通常被描述为具有“双向”注意力，并且通常被称为*自动编码模型*。
 
@@ -101,6 +107,8 @@ RoBERTa
 
 https://huggingface.co/learn/nlp-course/chapter1/6?fw=pt
 
+Comment: 仅介绍，无代码。
+
 解码器模型仅使用转换器模型的解码器。在每个阶段，对于给定的单词，注意力层只能访问句子中位于其前面的单词。这些模型通常称为*自回归模型*。
 
 解码器模型的预训练通常围绕预测句子中的下一个单词。
@@ -115,6 +123,8 @@ Transformer XL
 ## 1.7 Sequence-to-sequence models[sequence-to-sequence-models]
 
 https://huggingface.co/learn/nlp-course/chapter1/7?fw=pt
+
+Comment: 仅介绍，无代码。
 
 编码器-解码器模型（也称为序列*到序列模型*）使用转换器体系结构的两个部分。在每个阶段，编码器的注意力层可以访问初始句子中的所有单词，而解码器的注意层只能访问输入中给定单词之前的位置。
 
@@ -149,7 +159,15 @@ https://huggingface.co/learn/nlp-course/chapter1/10?fw=pt
 
 ## 2.1 Introduction
 
+https://huggingface.co/learn/nlp-course/chapter2/1?fw=pt
+
+Comment: 仅介绍，无代码。
+
 ## 2.2 Behind the pipeline
+
+https://huggingface.co/learn/nlp-course/chapter2/2?fw=pt
+
+Comment: 将端到端pipeline分解为各个步骤。
 
 *分词器*，它将负责：
 
@@ -179,6 +197,8 @@ Logits 的值通常不具有直接的概率解释，它们可以是任意实数�
 
 ## 2.3 Models
 
+https://huggingface.co/learn/nlp-course/chapter2/3?fw=pt
+
 ### 2.3.1 Creating a Transformer
 
 ### 2.3.2 Different loading methods
@@ -188,6 +208,8 @@ Logits 的值通常不具有直接的概率解释，它们可以是任意实数�
 ### 2.3.4 Using a Transformer model for inference
 
 ## 2.4 Tokenizers
+
+https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
 
 ### 2.4.1 Word-based
 
@@ -212,3 +234,7 @@ Logits 的值通常不具有直接的概率解释，它们可以是任意实数�
 ### 2.4.8 From tokens to input IDs
 
 ### 2.4.9 Decoding
+
+## 2.5 Handling multiple sequences
+
+https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
