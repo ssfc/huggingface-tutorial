@@ -278,3 +278,5 @@ https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
 ## 3.2 Processing the data
 
 https://huggingface.co/learn/nlp-course/chapter3/2?fw=pt
+
+### 3.2.1 Preprocessing a dataset
