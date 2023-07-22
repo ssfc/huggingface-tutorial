@@ -1,4 +1,5 @@
-from transformers import AutoTokenizer
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -66,7 +67,13 @@ print(tokenizer.decode(model_inputs["input_ids"]))
 print(tokenizer.decode(ids))
 
 # 2.6.2 Wrapping up: From tokenizer to model
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
 
-
+tokens = tokenizer(sequences, padding=True, truncation=True, return_tensors="pt")
+output = model(**tokens)
+print(output)
 
 
