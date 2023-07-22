@@ -44,13 +44,13 @@ print("truncate more than 8: ", model_inputs)
 sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
 # Returns PyTorch tensors
 model_inputs = tokenizer(sequences, padding=True, return_tensors="pt")
-print(model_inputs)
+print("pytorch tensors: ", model_inputs)
 # Returns TensorFlow tensors
-model_inputs = tokenizer(sequences, padding=True, return_tensors="tf")
-print(model_inputs)
+# model_inputs = tokenizer(sequences, padding=True, return_tensors="tf")
+# print(model_inputs)
 # Returns NumPy arrays
 model_inputs = tokenizer(sequences, padding=True, return_tensors="np")
-print(model_inputs)
+print("numpy arrays: ", model_inputs)
 
 
 
