@@ -251,6 +251,8 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 
 ## 2.6 Putting it all together
 
+https://huggingface.co/learn/nlp-course/chapter2/6?fw=pt
+
 ### 2.6.1 Special tokens
 
 ```
@@ -262,3 +264,7 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 ## 2.7 Basic usage completed!
 
 https://huggingface.co/learn/nlp-course/chapter2/7?fw=pt
+
+## 2.8 End-of-chapter quiz
+
+https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
