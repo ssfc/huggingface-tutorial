@@ -504,6 +504,37 @@ model = BertModel(config)
 
 在上述示例中，我们创建了一个 `BertConfig` 的实例 `config`，然后使用这个配置创建了一个 BERT 模型 `model`。通过 `config` 中的各种超参数和配置选项，可以灵活地定义和配置 BERT 模型的结构和特性。
 
+### Q: huggingface中的BertModel是什么？
+
+在 Hugging Face Transformers 库中，`BertModel` 是 BERT 模型的基本实现类。BERT（Bidirectional Encoder Representations from Transformers）是一种预训练的自然语言处理（NLP）模型，由 Google 在 2018 年提出，通过双向编码和自注意力机制来学习文本的上下文表示。
+
+`BertModel` 是 BERT 模型的基础类，它由多个堆叠的 Transformer 编码器组成，每个编码器由多层自注意力和前馈神经网络组成。这些编码器通过堆叠来形成一个深层的神经网络，可以用于处理不同的 NLP 任务，如文本分类、序列标注、问答等。
+
+在使用 `BertModel` 之前，通常需要先加载一个预训练的 BERT 模型，可以使用 `from_pretrained()` 方法从 Hugging Face 模型库中加载预训练的权重。然后，你可以通过 `BertModel` 类来进行文本编码、特征提取等操作。
+
+示例：
+
+```python
+from transformers import BertModel, BertTokenizer
+
+# 加载预训练的 BERT 模型和分词器
+model_name = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
+model = BertModel.from_pretrained(model_name)
+
+# 输入文本进行编码
+text = "Hello, how are you?"
+inputs = tokenizer(text, return_tensors="pt")
+outputs = model(**inputs)
+
+# 获取输出的隐藏状态（上下文向量）
+hidden_states = outputs.last_hidden_state
+```
+
+在上述示例中，我们加载了预训练的 "bert-base-uncased" 模型和相应的分词器。然后，我们使用分词器对输入文本进行编码，得到一个输入字典 `inputs`。接着，我们将 `inputs` 传递给 `BertModel` 类的实例 `model` 进行处理，并得到输出结果 `outputs`。`outputs` 包含了模型的隐藏状态（上下文向量）等信息，可以用于后续的任务，比如文本分类或其他自然语言处理任务。
+
+总结：`BertModel` 是 Hugging Face Transformers 库中 BERT 模型的基本实现类，可以用于进行文本编码和特征提取等操作，是进行自然语言处理任务的基础。
+
 ### 2.3.2 Different loading methods
 
 ### 2.3.3 Saving methods
