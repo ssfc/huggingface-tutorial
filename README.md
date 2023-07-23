@@ -661,6 +661,32 @@ print(inputs)
 
 在上述示例中，我们使用 `AutoTokenizer.from_pretrained("bert-base-cased")` 加载了预训练的 "bert-base-cased" 模型对应的分词器，并将文本 "Hello, how are you?" 分词并编码为模型可接受的输入格式。这样，我们就可以使用 `inputs` 输入到 BERT 模型中进行文本编码和特征提取。
 
+### Q: tokenizer.save_pretrained("directory_on_my_computer")是干啥？
+
+`tokenizer.save_pretrained("directory_on_my_computer")` 是 Hugging Face Transformers 库中的方法，用于将预训练的分词器（Tokenizer）保存到本地文件夹中，以便以后可以重新加载和使用该分词器。
+
+具体来说，`tokenizer.save_pretrained("directory_on_my_computer")` 的意思是：
+
+1. `"directory_on_my_computer"` 是本地文件夹的路径，你可以自己指定保存分词器的文件夹位置。该路径应该是一个有效的目录路径，用于存储分词器的相关文件。
+
+2. 调用这个方法后，Hugging Face Transformers 库会将分词器的相关配置、词汇表文件、特殊标记等信息保存到指定的目录中。
+
+为什么要使用 `tokenizer.save_pretrained()` 呢？通常情况下，当我们加载预训练的模型和分词器时，每次都要从 Hugging Face 模型库中下载并加载，这可能会花费一些时间和网络资源。为了避免重复下载和加载，我们可以使用 `tokenizer.save_pretrained()` 将分词器保存到本地文件夹中，然后在以后的使用中，只需要从本地文件夹加载分词器即可，这样会更快捷方便。
+
+示例：
+
+```python
+from transformers import AutoTokenizer
+
+# 加载预训练的分词器
+tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
+
+# 将分词器保存到本地文件夹
+tokenizer.save_pretrained("directory_on_my_computer")
+```
+
+在上述示例中，我们加载了预训练的 "bert-base-cased" 分词器，并将它保存到名为 "directory_on_my_computer" 的本地文件夹中。之后，我们可以使用 `AutoTokenizer.from_pretrained("directory_on_my_computer")` 来加载这个本地的分词器，而不必再次从远程模型库下载。这样可以提高代码的运行效率，特别是在多次运行代码时。
+
 ### 2.3.2 Different loading methods
 
 ### 2.3.3 Saving methods
