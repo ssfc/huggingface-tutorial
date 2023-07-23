@@ -535,6 +535,41 @@ hidden_states = outputs.last_hidden_state
 
 总结：`BertModel` 是 Hugging Face Transformers 库中 BERT 模型的基本实现类，可以用于进行文本编码和特征提取等操作，是进行自然语言处理任务的基础。
 
+### Q: bert-base-uncased是什么模型？
+
+`bert-base-uncased` 是 Hugging Face Transformers 库中预训练的 BERT 模型之一。BERT（Bidirectional Encoder Representations from Transformers）是由 Google 在 2018 年提出的一种基于 Transformer 架构的预训练自然语言处理模型，以无监督的方式从大规模文本语料中学习文本的上下文表示。
+
+在 Hugging Face Transformers 库中，BERT 模型有多个不同的预训练版本，其中 `bert-base-uncased` 是其中之一。`uncased` 表示该模型使用的是小写字母形式的文本，即在预训练时将所有文本转换为小写形式，不区分大小写。例如，"Hello" 和 "hello" 在模型的输入中被视为相同的单词。
+
+`bert-base-uncased` 模型是 BERT 的基本版本，它具有以下特点：
+
+1. 模型的输入文本被处理为小写形式，不区分大小写。
+2. 模型的词汇表包含了大量的英文单词和子词，使其具有较强的语义表达能力。
+3. 模型的隐藏层大小为 768，有 12 个隐藏层，多头注意力机制等。
+
+该模型是经过大规模预训练的，并且在多个自然语言处理任务上表现出色。因此，你可以使用 `bert-base-uncased` 模型进行文本编码、特征提取，或在下游任务中进行微调（fine-tuning），例如文本分类、序列标注、问答等。
+
+示例：
+
+```python
+from transformers import BertTokenizer, BertModel
+
+# 加载预训练的 bert-base-uncased 模型和分词器
+model_name = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
+model = BertModel.from_pretrained(model_name)
+
+# 输入文本进行编码
+text = "Hello, how are you?"
+inputs = tokenizer(text, return_tensors="pt")
+outputs = model(**inputs)
+
+# 获取输出的隐藏状态（上下文向量）
+hidden_states = outputs.last_hidden_state
+```
+
+在上述示例中，我们加载了预训练的 `bert-base-uncased` 模型和相应的分词器，并使用它对输入文本进行编码。然后，我们可以获取模型的输出结果 `outputs`，其中包含了上下文向量（隐藏状态），可以用于后续的任务。
+
 ### 2.3.2 Different loading methods
 
 ### 2.3.3 Saving methods
