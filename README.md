@@ -631,6 +631,36 @@ print(inputs)
 
 总结：`[CLS]` 标记只出现一次，位于输入序列开头，用于句子的特殊表示；`[SEP]` 标记可以出现多次，用于分隔不同句子或文本段落，帮助模型识别句子之间的边界和关系。
 
+### Q: tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")是啥意思？
+
+这行代码使用 Hugging Face Transformers 库中的 `AutoTokenizer` 类来加载预训练的 BERT 模型的分词器（Tokenizer）。`AutoTokenizer` 是一个方便的工具，用于根据模型名称自动选择合适的分词器。
+
+具体来说，`AutoTokenizer.from_pretrained("bert-base-cased")` 的意思是：
+
+1. `"bert-base-cased"` 是一个预训练的 BERT 模型的名称。在 Hugging Face Transformers 库中，模型名称通常由两部分组成，第一部分表示模型的基本结构和配置，第二部分表示模型的大小和是否区分大小写。在这个例子中，`"bert-base-cased"` 表示一个基本的 BERT 模型，且模型在预训练时区分了大小写。
+
+2. `AutoTokenizer.from_pretrained("bert-base-cased")` 通过指定模型名称，自动选择并加载与该模型对应的分词器。这样，我们就可以直接使用 `tokenizer` 对象来进行文本分词，将文本转换为模型可以接受的输入格式。
+
+示例：
+
+```python
+from transformers import AutoTokenizer
+
+# 使用 AutoTokenizer 加载预训练的 bert-base-cased 分词器
+tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
+
+# 输入文本
+text = "Hello, how are you?"
+
+# 使用 tokenizer 对文本进行分词和编码
+inputs = tokenizer(text, return_tensors="pt")
+
+# 输出编码后的结果
+print(inputs)
+```
+
+在上述示例中，我们使用 `AutoTokenizer.from_pretrained("bert-base-cased")` 加载了预训练的 "bert-base-cased" 模型对应的分词器，并将文本 "Hello, how are you?" 分词并编码为模型可接受的输入格式。这样，我们就可以使用 `inputs` 输入到 BERT 模型中进行文本编码和特征提取。
+
 ### 2.3.2 Different loading methods
 
 ### 2.3.3 Saving methods
