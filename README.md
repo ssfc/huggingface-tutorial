@@ -800,6 +800,40 @@ Attention masks在自然语言处理中是一种用于控制注意力的机制�
 
 Attention masks使得Transformer模型可以有效地处理可变长度的输入序列，并且能够在不同任务中共享预训练模型，从而大大提高了模型的性能和泛化能力。
 
+### Q: 填充tokenizer.pad_token_id的地方是否应对于attention mask的0？
+
+是的，填充 `tokenizer.pad_token_id` 的地方通常应对应于 Attention masks 中的值为 0 的位置。
+
+在使用 Transformer 模型进行文本序列处理时，为了处理不同长度的输入序列，通常会对输入序列进行填充（padding）使其长度统一。填充后的位置需要被忽略，因为它们实际上并不包含有效的信息，只是为了使序列长度一致。
+
+为了在 Transformer 模型中正确处理填充的位置，我们需要使用 Attention masks 来控制注意力。Attention masks 中的值为 0 的位置对应于填充的位置，我们可以将这些位置的注意力权重设置为非常小的值或者直接忽略它们，从而使 Transformer 模型在计算注意力时不考虑这些填充位置的影响。
+
+对于使用 Hugging Face Transformers 库中的 `tokenizer` 和 `model`，可以通过调用 `tokenizer` 的 `padding` 方法来进行填充，并生成对应的 Attention masks。在这种情况下，填充的位置会使用 `tokenizer.pad_token_id` 来表示，而 Attention masks 中的值为 0 的位置与填充位置一一对应。
+
+示例代码：
+
+```python
+from transformers import AutoTokenizer, AutoModel
+
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+model = AutoModel.from_pretrained("bert-base-uncased")
+
+# 输入文本序列
+text = ["Hello, how are you?", "I am fine, thank you!"]
+
+# 进行填充并生成 Attention masks
+inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt")
+
+# 输出填充后的输入张量和对应的 Attention masks
+print("Input IDs:", inputs["input_ids"])
+print("Attention Masks:", inputs["attention_mask"])
+
+# 获取模型的输出
+outputs = model(**inputs)
+```
+
+在上述代码中，我们使用 `tokenizer` 对输入文本序列进行填充，并生成对应的 Attention masks。填充的位置会使用 `tokenizer.pad_token_id` 来表示，而 Attention masks 中的值为 0 的位置与填充位置一一对应。通过这样的方式，Transformer 模型可以正确处理填充位置，并忽略填充位置对最终结果的影响。
+
 ### 2.5.4 Longer sequences
 
 ## 2.6 Putting it all together
