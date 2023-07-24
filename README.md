@@ -985,7 +985,7 @@ Dynamic Padding 技术在 Transformer 中是一种非常常用的方法，它使
 
 ### Q: Hugging Face Datasets 库中的 map 函数是干啥的？
 
-在 Hugging Face Datasets 库中，`map()` 函数是用于对数据集中的每个样本应用指定的函数，并返回一个新的数据集。这个函数类似于 Python 内置的 `map()` 函数，但是它专门用于处理数据集，方便对数据进行批量处理和转换。
+在 Hugging Face Datasets 库中，`map()` 函数是用于**对数据集中的每个样本应用指定的函数，并返回一个新的数据集**。这个函数类似于 Python 内置的 `map()` 函数，但是它专门用于处理数据集，方便对数据进行批量处理和转换。
 
 `map()` 函数在 Hugging Face Datasets 库中的基本用法如下：
 
