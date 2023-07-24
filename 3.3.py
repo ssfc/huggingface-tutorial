@@ -1,56 +1,17 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, DataCollatorWithPadding
 
-# 2.5.1 Models expect a batch of inputs
-checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-sequence = "I've been waiting for a HuggingFace course my whole life."
-
-tokens = tokenizer.tokenize(sequence)
-ids = tokenizer.convert_tokens_to_ids(tokens)
-
-input_ids = torch.tensor([ids])
-print("Input IDs:", input_ids)
-
-output = model(input_ids)
-print("Logits:", output.logits)
-
-tokenized_inputs = tokenizer(sequence, return_tensors="pt")
-print("tokenized_inputs: ", tokenized_inputs)
-print(tokenized_inputs["input_ids"])
-
-# 2.5.2 Padding the inputs
-model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
-
-sequence1_ids = [[200, 200, 200]]
-sequence2_ids = [[200, 200]]
-batched_ids = [
-    [200, 200, 200],
-    [200, 200, tokenizer.pad_token_id],
-]
-print("batched_ids: ", batched_ids)
-
-print(model(torch.tensor(sequence1_ids)).logits)
-print(model(torch.tensor(sequence2_ids)).logits)
-print("without attention mask: ", model(torch.tensor(batched_ids)).logits)
-
-# 2.5.3 Attention masks
-batched_ids = [
-    [200, 200, 200],
-    [200, 200, tokenizer.pad_token_id],
+# 数据样本列表，每个样本是一个文本对
+data_samples = [
+    {"text": "Hello, how are you?", "label": 0},
+    {"text": "I am fine, thank you!", "label": 1},
+    {"text": "Goodbye!", "label": 2},
 ]
 
-attention_mask = [
-    [1, 1, 1],
-    [1, 1, 0],
-]
+# 将数据样本组织成一个批次，并进行填充
+batch = data_collator(data_samples)
 
-outputs = model(torch.tensor(batched_ids), attention_mask=torch.tensor(attention_mask))
-print("with attention mask: ", outputs.logits)
-
-# 2.5.4 Longer sequences
-
-
-
+# 输出填充后的批次数据
+print(batch)
