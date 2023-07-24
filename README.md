@@ -770,7 +770,35 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 
 类似于computer vision中给缺失的部分填充上。也类似于python的broadcast. 
 
+填充短的句子，截断长的句子，使所有句子表示长度相同。
+
 ### 2.5.3 Attention masks
+
+### Q: Attention masks是干啥的？
+
+Attention masks在自然语言处理中是一种用于控制注意力的机制，特别是在Transformer模型中。Transformer模型是一种基于自注意力机制的神经网络，它在处理序列数据时，可以根据输入的注意力掩码（Attention masks）来决定是否忽略特定位置的信息。
+
+在NLP任务中，输入通常是一个由单词或子词组成的序列。由于序列的长度可能不一致，我们需要使用注意力掩码来处理不同长度的输入。
+
+具体来说，Attention masks是一个二进制张量，其大小与输入序列的大小相同。Attention masks的值通常为0或1，其中1表示对应位置的单词或子词需要被关注（参与注意力计算），0表示对应位置的单词或子词不需要被关注（忽略该位置的信息）。
+
+在Transformer模型中，注意力掩码用于控制Self-Attention（自注意力）层的计算。Self-Attention可以将输入序列的每个位置与其他位置进行交互，计算注意力权重，并在计算过程中根据注意力掩码来忽略不需要关注的位置。
+
+例如，在处理一个由4个单词组成的句子"Hello, how are you?"时，如果使用Attention masks，可能会得到如下掩码张量：
+
+```
+[1, 1, 1, 1]
+```
+
+这意味着在Self-Attention计算中，所有位置的信息都需要被关注。而如果处理一个由3个单词组成的句子"Hello, how are?"，使用Attention masks可能会得到如下掩码张量：
+
+```
+[1, 1, 1, 0]
+```
+
+这意味着在Self-Attention计算中，只有前3个位置的信息需要被关注，最后一个位置的信息将被忽略。
+
+Attention masks使得Transformer模型可以有效地处理可变长度的输入序列，并且能够在不同任务中共享预训练模型，从而大大提高了模型的性能和泛化能力。
 
 ### 2.5.4 Longer sequences
 

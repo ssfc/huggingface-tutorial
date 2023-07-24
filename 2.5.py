@@ -30,6 +30,7 @@ batched_ids = [
     [200, 200, 200],
     [200, 200, tokenizer.pad_token_id],
 ]
+print("batched_ids: ", batched_ids)
 
 print(model(torch.tensor(sequence1_ids)).logits)
 print(model(torch.tensor(sequence2_ids)).logits)
