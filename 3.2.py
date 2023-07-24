@@ -51,11 +51,11 @@ def tokenize_function(example):
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 print("tokenized datasets: ", tokenized_datasets)
 
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-samples = tokenized_datasets["train"][:8]
+samples = tokenized_datasets["train"][:8]  # 从其训练集中获取前8个样本
 samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
 print([len(x) for x in samples["input_ids"]])
 
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 batch = data_collator(samples)
 print({k: v.shape for k, v in batch.items()})
 
