@@ -16,7 +16,7 @@ print(config)
 # Section 3: Saving methods
 model = BertModel.from_pretrained("bert-base-cased")
 print(model)
-model.save_pretrained("directory_on_my_computer")
+# model.save_pretrained("directory_on_my_computer")
 
 # Section 4: Using a Transformer model for inference
 sequences = ["Hello!", "Cool.", "Nice!"]
