@@ -485,8 +485,8 @@ from transformers import BertConfig, BertModel
 
 # 创建一个 BERT 模型的配置
 config = BertConfig(
-    vocab_size=30522,
-    hidden_size=768,
+    vocab_size=30522, # 词汇表的大小，即 BERT 模型支持的唯一词汇数量。
+    hidden_size=768, # BERT 模型的隐藏层大小（即每个位置的特征向量维度）。
     num_hidden_layers=12,
     num_attention_heads=12,
     intermediate_size=3072,
