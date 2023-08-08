@@ -1,4 +1,9 @@
 from transformers import pipeline
+# Q: huggingface pipline是干啥的？
+# Hugging Face Transformers 库中的 `pipeline` 是一个方便的工具，用于通过预训练模型快速实现各种自然语言处理（NLP）任务，
+# 包括文本分类、命名实体识别、问答等。`pipeline` 提供了一种简单的方式，可以在几行代码内加载预训练模型并对文本进行处理，无需编写复杂的模型代码。
+# `pipeline` 函数的主要作用是自动加载指定任务的预训练模型和相关配置，然后对输入文本进行预测，输出相应的任务结果。
+# 你只需要指定任务名称，`pipeline` 会自动选择和加载与任务相对应的预训练模型，并返回一个可以直接用于预测的函数。
 
 # Section 1: sentiment analysis
 '''
