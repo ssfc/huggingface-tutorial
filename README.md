@@ -570,39 +570,6 @@ hidden_states = outputs.last_hidden_state
 
 在上述示例中，我们加载了预训练的 `bert-base-uncased` 模型和相应的分词器，并使用它对输入文本进行编码。然后，我们可以获取模型的输出结果 `outputs`，其中包含了上下文向量（隐藏状态），可以用于后续的任务。
 
-### Q: BertTokenizer是干啥的？
-
-`BertTokenizer` 是 Hugging Face Transformers 库中用于将文本转换为 BERT 模型可接受的输入格式的工具类。BERT（Bidirectional Encoder Representations from Transformers）模型在输入文本之前需要进行一系列的预处理，包括分词（tokenization）和添加特殊标记（special tokens）。`BertTokenizer` 就是用来完成这些预处理步骤的。
-
-在使用 BERT 模型之前，我们需要先对输入文本进行分词，将文本拆分成多个单词或子词，同时添加一些特殊标记以便模型理解输入的结构。`BertTokenizer` 就是为了帮助我们实现这个过程。
-
-`BertTokenizer` 的主要功能有：
-
-1. 分词：将输入文本分割成一个个单词或子词，构成模型输入的标记（tokens）序列。
-2. 添加特殊标记：在输入文本的开头和结尾添加 `[CLS]` 和 `[SEP]` 等特殊标记，用于标识句子的开始和结束，以及分隔多个句子。
-3. 编码：将分词后的标记序列转换为模型输入的张量形式，包括转换为对应的整数 ID 和添加对齐用的填充标记。
-
-示例：
-
-```python
-from transformers import BertTokenizer
-
-# 加载预训练的 bert-base-uncased 分词器
-model_name = "bert-base-uncased"
-tokenizer = BertTokenizer.from_pretrained(model_name)
-
-# 输入文本
-text = "Hello, how are you?"
-
-# 使用 tokenizer 对文本进行分词和编码
-inputs = tokenizer(text, return_tensors="pt")
-
-# 输出编码后的结果
-print(inputs)
-```
-
-在上述示例中，我们加载了预训练的 `bert-base-uncased` 分词器，并使用它对输入文本进行了分词和编码。最后，我们得到了包含模型输入信息的字典 `inputs`，其中包括了分词后的标记 IDs 和其他有关模型输入的信息。这样的处理方式使得我们可以直接将 `inputs` 输入到 BERT 模型中进行文本编码和特征提取。
-
 ### Q:  [CLS] 和 [SEP]是什么意思？
 
 `[CLS]` 和 `[SEP]` 是两个特殊标记（special tokens），在 BERT 模型中用于辅助输入文本的处理。它们在文本序列的开头和结尾添加，并在训练和推理过程中有着特殊的作用。
@@ -696,6 +663,39 @@ tokenizer.save_pretrained("directory_on_my_computer")
 ## 2.4 Tokenizers
 
 https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
+
+### Q: BertTokenizer是干啥的？
+
+`BertTokenizer` 是 Hugging Face Transformers 库中用于将文本转换为 BERT 模型可接受的输入格式的工具类。BERT（Bidirectional Encoder Representations from Transformers）模型在输入文本之前需要进行一系列的预处理，包括分词（tokenization）和添加特殊标记（special tokens）。`BertTokenizer` 就是用来完成这些预处理步骤的。
+
+在使用 BERT 模型之前，我们需要先对输入文本进行分词，将文本拆分成多个单词或子词，同时添加一些特殊标记以便模型理解输入的结构。`BertTokenizer` 就是为了帮助我们实现这个过程。
+
+`BertTokenizer` 的主要功能有：
+
+1. 分词：将输入文本分割成一个个单词或子词，构成模型输入的标记（tokens）序列。
+2. 添加特殊标记：在输入文本的开头和结尾添加 `[CLS]` 和 `[SEP]` 等特殊标记，用于标识句子的开始和结束，以及分隔多个句子。
+3. 编码：将分词后的标记序列转换为模型输入的张量形式，包括转换为对应的整数 ID 和添加对齐用的填充标记。
+
+示例：
+
+```python
+from transformers import BertTokenizer
+
+# 加载预训练的 bert-base-uncased 分词器
+model_name = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
+
+# 输入文本
+text = "Hello, how are you?"
+
+# 使用 tokenizer 对文本进行分词和编码
+inputs = tokenizer(text, return_tensors="pt")
+
+# 输出编码后的结果
+print(inputs)
+```
+
+在上述示例中，我们加载了预训练的 `bert-base-uncased` 分词器，并使用它对输入文本进行了分词和编码。最后，我们得到了包含模型输入信息的字典 `inputs`，其中包括了分词后的标记 IDs 和其他有关模型输入的信息。这样的处理方式使得我们可以直接将 `inputs` 输入到 BERT 模型中进行文本编码和特征提取。
 
 ### 2.4.1 Word-based
 
