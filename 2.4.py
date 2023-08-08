@@ -34,6 +34,9 @@ print(tokenizer)
 
 result = tokenizer("Using a Transformer network is simple")
 print(result)
+# 通常情况下，当我们加载预训练的模型和分词器时，每次都要从 Hugging Face 模型库中下载并加载，这可能会花费一些时间和网络资源。
+# 为了避免重复下载和加载，我们可以使用 `tokenizer.save_pretrained()` 将分词器保存到本地文件夹中，然后在以后的使用中，
+# 只需要从本地文件夹加载分词器即可，这样会更快捷方便。
 tokenizer.save_pretrained("directory_on_my_computer")
 
 # Section 6: Encoding
