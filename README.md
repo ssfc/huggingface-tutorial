@@ -493,9 +493,9 @@ config = BertConfig(
     hidden_act="gelu", 
     hidden_dropout_prob=0.1, # 隐藏层的 dropout 概率，用于模型训练时的随机失活。
     attention_probs_dropout_prob=0.1, # 注意力层的 dropout 概率，用于模型训练时的随机失活。
-    max_position_embeddings=512,
-    type_vocab_size=2,
-    initializer_range=0.02
+    max_position_embeddings=512, # 输入序列的最大长度（最大位置编码）。
+    type_vocab_size=2, # 类型词汇表的大小，用于区分单句和双句输入。
+    initializer_range=0.02 # 初始化权重的范围。
 )
 
 # 使用配置创建 BERT 模型
