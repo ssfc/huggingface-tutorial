@@ -94,7 +94,13 @@ print(outputs.logits.shape)
 # Softmax 函数将每个 logits 值转换为一个介于 0 到 1 之间的概率，并且所有类别的概率之和为 1。这样可以更直观地解释模型的输出，得到每个类别的概率预测。
 # 总结起来，logits 是指模型输出层的原始预测结果，表示模型对不同类别的预测得分或原始输出值，尚未经过概率化转换。通过应用 softmax 函数，可以将 logits 转换为概率分布，提供类别预测的概率信息。
 print(outputs.logits)
-
+# Q: predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)中dim=-1是什么意思？
+# 在 PyTorch 中，`dim=-1` 表示在张量的最后一个维度上进行操作。在 `torch.nn.functional.softmax` 函数中，`dim` 参数用于指定 softmax 操作应该沿着哪个维度进行计算。
+# 考虑一个张量 `x`，它的维度是 `[a, b, c, ...]`，其中 `a`, `b`, `c`, ... 是张量的维度大小。
+# 如果我们使用 `dim=-1`，那么 softmax 操作会在最后一个维度上进行计算。例如，对于维度为 `[batch_size, num_classes]` 的张量，
+# 使用 `dim=-1` 表示 softmax 操作会在 `num_classes` 这个维度上进行计算，即对每个样本的类别分数进行 softmax。
+# 在代码中，`outputs.logits` 是模型在分类任务上的原始预测输出，是一个维度为 `[batch_size, num_classes]` 的张量。
+# 通过 `torch.nn.functional.softmax(outputs.logits, dim=-1)`，我们对每个样本的类别分数进行 softmax，得到分类概率分布。
 predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
 print(predictions)
 
