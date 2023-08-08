@@ -59,6 +59,13 @@ model = AutoModel.from_pretrained(checkpoint)
 # print(model)
 
 # Section 3: A high-dimensional vector?
+# Q: model(**inputs)为什么inputs前面有**?
+# 在 Python 中，双星号（`**`）用于解包字典（或关键字参数）并将其作为关键字参数传递给函数。
+# 在 `model(**inputs)` 中，`**inputs` 表示将 `inputs` 这个字典中的键值对解包，并将其中的键作为关键字参数名，将对应的值作为关键字参数值传递给函数 `model`。
+# 在 Hugging Face Transformers 库中，`model` 是一个预训练模型的实例，可以接受一组特定的输入参数，例如 `input_ids`、`attention_mask` 等。
+# 而 `inputs` 是一个字典，其中包含了这些输入参数，键为参数名，值为相应的张量数据。
+# 通过使用 `**inputs`，我们可以将字典 `inputs` 中的键值对解包，并将其传递给 `model` 函数作为关键字参数。
+# 这样做的好处是，可以根据需要轻松地添加或修改输入参数，而不需要显式地逐个传递每个参数。
 outputs = model(**inputs)
 print(outputs.last_hidden_state.shape)
 
