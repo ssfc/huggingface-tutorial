@@ -22,6 +22,8 @@ print(tokenized_inputs)
 print(tokenized_inputs["input_ids"])
 
 # 2.5.2 Padding the inputs
+# 类似于computer vision中给缺失的部分填充上。也类似于python的broadcast.
+# 填充短的句子，截断长的句子，使所有句子表示长度相同。
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
 
 sequence1_ids = [[200, 200, 200]]
