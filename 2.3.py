@@ -1,3 +1,7 @@
+# Q: huggingface中的BertConfig是什么？
+# 在 Hugging Face Transformers 库中，`BertConfig` 是用于配置 BERT 模型的类。
+# BERT（Bidirectional Encoder Representations from Transformers）是一种流行的预训练模型，在自然语言处理（NLP）任务中取得了很好的效果。
+# `BertConfig` 类用于定义和设置 BERT 模型的超参数和配置选项。
 from transformers import BertConfig, BertModel
 import torch
 
