@@ -44,6 +44,9 @@ batched_ids = [
     [200, 200, tokenizer.pad_token_id],
 ]
 
+# Q: Attention masks是干啥的？
+# Attention masks在自然语言处理中是一种用于控制注意力的机制，特别是在Transformer模型中。
+# Transformer模型是一种基于自注意力机制的神经网络，它在处理序列数据时，可以根据输入的注意力掩码（Attention masks）来决定是否忽略特定位置的信息。
 attention_mask = [
     [1, 1, 1],
     [1, 1, 0],
