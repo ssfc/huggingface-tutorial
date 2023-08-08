@@ -858,6 +858,10 @@ https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
 
 # 3. FINE-TUNING A PRETRAINED MODEL
 
+## 3.1 Introduction
+
+https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
+
 ### Q: huggingface的AdamW是干啥的？
 
 在 Hugging Face Transformers 库中，`AdamW` 是一个优化器类，用于实现带有权重衰减（Weight Decay）的 Adam 优化算法。AdamW 是对 Adam 优化算法的一个变种，它在原始的 Adam 算法基础上添加了权重衰减的功能，以解决优化器在一些任务中可能会导致模型过拟合的问题。
@@ -918,10 +922,6 @@ print(batch)
 在上述代码中，我们首先创建了一个 BERT tokenizer，并使用 `DataCollatorWithPadding` 类创建了一个 `data_collator` 对象。然后，我们定义了一个包含文本对和标签的数据样本列表 `data_samples`，并使用 `data_collator` 将数据样本组织成一个批次，并进行填充。最后，输出填充后的批次数据。
 
 通过使用 `DataCollatorWithPadding` 类，我们可以轻松地将不同长度的文本序列组织成一个批次，并在模型训练过程中进行填充和处理，从而提高训练效率和性能。
-
-## 3.1 Introduction
-
-https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
 
 ## 3.2 Processing the data
 
