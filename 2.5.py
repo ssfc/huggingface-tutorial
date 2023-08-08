@@ -39,6 +39,8 @@ print(model(torch.tensor(sequence2_ids)).logits)
 print("without attention mask: ", model(torch.tensor(batched_ids)).logits)
 
 # 2.5.3 Attention masks
+# Q: 填充tokenizer.pad_token_id的地方是否应对于attention mask的0？
+# 是的，填充 `tokenizer.pad_token_id` 的地方通常应对应于 Attention masks 中的值为 0 的位置。
 batched_ids = [
     [200, 200, 200],
     [200, 200, tokenizer.pad_token_id],
