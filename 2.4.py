@@ -1,4 +1,9 @@
 from transformers import AutoTokenizer
+# Q: BertTokenizer是干啥的？
+# `BertTokenizer` 的主要功能有：
+# 1. 分词：将输入文本分割成一个个单词或子词，构成模型输入的标记（tokens）序列。
+# 2. 添加特殊标记：在输入文本的开头和结尾添加 `[CLS]` 和 `[SEP]` 等特殊标记，用于标识句子的开始和结束，以及分隔多个句子。
+# 3. 编码：将分词后的标记序列转换为模型输入的张量形式，包括转换为对应的整数 ID 和添加对齐用的填充标记。
 from transformers import BertTokenizer
 
 # Section 1: Word-based
