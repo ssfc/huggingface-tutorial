@@ -104,6 +104,10 @@ print(outputs.logits)
 predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
 print(predictions)
 
+# Q: model.config.id2label是什么意思？
+# 在 Hugging Face Transformers 中，`model.config.id2label` 是一个词典（字典），用于将模型输出的类别标签 ID（整数值）映射回对应的类别标签（字符串标签）。
+# 在文本分类任务中，通常模型的输出是一个张量，每个元素代表一个类别的得分或概率。为了将这些得分或概率转换为对应的类别标签，我们需要一个映射关系，将类别标签的 ID 映射回实际的类别名称。
+# `model.config.id2label` 就是用来构建这种映射关系的词典。它的键是类别标签的 ID（整数值），值是对应的类别名称（字符串标签）。
 print(model.config.id2label)
 
 
