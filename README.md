@@ -570,36 +570,6 @@ hidden_states = outputs.last_hidden_state
 
 在上述示例中，我们加载了预训练的 `bert-base-uncased` 模型和相应的分词器，并使用它对输入文本进行编码。然后，我们可以获取模型的输出结果 `outputs`，其中包含了上下文向量（隐藏状态），可以用于后续的任务。
 
-### Q: tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")是啥意思？
-
-这行代码使用 Hugging Face Transformers 库中的 `AutoTokenizer` 类来加载预训练的 BERT 模型的分词器（Tokenizer）。`AutoTokenizer` 是一个方便的工具，用于根据模型名称自动选择合适的分词器。
-
-具体来说，`AutoTokenizer.from_pretrained("bert-base-cased")` 的意思是：
-
-1. `"bert-base-cased"` 是一个预训练的 BERT 模型的名称。在 Hugging Face Transformers 库中，模型名称通常由两部分组成，第一部分表示模型的基本结构和配置，第二部分表示模型的大小和是否区分大小写。在这个例子中，`"bert-base-cased"` 表示一个基本的 BERT 模型，且模型在预训练时区分了大小写。
-
-2. `AutoTokenizer.from_pretrained("bert-base-cased")` 通过指定模型名称，自动选择并加载与该模型对应的分词器。这样，我们就可以直接使用 `tokenizer` 对象来进行文本分词，将文本转换为模型可以接受的输入格式。
-
-示例：
-
-```python
-from transformers import AutoTokenizer
-
-# 使用 AutoTokenizer 加载预训练的 bert-base-cased 分词器
-tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
-
-# 输入文本
-text = "Hello, how are you?"
-
-# 使用 tokenizer 对文本进行分词和编码
-inputs = tokenizer(text, return_tensors="pt")
-
-# 输出编码后的结果
-print(inputs)
-```
-
-在上述示例中，我们使用 `AutoTokenizer.from_pretrained("bert-base-cased")` 加载了预训练的 "bert-base-cased" 模型对应的分词器，并将文本 "Hello, how are you?" 分词并编码为模型可接受的输入格式。这样，我们就可以使用 `inputs` 输入到 BERT 模型中进行文本编码和特征提取。
-
 ### Q: tokenizer.save_pretrained("directory_on_my_computer")是干啥？
 
 `tokenizer.save_pretrained("directory_on_my_computer")` 是 Hugging Face Transformers 库中的方法，用于将预训练的分词器（Tokenizer）保存到本地文件夹中，以便以后可以重新加载和使用该分词器。
@@ -710,6 +680,36 @@ print(inputs)
 ### 2.4.4 And more!
 
 ### 2.4.5 Loading and saving
+
+### Q: tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")是啥意思？
+
+这行代码使用 Hugging Face Transformers 库中的 `AutoTokenizer` 类来加载预训练的 BERT 模型的分词器（Tokenizer）。`AutoTokenizer` 是一个方便的工具，用于根据模型名称自动选择合适的分词器。
+
+具体来说，`AutoTokenizer.from_pretrained("bert-base-cased")` 的意思是：
+
+1. `"bert-base-cased"` 是一个预训练的 BERT 模型的名称。在 Hugging Face Transformers 库中，模型名称通常由两部分组成，第一部分表示模型的基本结构和配置，第二部分表示模型的大小和是否区分大小写。在这个例子中，`"bert-base-cased"` 表示一个基本的 BERT 模型，且模型在预训练时区分了大小写。
+
+2. `AutoTokenizer.from_pretrained("bert-base-cased")` 通过指定模型名称，自动选择并加载与该模型对应的分词器。这样，我们就可以直接使用 `tokenizer` 对象来进行文本分词，将文本转换为模型可以接受的输入格式。
+
+示例：
+
+```python
+from transformers import AutoTokenizer
+
+# 使用 AutoTokenizer 加载预训练的 bert-base-cased 分词器
+tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
+
+# 输入文本
+text = "Hello, how are you?"
+
+# 使用 tokenizer 对文本进行分词和编码
+inputs = tokenizer(text, return_tensors="pt")
+
+# 输出编码后的结果
+print(inputs)
+```
+
+在上述示例中，我们使用 `AutoTokenizer.from_pretrained("bert-base-cased")` 加载了预训练的 "bert-base-cased" 模型对应的分词器，并将文本 "Hello, how are you?" 分词并编码为模型可接受的输入格式。这样，我们就可以使用 `inputs` 输入到 BERT 模型中进行文本编码和特征提取。
 
 ### 2.4.6 Encoding
 
