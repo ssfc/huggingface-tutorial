@@ -42,6 +42,11 @@ tokenizer.save_pretrained("directory_on_my_computer")
 # Section 6: Encoding
 
 # Section 7: Tokenization
+# Q: AutoTokenizer是干啥的？
+# `AutoTokenizer` 是 Hugging Face Transformers 库中的一个类，它是一个自动加载预训练模型的分词器（Tokenizer）的工具类。
+# 在自然语言处理（NLP）中，分词器用于将输入文本（句子、段落等）拆分成单词或子词的序列，以便机器学习模型能够处理和理解文本。
+# `AutoTokenizer` 的主要作用是根据给定的模型名称或 checkpoint 来自动选择和加载对应的预训练模型的分词器。
+# 这样，你可以通过一个简单的 API 调用来加载不同模型的分词器，而不需要手动指定特定模型的分词器。
 tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 
 # sequence = "Using a Transformer network is simple"
