@@ -21,6 +21,14 @@ print(tokenized_text)
 # tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
 # print(tokenizer)
 
+# 这行代码使用 Hugging Face Transformers 库中的 `AutoTokenizer` 类来加载预训练的 BERT 模型的分词器（Tokenizer）。
+# `AutoTokenizer` 是一个方便的工具，用于根据模型名称自动选择合适的分词器。
+# 具体来说，`AutoTokenizer.from_pretrained("bert-base-cased")` 的意思是：
+# 1. `"bert-base-cased"` 是一个预训练的 BERT 模型的名称。
+# 在 Hugging Face Transformers 库中，模型名称通常由两部分组成，第一部分表示模型的基本结构和配置，第二部分表示模型的大小和是否区分大小写。
+# 在这个例子中，`"bert-base-cased"` 表示一个基本的 BERT 模型，且模型在预训练时区分了大小写。
+# 2. `AutoTokenizer.from_pretrained("bert-base-cased")` 通过指定模型名称，自动选择并加载与该模型对应的分词器。
+# 这样，我们就可以直接使用 `tokenizer` 对象来进行文本分词，将文本转换为模型可以接受的输入格式。
 tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 print(tokenizer)
 
