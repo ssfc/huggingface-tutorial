@@ -26,6 +26,12 @@ print(config)
 # Section 2: Different loading methods
 
 # Section 3: Saving methods
+# Q: bert-base-uncased是什么模型？
+# `bert-base-uncased` 是 Hugging Face Transformers 库中预训练的 BERT 模型之一。
+# BERT（Bidirectional Encoder Representations from Transformers）是由 Google 在 2018 年提出的一种基于 Transformer 架构的预训练自然语言处理模型，
+# 以无监督的方式从大规模文本语料中学习文本的上下文表示。
+# 在 Hugging Face Transformers 库中，BERT 模型有多个不同的预训练版本，其中 `bert-base-uncased` 是其中之一。
+# `uncased` 表示该模型使用的是小写字母形式的文本，即在预训练时**将所有文本转换为小写形式，不区分大小写**。例如，"Hello" 和 "hello" 在模型的输入中被视为相同的单词。
 model = BertModel.from_pretrained("bert-base-cased")
 print(model)
 # model.save_pretrained("directory_on_my_computer")
