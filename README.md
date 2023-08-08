@@ -307,6 +307,12 @@ print(tokens)
 
 在上述示例中，我们使用 `AutoTokenizer.from_pretrained(checkpoint)` 来自动加载名为 "bert-base-uncased" 的 BERT 模型的分词器。之后，我们使用分词器对输入文本进行分词，并输出分词结果。通过 `AutoTokenizer` 的使用，我们可以很方便地加载和切换不同的预训练模型的分词器，从而进行文本处理和 NLP 任务。
 
+### 2.2.1 Preprocessing with a tokenizer
+
+### 2.2.2 Going through the model
+
+### 2.3.3 A high-dimensional vector?
+
 ### Q: model(**inputs)为什么inputs前面有\*\*?
 
 在 Python 中，双星号（`**`）用于解包字典（或关键字参数）并将其作为关键字参数传递给函数。在 `model(**inputs)` 中，`**inputs` 表示将 `inputs` 这个字典中的键值对解包，并将其中的键作为关键字参数名，将对应的值作为关键字参数值传递给函数 `model`。
@@ -340,12 +346,6 @@ model(**inputs)
 ```
 
 这样，Python 会自动将字典 `inputs` 中的键值对解包，并将其作为关键字参数传递给函数 `model`，使得代码更加简洁和易读。
-
-### 2.2.1 Preprocessing with a tokenizer
-
-### 2.2.2 Going through the model
-
-### 2.3.3 A high-dimensional vector?
 
 ### Q: outputs.last_hidden_state是在logits前一层吗？
 
