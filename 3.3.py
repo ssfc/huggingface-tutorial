@@ -23,7 +23,8 @@ def tokenize_function(example):
 def compute_metrics(eval_preds):  # 验证或测试数据上的模型预测输出
     metric = evaluate.load("glue", "mrpc")
     logits, labels = eval_preds  # 从 eval_preds 中解包出模型预测的 logits（预测的概率分布）和真实标签。
-    predictions = np.argmax(logits, axis=-1)
+    predictions = np.argmax(logits, axis=-1)  # 将预测的 logits 转换为最可能的预测标签，与之前的示例类似。
+    # 返回通过评估器计算的模型性能指标，使用预测的标签和真实标签作为参数。
     return metric.compute(predictions=predictions, references=labels)
 
 
