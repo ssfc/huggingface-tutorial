@@ -42,6 +42,14 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 # Comment: 卧槽，太长了，屏幕放不下。
 # print("tokenized_sentences_2", tokenized_sentences_2)
 
+# Q: 结果中的token_type_ids是什么？
+# 在 Hugging Face Transformers 库中，`token_type_ids` 是用于处理输入序列中的分段信息的一种编码方式。
+# 对于一些预训练模型（例如 BERT、RoBERTa 等），它们在输入时需要同时考虑两个句子或分段的信息，因此需要一种方式来区分不同分段的内容。
+# 在处理文本序列时，通常将输入序列切分成多个片段，每个片段对应一个输入序列。
+# 例如，当处理句子对任务时，一个输入序列可能包含两个句子，其中一个句子放在前面，另一个句子放在后面，中间可能有一个特殊的分隔符。`token_type_ids` 就是用来区分这些不同片段的标识。
+# `token_type_ids` 是一个与输入序列等长的向量，其长度与输入序列中的 token 数目相同。
+# 在处理句子对任务时，如果一个 token 属于第一个句子，那么它的 `token_type_ids` 就会被标记为 0；
+# 如果它属于第二个句子，那么它的 `token_type_ids` 就会被标记为 1。(如果属于第三个句子，就被标记为2) 这样，模型就可以根据 `token_type_ids` 来区分不同句子的信息。
 inputs = tokenizer("This is the first sentence.", "This is the second one.")
 print("inputs: ", inputs)
 print(tokenizer.convert_ids_to_tokens(inputs["input_ids"]))
