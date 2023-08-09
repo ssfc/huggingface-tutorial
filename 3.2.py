@@ -61,6 +61,7 @@ print(tokenizer.convert_ids_to_tokens(inputs["input_ids"]))
 
 
 def tokenize_function(example):
+    # 对句子进行截断以适应模型的输入长度限制
     return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 
 
