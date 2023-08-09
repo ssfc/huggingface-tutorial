@@ -976,7 +976,13 @@ Dynamic Padding 技术在 Transformer 中是一种非常常用的方法，它使
 `map()` 函数在 Hugging Face Datasets 库中的基本用法如下：
 
 ```python
-map(function, batched=True, batch_size=None, num_proc=1, remove_columns=None, load_from_cache_file=True, cache_file_name=None)
+map(function, 
+    batched=True, 
+    batch_size=None, 
+    num_proc=1, 
+    remove_columns=None, 
+    load_from_cache_file=True, 
+    cache_file_name=None)
 ```
 
 - `function`：表示要对数据集中每个样本应用的函数，可以是一个函数或者一个处理数据的类。
