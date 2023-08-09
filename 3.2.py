@@ -1,4 +1,6 @@
 import torch
+# Q: huggingface的AdamW是干啥的？
+# Adam 优化算法是一种常用的梯度下降优化算法。
 from transformers import AdamW, AutoTokenizer, AutoModelForSequenceClassification
 from transformers import DataCollatorWithPadding
 

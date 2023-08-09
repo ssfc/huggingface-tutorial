@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
-# 标记单个序列：
+# 2.6.1 标记单个序列：
 sequence = "I've been waiting for a HuggingFace course my whole life."
 model_inputs = tokenizer(sequence)
 print("mark one sentence: ", model_inputs)
