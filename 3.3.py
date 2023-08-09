@@ -1,15 +1,7 @@
-from datasets import load_dataset
-from transformers import AutoTokenizer, DataCollatorWithPadding
+from transformers import BertTokenizer
 
-raw_datasets = load_dataset("glue", "mrpc")
-checkpoint = "bert-base-uncased"
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+token_ids = [101, 2023, 2003, 1037, 2232, 1999, 1996, 2190, 2226, 102]
 
-
-def tokenize_function(example):
-    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
-
-
-tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
+tokens = tokenizer.convert_ids_to_tokens(token_ids)
+print(tokens)

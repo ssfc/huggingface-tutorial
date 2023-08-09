@@ -935,6 +935,28 @@ token_type_ids = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]
 
 在上面的示例中，`token_type_ids` 将第一个句子中的 token 标记为 0，第二个句子中的 token 标记为 1，第三个句子中的 token 标记为 2。这样，模型就可以根据 `token_type_ids` 来区分三个不同分段的内容，以更好地处理多句子的任务。
 
+### Q: tokenizer.convert_ids_to_tokens是干啥的？
+
+`tokenizer.convert_ids_to_tokens` 是 Hugging Face Transformers 库中用于将词汇表中的标记 ID（token IDs）转换为对应的文本标记（token）的方法。
+
+在自然语言处理任务中，文本数据通常被分成一个个的标记（tokens），例如单词、子词或字符。这些标记被映射到一个预训练的词汇表，每个标记都有一个唯一的标记 ID。在处理模型输出或进行后处理时，有时需要将这些标记 ID 转换回文本形式。
+
+`tokenizer.convert_ids_to_tokens` 接受一个包含标记 ID 的列表（或张量），并返回一个包含对应文本标记的列表。这在生成文本、分析模型输出等场景中非常有用。
+
+示例代码：
+
+```python
+from transformers import BertTokenizer
+
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+token_ids = [101, 2023, 2003, 1037, 2232, 1999, 1996, 2190, 2226, 102]
+
+tokens = tokenizer.convert_ids_to_tokens(token_ids)
+print(tokens)
+```
+
+在上述示例中，`convert_ids_to_tokens` 方法将标记 ID 列表 `[101, 2023, 2003, ...]` 转换为对应的文本标记列表 `['[CLS]', 'what', 'is', 'a', 'good', 'answer', 'to', 'the', 'question', '[SEP]']`。这使得您可以更好地理解模型输出，并进行后续的分析和可视化。
+
 ### 3.2.2 Dynamic padding
 
 ### Q: 你知道transformer的Dynamic padding吗？
