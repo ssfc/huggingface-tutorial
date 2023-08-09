@@ -24,6 +24,7 @@ loss.backward()
 optimizer.step()
 '''
 
+# 3.2.1 Preprocessing a dataset
 from datasets import load_dataset
 
 raw_datasets = load_dataset("glue", "mrpc")
@@ -33,6 +34,7 @@ raw_train_dataset = raw_datasets["train"]
 print(raw_train_dataset[0])
 print(raw_train_dataset.features)  # 这是一个鉴别两个句子是否同义的数据集
 
+# 3.2.2 Dynamic padding
 checkpoint = "bert-base-uncased"  # 用的是bert呀
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 tokenized_sentences_1 = tokenizer(raw_datasets["train"]["sentence1"])
