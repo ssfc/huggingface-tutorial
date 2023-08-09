@@ -33,12 +33,12 @@ checkpoint = "bert-base-uncased"
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
 
 trainer = Trainer(
-    model,
-    training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
-    data_collator=data_collator,
-    tokenizer=tokenizer,
+    model,  # 要训练的模型。
+    training_args,  # 一个 TrainingArguments 类的实例，用于配置训练参数，如批量大小、学习率、训练轮数等。
+    train_dataset=tokenized_datasets["train"],  # 训练数据集。
+    eval_dataset=tokenized_datasets["validation"],  # 验证数据集。
+    data_collator=data_collator,  # 数据收集器，用于将批次数据转换为模型输入。
+    tokenizer=tokenizer,  # 用于将原始文本转换为模型输入的分词器。
 )
 
 
