@@ -1041,3 +1041,21 @@ training_args = TrainingArguments(
 ```
 
 总之，`from transformers import TrainingArguments` 语句使您能够导入并使用 `TrainingArguments` 类来设置和管理模型训练的各种参数。
+
+### Q: 解释： Some weights of the model checkpoint at bert-base-uncased were not used  when initializing BertForSequenceClassification:  ['cls.predictions.bias', 'cls.predictions.transform.dense.weight',  'cls.predictions.transform.dense.bias', 'cls.seq_relationship.weight',  'cls.predictions.transform.LayerNorm.bias',  'cls.predictions.transform.LayerNorm.weight',  'cls.seq_relationship.bias'] - This IS expected if you are initializing BertForSequenceClassification from the checkpoint of a model trained on another task or with another  architecture (e.g. initializing a BertForSequenceClassification model  from a BertForPreTraining model). - This IS NOT expected if you are initializing  BertForSequenceClassification from the checkpoint of a model that you  expect to be exactly identical (initializing a  BertForSequenceClassification model from a BertForSequenceClassification model). Some weights of BertForSequenceClassification were not initialized from  the model checkpoint at bert-base-uncased and are newly initialized:  ['classifier.weight', 'classifier.bias'] You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+这段信息是在初始化 `BertForSequenceClassification` 模型时产生的警告和说明。这些警告和说明向您解释了模型初始化过程中遇到的情况。
+
+解释如下：
+
+- "Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertForSequenceClassification": 这部分说明了在使用 `bert-base-uncased` 预训练模型的权重初始化 `BertForSequenceClassification` 模型时，一些权重并未被使用。这可能是因为预训练模型和当前要初始化的模型在架构或任务上存在不同。
+
+- "This IS expected if you are initializing BertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture": 如果您从一个在另一个任务上或使用另一种架构训练的模型的检查点初始化 `BertForSequenceClassification` 模型，那么上述情况是正常的。
+
+- "This IS NOT expected if you are initializing BertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical": 如果您从一个预期在架构和任务上与要初始化的模型完全相同的模型的检查点初始化 `BertForSequenceClassification` 模型，那么上述情况不应该出现。
+
+- "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized": 这部分说明了 `BertForSequenceClassification` 模型的一些权重没有从 `bert-base-uncased` 的检查点中初始化，而是被新初始化。
+
+- "You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference": 这部分建议您在下游任务上对这个模型进行训练，以便在预测和推断中使用它。
+
+综合起来，这段信息告诉您模型初始化过程中遇到的权重使用情况，并提醒您可能需要对模型进行下游任务的训练，以便在预测和推断中使用它。
