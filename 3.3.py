@@ -71,5 +71,18 @@ metric = evaluate.load("glue", "mrpc")
 metric.compute(predictions=preds, references=predictions.label_ids)
 print("metric:", metric)
 
+training_args = TrainingArguments("test-trainer", evaluation_strategy="epoch")
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+
+trainer = Trainer(
+    model,  # 要训练的模型。
+    training_args,  # 一个 TrainingArguments 类的实例，用于配置训练参数，如批量大小、学习率、训练轮数等。
+    train_dataset=tokenized_datasets["train"],  # 训练数据集。
+    eval_dataset=tokenized_datasets["validation"],  # 验证数据集。
+    data_collator=data_collator,  # 数据收集器，用于将批次数据转换为模型输入。
+    tokenizer=tokenizer,  # 用于将原始文本转换为模型输入的分词器。
+    compute_metrics=compute_metrics,  # 用于计算评估指标的函数。
+)
+
 
 
