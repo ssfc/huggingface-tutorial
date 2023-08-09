@@ -1,5 +1,8 @@
-import torch
-
+from datasets import load_dataset
+from transformers import AutoModelForSequenceClassification
+from transformers import AutoTokenizer
+from transformers import DataCollatorWithPadding
+from transformers import Trainer
 # 3.3.1 Training
 # 具体来说，`TrainingArguments` 类允许您设置以下类型的参数：
 # - `output_dir`: 训练过程中保存模型和输出文件的目录。
@@ -9,11 +12,6 @@ import torch
 # - `logging_dir`: 日志文件保存的目录。
 # - `save_total_limit`: 保存的检查点总数限制。
 from transformers import TrainingArguments
-from transformers import AutoModelForSequenceClassification
-from transformers import Trainer
-
-from datasets import load_dataset
-from transformers import AutoTokenizer, DataCollatorWithPadding
 
 raw_datasets = load_dataset("glue", "mrpc")
 checkpoint = "bert-base-uncased"
