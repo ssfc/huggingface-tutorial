@@ -34,7 +34,6 @@ raw_train_dataset = raw_datasets["train"]
 print(raw_train_dataset[0])
 print(raw_train_dataset.features)  # 这是一个鉴别两个句子是否同义的数据集
 
-# 3.2.2 Dynamic padding
 checkpoint = "bert-base-uncased"  # 用的是bert呀
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 tokenized_sentences_1 = tokenizer(raw_datasets["train"]["sentence1"])
@@ -59,6 +58,7 @@ samples = tokenized_datasets["train"][:8]  # 从其训练集中获取前8个样�
 samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
 print([len(x) for x in samples["input_ids"]])
 
+# 3.2.2 Dynamic padding
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 batch = data_collator(samples)
 print({k: v.shape for k, v in batch.items()})
