@@ -12,16 +12,24 @@ from transformers import Trainer
 # - `logging_dir`: 日志文件保存的目录。
 # - `save_total_limit`: 保存的检查点总数限制。
 from transformers import TrainingArguments
+import evaluate
 import numpy as np
+
+
+def tokenize_function(example):
+    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+
+
+def compute_metrics(eval_preds):  # 验证或测试数据上的模型预测输出
+    metric = evaluate.load("glue", "mrpc")
+    logits, labels = eval_preds  # 从 eval_preds 中解包出模型预测的 logits（预测的概率分布）和真实标签。
+    predictions = np.argmax(logits, axis=-1)
+    return metric.compute(predictions=predictions, references=labels)
 
 
 raw_datasets = load_dataset("glue", "mrpc")
 checkpoint = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-
-
-def tokenize_function(example):
-    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 
 
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
@@ -58,8 +66,9 @@ print(predictions.predictions.shape, predictions.label_ids.shape)
 preds = np.argmax(predictions.predictions, axis=-1)
 print("preds:", preds)
 
-
-
+metric = evaluate.load("glue", "mrpc")
+metric.compute(predictions=preds, references=predictions.label_ids)
+print("metric:", metric)
 
 
 
