@@ -1,3 +1,4 @@
+# 3.2.1 Preprocessing a dataset
 import torch
 # Q: huggingface的AdamW是干啥的？
 # Adam 优化算法是一种常用的梯度下降优化算法。
@@ -24,7 +25,6 @@ loss.backward()
 optimizer.step()
 '''
 
-# 3.2.1 Preprocessing a dataset
 from datasets import load_dataset
 
 raw_datasets = load_dataset("glue", "mrpc")
