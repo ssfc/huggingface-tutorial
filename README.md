@@ -1059,3 +1059,45 @@ training_args = TrainingArguments(
 - "You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference": 这部分建议您在下游任务上对这个模型进行训练，以便在预测和推断中使用它。
 
 综合起来，这段信息告诉您模型初始化过程中遇到的权重使用情况，并提醒您可能需要对模型进行下游任务的训练，以便在预测和推断中使用它。
+
+### Q: Trainer有哪些参数？
+
+`Trainer` 类在 Hugging Face Transformers 库中有许多可配置的参数，用于定制模型训练的行为。以下是一些常用的 `Trainer` 类参数：
+
+- `model`：要训练的模型。
+
+- `args`：一个 `TrainingArguments` 类的实例，用于配置训练参数，如批量大小、学习率、训练轮数等。
+
+- `data_collator`：数据收集器，用于将批次数据转换为模型输入。
+
+- `train_dataset`：训练数据集。
+
+- `eval_dataset`：验证数据集。
+
+- `tokenizer`：用于将原始文本转换为模型输入的分词器。
+
+- `compute_metrics`：用于计算评估指标的函数。
+
+- `callbacks`：一个列表，包含在训练过程中调用的回调函数。
+
+- `optimizers`：优化器（如AdamW）。
+
+- `scheduler`：学习率调度器。
+
+- `model_init`：一个可选的函数，用于自定义模型初始化。
+
+- `device`：训练设备，可以是 "cpu" 或 "cuda"。
+
+- `world_size`：多个 GPU 的训练时，设置的世界大小。
+
+- `train_dataloader`：自定义的训练数据加载函数。
+
+- `eval_dataloaders`：自定义的验证数据加载函数。
+
+- `logger`：用于记录训练日志的对象。
+
+- `resume_from_checkpoint`：从检查点文件恢复训练。
+
+- 等等...
+
+这些参数提供了对训练过程中的各种方面进行细粒度控制的能力，从数据加载到优化器设置，再到回调函数和评估指标计算。根据您的需求，您可以选择性地设置这些参数，以配置适合您任务和模型的训练流程。完整的参数列表和详细说明可以在 Hugging Face Transformers 文档中找到。
