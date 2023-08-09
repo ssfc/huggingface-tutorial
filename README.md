@@ -1029,12 +1029,12 @@ map(function, # 表示要对数据集中每个样本应用的函数，可以是�
 from transformers import TrainingArguments
 
 training_args = TrainingArguments(
-    output_dir="./results",
-    per_device_train_batch_size=8,
-    num_train_epochs=3,
-    learning_rate=5e-5,
-    logging_dir="./logs",
-    save_total_limit=3,
+    output_dir="./results", # 训练过程中保存模型和输出文件的目录。
+    per_device_train_batch_size=8, # 每个设备的训练批量大小。
+    num_train_epochs=3, # 训练的轮数。
+    learning_rate=5e-5, # 学习率。
+    logging_dir="./logs", # 日志文件保存的目录。
+    save_total_limit=3, # 保存的检查点总数限制。
 )
 
 # 在模型训练时将 training_args 传递给 Trainer 类
