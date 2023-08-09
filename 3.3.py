@@ -43,6 +43,7 @@ trainer = Trainer(
 
 trainer.train()
 
-
-
+# 3.3.2 Evaluation
+predictions = trainer.predict(tokenized_datasets["validation"])
+print(predictions.predictions.shape, predictions.label_ids.shape)
 
