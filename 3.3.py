@@ -44,6 +44,8 @@ trainer = Trainer(
 trainer.train()
 
 # 3.3.2 Evaluation
+# predict(): 这是 Trainer 类中的一个方法，用于对给定的数据集进行预测。在这个例子中，使用 tokenized_datasets["validation"] 作为验证数据集。
+# predictions: 这是一个包含预测结果的对象。它可能是一个包含预测标签、概率分数等的数据结构，具体取决于模型和任务。
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
 
