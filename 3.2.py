@@ -70,6 +70,7 @@ tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 print("tokenized datasets: ", tokenized_datasets)
 
 samples = tokenized_datasets["train"][:8]  # 从其训练集中获取前8个样本
+# 从字典 samples 中移除键为 "idx"、"sentence1" 和 "sentence2" 的键值对，并创建一个新的字典，只包含其他键值对。新的字典中只保留了不在指定列表中的键值对。
 samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
 print([len(x) for x in samples["input_ids"]])
 
