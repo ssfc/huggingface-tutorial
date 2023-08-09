@@ -41,6 +41,8 @@ trainer = Trainer(
     tokenizer=tokenizer,  # 用于将原始文本转换为模型输入的分词器。
 )
 
+trainer.train()
+
 
 
 
