@@ -12,6 +12,8 @@ from transformers import Trainer
 # - `logging_dir`: 日志文件保存的目录。
 # - `save_total_limit`: 保存的检查点总数限制。
 from transformers import TrainingArguments
+import numpy as np
+
 
 raw_datasets = load_dataset("glue", "mrpc")
 checkpoint = "bert-base-uncased"
@@ -48,4 +50,16 @@ trainer.train()
 # predictions: 这是一个包含预测结果的对象。它可能是一个包含预测标签、概率分数等的数据结构，具体取决于模型和任务。
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
+# predictions.predictions: 这是一个包含模型对数据集样本的预测输出的数组。通常，这个数组的形状是 (样本数量, 类别数量)，其中每个元素表示模型对某个类别的预测分数。
+# 使用 NumPy 库中的 argmax 函数，对预测输出进行求最大值索引的操作。axis=-1 表示在最后一个维度上执行操作，即在类别数量这个维度上进行求最大值索引。
+# preds: 这是一个包含最可能的预测标签的数组。
+# 例如，如果预测输出是 [[0.2, 0.6, 0.1], [0.8, 0.1, 0.1]]，那么 np.argmax(predictions.predictions, axis=-1) 的结果将是 [1, 0]，
+# 表示模型预测的第一个样本最可能属于类别 1，第二个样本最可能属于类别 0。
+preds = np.argmax(predictions.predictions, axis=-1)
+print("preds:", preds)
+
+
+
+
+
 
