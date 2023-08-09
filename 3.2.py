@@ -63,8 +63,9 @@ print(tokenizer.convert_ids_to_tokens(inputs["input_ids"]))
 def tokenize_function(example):
     return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 
+
 # Q: Hugging Face Datasets 库中的 map 函数是干啥的？
-# 
+# 对数据集中的每个样本应用指定的函数，并返回一个新的数据集
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 print("tokenized datasets: ", tokenized_datasets)
 
