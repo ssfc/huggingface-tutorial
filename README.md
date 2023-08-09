@@ -1101,3 +1101,5 @@ training_args = TrainingArguments(
 - 等等...
 
 这些参数提供了对训练过程中的各种方面进行细粒度控制的能力，从数据加载到优化器设置，再到回调函数和评估指标计算。根据您的需求，您可以选择性地设置这些参数，以配置适合您任务和模型的训练流程。完整的参数列表和详细说明可以在 Hugging Face Transformers 文档中找到。
+
+## 3.4 A full training

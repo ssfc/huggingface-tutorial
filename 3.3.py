@@ -84,5 +84,5 @@ trainer = Trainer(
     compute_metrics=compute_metrics,  # 用于计算评估指标的函数。
 )
 
-
+trainer.train()
 
