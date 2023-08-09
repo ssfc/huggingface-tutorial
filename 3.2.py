@@ -50,6 +50,8 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 # `token_type_ids` 是一个与输入序列等长的向量，其长度与输入序列中的 token 数目相同。
 # 在处理句子对任务时，如果一个 token 属于第一个句子，那么它的 `token_type_ids` 就会被标记为 0；
 # 如果它属于第二个句子，那么它的 `token_type_ids` 就会被标记为 1。(如果属于第三个句子，就被标记为2) 这样，模型就可以根据 `token_type_ids` 来区分不同句子的信息。
+# Q: 如果有三个分段，token_type_ids显示什么？
+# token_type_ids = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]
 inputs = tokenizer("This is the first sentence.", "This is the second one.")
 print("inputs: ", inputs)
 print(tokenizer.convert_ids_to_tokens(inputs["input_ids"]))
