@@ -52,6 +52,9 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 # 如果它属于第二个句子，那么它的 `token_type_ids` 就会被标记为 1。(如果属于第三个句子，就被标记为2) 这样，模型就可以根据 `token_type_ids` 来区分不同句子的信息。
 # Q: 如果有三个分段，token_type_ids显示什么？
 # token_type_ids = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2]
+# Q: tokenizer.convert_ids_to_tokens是干啥的？
+# 将标记 ID 列表 `[101, 2023, 2003, ...]` 转换为对应的文本标记列表
+# `['[CLS]', 'what', 'is', 'a', 'good', 'answer', 'to', 'the', 'question', '[SEP]']`。
 inputs = tokenizer("This is the first sentence.", "This is the second one.")
 print("inputs: ", inputs)
 print(tokenizer.convert_ids_to_tokens(inputs["input_ids"]))
