@@ -1002,3 +1002,42 @@ map(function, # 表示要对数据集中每个样本应用的函数，可以是�
 `map()` 函数在 Hugging Face Datasets 库中通常用于对数据进行预处理、转换或者特征提取。通过传入不同的 `function` 参数，可以对数据集中的每个样本进行不同的处理。这个函数在深度学习中数据预处理和数据加载过程中非常实用，可以帮助提高数据处理效率和灵活性。
 
 ## 3.3 Fine-tuning a model with the Trainer API
+
+### 3.3.1 Training
+
+### Q: 解释from transformers import TrainingArguments
+
+`from transformers import TrainingArguments` 是从 Hugging Face Transformers 库中导入 `TrainingArguments` 类。这个类用于配置和管理模型训练的各种参数和选项。
+
+在深度学习中，模型训练涉及许多参数，如学习率、批量大小、训练轮数等。`TrainingArguments` 类允许您通过对象属性设置这些参数，以便更轻松地管理训练过程。
+
+具体来说，`TrainingArguments` 类允许您设置以下类型的参数：
+
+- `output_dir`: 训练过程中保存模型和输出文件的目录。
+- `per_device_train_batch_size`: 每个设备的训练批量大小。
+- `num_train_epochs`: 训练的轮数。
+- `learning_rate`: 学习率。
+- `logging_dir`: 日志文件保存的目录。
+- `save_total_limit`: 保存的检查点总数限制。
+- 等等...
+
+通过使用 `TrainingArguments`，您可以将这些训练参数集中在一起，并在模型训练时传递给 `Trainer` 类，从而更好地组织和管理训练配置。
+
+示例用法：
+
+```python
+from transformers import TrainingArguments
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    per_device_train_batch_size=8,
+    num_train_epochs=3,
+    learning_rate=5e-5,
+    logging_dir="./logs",
+    save_total_limit=3,
+)
+
+# 在模型训练时将 training_args 传递给 Trainer 类
+```
+
+总之，`from transformers import TrainingArguments` 语句使您能够导入并使用 `TrainingArguments` 类来设置和管理模型训练的各种参数。
