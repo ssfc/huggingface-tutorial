@@ -6,6 +6,7 @@ from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
 from transformers import get_scheduler
+import evaluate
 import torch
 
 
@@ -88,13 +89,25 @@ for epoch in range(num_epochs):
         # (3) Backward
         loss.backward()  # 计算损失函数的梯度
 
+        # (4) Update
         optimizer.step()  # 更新模型参数，使其朝着梯度下降方向移动
         lr_scheduler.step()
         optimizer.zero_grad()
         progress_bar.update(1)
 
 # 3.4.3 The evaluation loop
+metric = evaluate.load("glue", "mrpc")
+model.eval()
+for batch in eval_dataloader:
+    batch = {k: v.to(device) for k, v in batch.items()}
+    with torch.no_grad():
+        outputs = model(**batch)
 
+    logits = outputs.logits
+    predictions = torch.argmax(logits, dim=-1)
+    metric.add_batch(predictions=predictions, references=batch["labels"])
+
+print("metric.compute:", metric.compute())
 
 
 
