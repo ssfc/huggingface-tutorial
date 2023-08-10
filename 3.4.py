@@ -85,6 +85,10 @@ for epoch in range(num_epochs):
     for batch in train_dataloader:
         # (1) Prepare data
         # .items() 是 Python 字典（Dictionary）对象的一个方法，用于获取字典中所有的键值对（键和对应的值）。
+        # 只移动值 `v` 而不移动键 `k`，是因为键（key）通常是标识数据的标签，它们是元数据而不是需要进行计算的实际数据。
+        # 在这种情况下，通常只需要将值（例如张量）移动到指定的设备上，以便在该设备上进行模型计算。
+        # 键（标签）并不需要在设备之间移动，因为它们只是用于标识数据的标签，不直接参与模型的计算。键在字典中起到索引作用，用于访问对应的值。
+        # 所以，一般情况下，只需要将值移动到指定设备上，以便在该设备上进行实际计算，而键通常不需要进行设备间的移动。
         batch = {k: v.to(device) for k, v in batch.items()}
         # (2) Forward
         outputs = model(**batch)
