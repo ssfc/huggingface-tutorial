@@ -1301,7 +1301,6 @@ scheduler = get_scheduler(
 `get_scheduler` 函数接受多个参数，用于配置不同类型的学习率调度器。以下是常见的参数列表：
 
 1. **name_or_type** (*str*): 要获取的学习率调度器的名称或类型。可以是以下字符串之一：
-
    - `"constant_schedule"`: 恒定学习率，不进行学习率衰减。
    - `"constant_schedule_with_warmup"`: 先进行学习率预热，然后保持恒定的学习率。
    - `"warmup_linear"`: 学习率线性预热，然后线性衰减。
@@ -1310,7 +1309,7 @@ scheduler = get_scheduler(
    - `"polynomial_decay"`: 多项式学习率衰减。
    - `"linear_schedule_with_warmup"`: 线性学习率预热，然后线性衰减。
    - 或者是自定义的学习率调度器类名。
-
+   
 2. **optimizer** (*torch.optim.Optimizer*): 要应用学习率调度器的优化器。
 
 3. **num_warmup_steps** (*int, optional*): 预热步数，即在此步数之前进行线性或余弦预热。
@@ -1334,3 +1333,6 @@ scheduler = get_scheduler(
 12. **warmup_steps** (*int, optional*): 在 `"constant_schedule_with_warmup"` 或 `"linear_schedule_with_warmup"` 调度器中，指定预热的步数。
 
 这些参数允许你根据训练需求选择不同的学习率调度器类型，并对其行为进行配置。调度器的具体参数和行为取决于所选的调度器类型。
+
+### 3.4.2 The training loop
+
