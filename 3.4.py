@@ -49,13 +49,15 @@ for batch in train_dataloader:
     break
 print({k: v.shape for k, v in batch.items()})
 
+##############################################################################################################
+# Step 2: Design Model;
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
 outputs = model(**batch)
 print("outputs.loss:", outputs.loss)
 print("outputs.logits.shape:", outputs.logits.shape)
 
 # ################################################################################################################
-#         # Step 3: Construct loss and optimizer
+# Step 3: Construct loss and optimizer
 optimizer = AdamW(model.parameters(),  # 一个包含要优化的参数的可迭代对象，通常是模型的参数列表。
                   lr=5e-5)  # 学习率（Learning Rate），控制每次参数更新的步长。
 
