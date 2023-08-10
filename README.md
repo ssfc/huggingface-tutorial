@@ -1295,3 +1295,42 @@ scheduler = get_scheduler(
 ```
 
 在上述示例中，我们使用了 `get_scheduler` 函数获取了一个使用线性预热和线性衰减的学习率调度器。具体的调度器类型和参数需要根据训练需求来选择。
+
+### Q: get_scheduler有哪些参数？
+
+`get_scheduler` 函数接受多个参数，用于配置不同类型的学习率调度器。以下是常见的参数列表：
+
+1. **name_or_type** (*str*): 要获取的学习率调度器的名称或类型。可以是以下字符串之一：
+
+   - `"constant_schedule"`: 恒定学习率，不进行学习率衰减。
+   - `"constant_schedule_with_warmup"`: 先进行学习率预热，然后保持恒定的学习率。
+   - `"warmup_linear"`: 学习率线性预热，然后线性衰减。
+   - `"warmup_cosine"`: 学习率线性预热，然后余弦衰减。
+   - `"warmup_cosine_with_hard_restarts"`: 带有硬重启的余弦学习率预热和衰减。
+   - `"polynomial_decay"`: 多项式学习率衰减。
+   - `"linear_schedule_with_warmup"`: 线性学习率预热，然后线性衰减。
+   - 或者是自定义的学习率调度器类名。
+
+2. **optimizer** (*torch.optim.Optimizer*): 要应用学习率调度器的优化器。
+
+3. **num_warmup_steps** (*int, optional*): 预热步数，即在此步数之前进行线性或余弦预热。
+
+4. **num_training_steps** (*int*): 总的训练步数。
+
+5. **num_cycles** (*float, optional*): 在 `"warmup_cosine_with_hard_restarts"` 调度器中，指定余弦衰减的循环次数。
+
+6. **num_decay_steps** (*int, optional*): 在 `"polynomial_decay"` 调度器中，指定多项式衰减的步数。
+
+7. **end_learning_rate** (*float, optional*): 在 `"polynomial_decay"` 调度器中，指定衰减后的学习率。
+
+8. **power** (*float, optional*): 在 `"polynomial_decay"` 调度器中，指定多项式衰减的幂次。
+
+9. **cycle_limit** (*int, optional*): 在 `"warmup_cosine_with_hard_restarts"` 调度器中，指定每个循环的最大步数。
+
+10. **first_cycle_steps** (*int, optional*): 在 `"warmup_cosine_with_hard_restarts"` 调度器中，指定第一个循环的步数。
+
+11. **warmup_ratio** (*float, optional*): 在 `"constant_schedule_with_warmup"` 或 `"linear_schedule_with_warmup"` 调度器中，指定预热的比例。
+
+12. **warmup_steps** (*int, optional*): 在 `"constant_schedule_with_warmup"` 或 `"linear_schedule_with_warmup"` 调度器中，指定预热的步数。
+
+这些参数允许你根据训练需求选择不同的学习率调度器类型，并对其行为进行配置。调度器的具体参数和行为取决于所选的调度器类型。
