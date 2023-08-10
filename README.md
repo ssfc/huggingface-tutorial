@@ -1135,3 +1135,35 @@ training_args = TrainingArguments(
 这些参数提供了对训练过程中的各种方面进行细粒度控制的能力，从数据加载到优化器设置，再到回调函数和评估指标计算。根据您的需求，您可以选择性地设置这些参数，以配置适合您任务和模型的训练流程。完整的参数列表和详细说明可以在 Hugging Face Transformers 文档中找到。
 
 ## 3.4 A full training
+
+### 3.4.1 Prepare for training
+
+### Q: DataLoader有哪些参数？
+
+`DataLoader` 是 PyTorch 库中用于加载数据的类，通常用于训练神经网络模型。以下是部分常见的 `DataLoader` 参数：
+
+1. `dataset`: 要加载的数据集。通常是一个 `torch.utils.data.Dataset` 类的实例。
+
+2. `batch_size`: 每个批次中的样本数量。
+
+3. `shuffle`: 是否在每个 epoch 开始时对数据进行洗牌（随机排序）。
+
+4. `num_workers`: 用于加载数据的子进程数量，可以加快数据加载速度。
+
+5. `collate_fn`: 用于将多个样本组合成一个批次的函数。通常用于处理不同长度的序列数据。
+
+6. `pin_memory`: 是否将数据加载到 GPU 的固定内存中，可以加速数据传输。
+
+7. `drop_last`: 是否丢弃最后一个批次中样本数不足的部分。
+
+8. `timeout`: 数据加载的超时时间。
+
+9. `sampler`: 用于确定样本的顺序，可以是 `torch.utils.data.Sampler` 类的实例。
+
+10. `batch_sampler`: 用于确定批次的顺序，可以是 `torch.utils.data.BatchSampler` 类的实例。
+
+11. `persistent_workers`: 是否在子进程之间保持数据加载器的状态，可以加快多个 epoch 的数据加载速度。
+
+等等...
+
+这些参数可以根据任务的需求进行调整。`DataLoader` 在训练神经网络时非常常见，它可以帮助将数据加载、处理和批处理等步骤整合在一起，使训练过程更加方便和高效。
