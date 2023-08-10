@@ -1265,3 +1265,33 @@ training_args = TrainingArguments(
 等等...
 
 这些参数可以根据任务的需求进行调整。`DataLoader` 在训练神经网络时非常常见，它可以帮助将数据加载、处理和批处理等步骤整合在一起，使训练过程更加方便和高效。
+
+### Q: from transformers import get_scheduler是干啥的？
+
+`from transformers import get_scheduler` 是 Hugging Face Transformers 库中的一个函数，用于获取针对优化器的学习率调度器（learning rate scheduler）。学习率调度器在训练神经网络模型时非常有用，它可以帮助你在训练的不同阶段动态地调整学习率，从而提高训练的效果和稳定性。
+
+调整学习率可以有助于在训练初期使用较大的学习率来更快地逼近全局最优解，然后在接近最优解时使用较小的学习率以更精细地调整参数，从而提高收敛速度和训练质量。
+
+`get_scheduler` 函数允许你获取不同类型的学习率调度器，具体取决于训练过程中你希望使用的策略。常见的学习率调度器包括：
+
+- `get_scheduler("constant_schedule")`：使用恒定的学习率，不进行学习率衰减。
+- `get_scheduler("warmup_constant")`：在训练初期进行学习率的线性预热，然后保持恒定的学习率。
+- `get_scheduler("warmup_linear")`：在训练初期进行学习率的线性预热，然后根据线性衰减进行学习率衰减。
+- `get_scheduler("warmup_cosine")`：在训练初期进行学习率的线性预热，然后根据余弦函数进行学习率衰减。
+
+此外，还有其他类型的学习率调度器可供选择，每种调度器都可以根据你的需求进行参数配置。
+
+使用示例：
+
+```python
+from transformers import get_scheduler
+
+scheduler = get_scheduler(
+    "warmup_linear",
+    optimizer,
+    num_warmup_steps=500,
+    num_training_steps=10000
+)
+```
+
+在上述示例中，我们使用了 `get_scheduler` 函数获取了一个使用线性预热和线性衰减的学习率调度器。具体的调度器类型和参数需要根据训练需求来选择。

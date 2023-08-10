@@ -4,6 +4,7 @@ from transformers import AdamW
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
+from transformers import get_scheduler
 
 
 raw_datasets = load_dataset("glue", "mrpc")
@@ -51,6 +52,14 @@ print("outputs.logits.shape:", outputs.logits.shape)
 optimizer = AdamW(model.parameters(),  # 一个包含要优化的参数的可迭代对象，通常是模型的参数列表。
                   lr=5e-5)  # 学习率（Learning Rate），控制每次参数更新的步长。
 
-
+num_epochs = 3
+num_training_steps = num_epochs * len(train_dataloader)
+lr_scheduler = get_scheduler(
+    "linear",
+    optimizer=optimizer,
+    num_warmup_steps=0,
+    num_training_steps=num_training_steps,
+)
+print(num_training_steps)
 
 
