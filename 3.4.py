@@ -1,5 +1,6 @@
 from datasets import load_dataset
 from torch.utils.data import DataLoader
+from tqdm.auto import tqdm
 from transformers import AdamW
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
