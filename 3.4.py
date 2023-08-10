@@ -1,5 +1,6 @@
 from datasets import load_dataset
-from transformers import AutoTokenizer, DataCollatorWithPadding
+from transformers import AutoTokenizer
+from transformers import DataCollatorWithPadding
 
 raw_datasets = load_dataset("glue", "mrpc")
 checkpoint = "bert-base-uncased"
