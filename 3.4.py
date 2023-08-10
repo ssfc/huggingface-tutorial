@@ -97,7 +97,7 @@ for epoch in range(num_epochs):
 
 # 3.4.3 The evaluation loop
 metric = evaluate.load("glue", "mrpc")
-model.eval()
+model.eval()  # 将模型切换到评估模式，这会影响模型中一些层（如 Dropout 层），使其在评估时表现更稳定。
 for batch in eval_dataloader:
     batch = {k: v.to(device) for k, v in batch.items()}
     with torch.no_grad():
