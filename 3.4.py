@@ -60,7 +60,7 @@ lr_scheduler = get_scheduler(
     num_warmup_steps=0,  # 预热步数，即在此步数之前进行线性或余弦预热。
     num_training_steps=num_training_steps,  # 总的训练步数。
 )
-print(num_training_steps)
+print("num_training_steps:", num_training_steps)
 
 
 
