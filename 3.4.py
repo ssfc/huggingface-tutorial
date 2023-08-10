@@ -93,5 +93,9 @@ for epoch in range(num_epochs):
         optimizer.zero_grad()
         progress_bar.update(1)
 
+# 3.4.3 The evaluation loop
+
+
+
 
 
