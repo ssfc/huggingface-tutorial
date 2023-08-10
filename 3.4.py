@@ -14,7 +14,7 @@ def tokenize_function(example):
 
 
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)   # (required): 要使用的 tokenizer，用于将文本转换为模型可接受的输入格式。
 
 
 # 3.4.1 Prepare for training
