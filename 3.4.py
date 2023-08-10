@@ -80,12 +80,15 @@ model.train()
 # Step 4: Training cycle
 for epoch in range(num_epochs):
     for batch in train_dataloader:
+        # (1) Prepare data
         batch = {k: v.to(device) for k, v in batch.items()}
+        # (2) Forward
         outputs = model(**batch)
         loss = outputs.loss
-        loss.backward()
+        # (3) Backward
+        loss.backward()  # 计算损失函数的梯度
 
-        optimizer.step()
+        optimizer.step()  # 更新模型参数，使其朝着梯度下降方向移动
         lr_scheduler.step()
         optimizer.zero_grad()
         progress_bar.update(1)
