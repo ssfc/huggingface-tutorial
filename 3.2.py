@@ -3,6 +3,7 @@ import torch
 # Q: huggingface的AdamW是干啥的？
 # Adam 优化算法是一种常用的梯度下降优化算法。
 from transformers import AdamW, AutoTokenizer, AutoModelForSequenceClassification
+# 在进行文本序列任务的训练时，由于输入序列长度可能不一致，我们需要将输入序列进行填充，以便将它们组织成一个批次（batch），并输入到模型中进行训练。
 from transformers import DataCollatorWithPadding
 
 '''
