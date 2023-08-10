@@ -1033,6 +1033,42 @@ map(function, # 表示要对数据集中每个样本应用的函数，可以是�
 
 `map()` 函数在 Hugging Face Datasets 库中通常用于对数据进行预处理、转换或者特征提取。通过传入不同的 `function` 参数，可以对数据集中的每个样本进行不同的处理。这个函数在深度学习中数据预处理和数据加载过程中非常实用，可以帮助提高数据处理效率和灵活性。
 
+### Q: DataCollatorWithPadding是干啥的？
+
+在 Hugging Face Transformers 库中，`DataCollatorWithPadding` 是一个用于处理数据并进行填充（padding）的类。在进行文本序列任务的训练时，由于输入序列长度可能不一致，我们需要将输入序列进行填充，以便将它们组织成一个批次（batch），并输入到模型中进行训练。
+
+`DataCollatorWithPadding` 类的主要作用是将数据样本（例如文本对、单句文本等）组织成一个批次，并根据最大长度进行填充，以使整个批次中的每个样本的输入序列长度一致。
+
+具体来说，`DataCollatorWithPadding` 类接受一个数据样本列表（例如一个由多个文本对组成的列表），并根据最大长度对这些样本进行填充，然后返回一个包含填充后输入序列的字典。在这个字典中，输入序列被组织成了一个批次，并且所有输入序列的长度都是相同的。
+
+这样做的好处是，我们可以同时处理不同长度的样本，并将它们组织成一个批次输入到模型中，从而提高训练效率。
+
+示例代码：
+
+```python
+from transformers import AutoTokenizer, DataCollatorWithPadding
+
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+
+# 数据样本列表，每个样本是一个文本对
+data_samples = [
+    {"text": "Hello, how are you?", "label": 0},
+    {"text": "I am fine, thank you!", "label": 1},
+    {"text": "Goodbye!", "label": 2},
+]
+
+# 将数据样本组织成一个批次，并进行填充
+batch = data_collator(data_samples)
+
+# 输出填充后的批次数据
+print(batch)
+```
+
+在上述代码中，我们首先创建了一个 BERT tokenizer，并使用 `DataCollatorWithPadding` 类创建了一个 `data_collator` 对象。然后，我们定义了一个包含文本对和标签的数据样本列表 `data_samples`，并使用 `data_collator` 将数据样本组织成一个批次，并进行填充。最后，输出填充后的批次数据。
+
+通过使用 `DataCollatorWithPadding` 类，我们可以轻松地将不同长度的文本序列组织成一个批次，并在模型训练过程中进行填充和处理，从而提高训练效率和性能。
+
 ## 3.3 Fine-tuning a model with the Trainer API
 
 ### 3.3.1 Training
