@@ -9,6 +9,8 @@ from transformers import get_scheduler
 import torch
 
 
+##############################################################################################################
+# Step 1: prepare dataset;
 raw_datasets = load_dataset("glue", "mrpc")
 checkpoint = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -51,6 +53,8 @@ outputs = model(**batch)
 print("outputs.loss:", outputs.loss)
 print("outputs.logits.shape:", outputs.logits.shape)
 
+# ################################################################################################################
+#         # Step 3: Construct loss and optimizer
 optimizer = AdamW(model.parameters(),  # 一个包含要优化的参数的可迭代对象，通常是模型的参数列表。
                   lr=5e-5)  # 学习率（Learning Rate），控制每次参数更新的步长。
 
@@ -72,6 +76,8 @@ print("device:", device)
 progress_bar = tqdm(range(num_training_steps))
 
 model.train()
+################################################################################################################
+# Step 4: Training cycle
 for epoch in range(num_epochs):
     for batch in train_dataloader:
         batch = {k: v.to(device) for k, v in batch.items()}
