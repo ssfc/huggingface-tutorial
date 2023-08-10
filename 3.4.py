@@ -5,6 +5,7 @@ from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
 from transformers import get_scheduler
+import torch
 
 
 raw_datasets = load_dataset("glue", "mrpc")
@@ -63,8 +64,9 @@ lr_scheduler = get_scheduler(
 print("num_training_steps:", num_training_steps)
 
 # 3.4.2 The training loop
-
-
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+model.to(device)
+print("device:", device)
 
 
 
