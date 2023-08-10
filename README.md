@@ -1069,6 +1069,36 @@ print(batch)
 
 通过使用 `DataCollatorWithPadding` 类，我们可以轻松地将不同长度的文本序列组织成一个批次，并在模型训练过程中进行填充和处理，从而提高训练效率和性能。
 
+### Q: DataCollatorWithPadding有哪些参数？
+
+`DataCollatorWithPadding` 是 Hugging Face Transformers 库中用于数据批处理和填充的类，它的参数与用途如下：
+
+1. `tokenizer` (required): 要使用的 tokenizer，用于将文本转换为模型可接受的输入格式。
+
+2. `padding`: 是否进行填充，如果为 `True`，则对序列进行填充以使它们的长度一致。
+
+3. `max_length`: 设置最大序列长度，超过这个长度会进行截断或填充。
+
+4. `pad_to_multiple_of`: 如果设置了这个参数，填充到的序列长度将是这个值的倍数。
+
+5. `return_tensors`: 返回的数据类型，如 `"pt"` 表示返回 PyTorch 张量。
+
+6. `return_attention_mask`: 是否返回注意力掩码（attention mask），用于标识 padding 部分。
+
+7. `return_token_type_ids`: 是否返回 token type IDs，用于区分不同的句子。
+
+8. `return_overflowing_tokens`: 是否返回超过最大长度的 token。
+
+9. `return_special_tokens_mask`: 是否返回特殊 tokens 的掩码。
+
+10. `return_length`: 是否返回每个样本的实际长度。
+
+11. `return_offsets_mapping`: 是否返回每个 token 在原始文本中的偏移。
+
+等等...
+
+这些参数可以根据数据和任务的需求进行调整。`DataCollatorWithPadding` 通常与 Hugging Face Transformers 库中的 `Trainer` 类一起使用，用于在训练过程中对数据进行批处理和填充。
+
 ## 3.3 Fine-tuning a model with the Trainer API
 
 ### 3.3.1 Training
