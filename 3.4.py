@@ -44,8 +44,8 @@ print({k: v.shape for k, v in batch.items()})
 
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
 outputs = model(**batch)
-print(outputs.loss, outputs.logits.shape)
-
+print("outputs.loss:", outputs.loss)
+print("outputs.logits.shape:", outputs.logits.shape)
 
 
 
