@@ -1336,3 +1336,26 @@ scheduler = get_scheduler(
 
 ### 3.4.2 The training loop
 
+### Q: 解释 from tqdm.auto import tqdm
+
+`from tqdm.auto import tqdm` 是用于在 Python 脚本或 Jupyter Notebook 中实现进度条显示的方法之一。`tqdm` 是 "taqaddum"（阿拉伯语中的 "进展"）的缩写，它是一个用于显示循环进度的库。
+
+`from tqdm.auto import tqdm` 中的 `auto` 表示自动选择适合当前环境的版本，可能是终端环境或 Jupyter 环境。
+
+具体来说，`tqdm` 可以在循环中添加一个进度条，让你在执行迭代操作时实时查看进度。这对于处理大数据集或需要较长时间运行的任务非常有用，因为它能够提供实时反馈，让你了解代码执行的进展情况。
+
+使用示例：
+
+```python
+from tqdm.auto import tqdm
+import time
+
+# 创建一个迭代范围
+for i in tqdm(range(10)):
+    # 模拟耗时操作
+    time.sleep(1)
+```
+
+在上述示例中，`tqdm` 会在循环中显示一个进度条，每次迭代都会更新进度。这使你能够轻松地了解循环的进行情况。
+
+在 Jupyter Notebook 环境中，使用 `tqdm.notebook` 也可以实现类似的进度条效果，但需要注意，如果你的代码在不同的环境中运行，最好使用 `from tqdm.auto import tqdm` 来保证适配不同环境。
