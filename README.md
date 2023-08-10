@@ -1359,3 +1359,51 @@ for i in tqdm(range(10)):
 在上述示例中，`tqdm` 会在循环中显示一个进度条，每次迭代都会更新进度。这使你能够轻松地了解循环的进行情况。
 
 在 Jupyter Notebook 环境中，使用 `tqdm.notebook` 也可以实现类似的进度条效果，但需要注意，如果你的代码在不同的环境中运行，最好使用 `from tqdm.auto import tqdm` 来保证适配不同环境。
+
+### Q: tqdm有哪些参数？
+
+`tqdm` 是一个功能强大的进度条库，提供了许多参数来自定义进度条的外观和行为。以下是一些常见的参数：
+
+1. **iterable** (*iterable*): 要迭代的对象，可以是一个范围、列表、生成器等。
+
+2. **desc** (*str, optional*): 进度条的描述，显示在进度条之前。
+
+3. **total** (*int, optional*): 迭代对象的总长度，用于计算进度。
+
+4. **leave** (*bool, optional*): 是否保留进度条在迭代完成后的显示，默认为 `False`，即迭代完成后进度条消失。
+
+5. **position** (*int, optional*): 进度条显示的位置，默认为 `None`，根据屏幕大小自动选择。
+
+6. **ncols** (*int, optional*): 进度条的宽度，以字符数为单位。
+
+7. **mininterval** (*float, optional*): 刷新进度条的最小时间间隔，以秒为单位。
+
+8. **maxinterval** (*float, optional*): 刷新进度条的最大时间间隔，以秒为单位。
+
+9. **dynamic_ncols** (*bool, optional*): 是否动态调整进度条宽度以适应终端大小。
+
+10. **position** (*int, optional*): 进度条在终端中的位置。
+
+11. **colour** (*bool or str, optional*): 控制是否为进度条使用颜色。
+
+12. **disable** (*bool, optional*): 是否禁用进度条，如果设置为 `True`，进度条将不会显示。
+
+13. **unit** (*str, optional*): 迭代项的单位，显示在进度条右侧。
+
+14. **unit_scale** (*bool, optional*): 是否自动调整单位的缩放。
+
+15. **unit_divisor** (*int, optional*): 缩放单位的因子。
+
+16. **bar_format** (*str, optional*): 控制进度条的显示格式。
+
+17. **postfix** (*dict or OrderedDict, optional*): 在进度条后添加自定义文本。
+
+18. **initial** (*int, optional*): 初始迭代数。
+
+19. **position** (*int, optional*): 进度条在终端中的位置。
+
+20. **dynamic_ncols** (*bool, optional*): 是否根据终端宽度动态调整进度条宽度。
+
+等等。
+
+这些参数可以根据你的需求来调整进度条的显示和行为，使你能够将进度条集成到你的代码中，并根据需要进行自定义。
