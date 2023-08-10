@@ -55,11 +55,16 @@ optimizer = AdamW(model.parameters(),  # 一个包含要优化的参数的可迭
 num_epochs = 3
 num_training_steps = num_epochs * len(train_dataloader)
 lr_scheduler = get_scheduler(
-    "linear",
-    optimizer=optimizer,
-    num_warmup_steps=0,
-    num_training_steps=num_training_steps,
+    "linear",  # 要获取的学习率调度器的名称或类型
+    optimizer=optimizer,  # 要应用学习率调度器的优化器。
+    num_warmup_steps=0,  # 预热步数，即在此步数之前进行线性或余弦预热。
+    num_training_steps=num_training_steps,  # 总的训练步数。
 )
 print(num_training_steps)
+
+
+
+
+
 
 
