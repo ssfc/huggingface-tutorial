@@ -84,6 +84,7 @@ model.train()
 for epoch in range(num_epochs):
     for batch in train_dataloader:
         # (1) Prepare data
+        # .items() 是 Python 字典（Dictionary）对象的一个方法，用于获取字典中所有的键值对（键和对应的值）。
         batch = {k: v.to(device) for k, v in batch.items()}
         # (2) Forward
         outputs = model(**batch)
