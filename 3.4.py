@@ -1,7 +1,9 @@
 from datasets import load_dataset
 from torch.utils.data import DataLoader
+from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
+
 
 raw_datasets = load_dataset("glue", "mrpc")
 checkpoint = "bert-base-uncased"
@@ -39,4 +41,14 @@ eval_dataloader = DataLoader(
 for batch in train_dataloader:
     break
 print({k: v.shape for k, v in batch.items()})
+
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+outputs = model(**batch)
+print(outputs.loss, outputs.logits.shape)
+
+
+
+
+
+
 
