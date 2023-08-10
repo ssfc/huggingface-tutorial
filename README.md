@@ -760,6 +760,38 @@ Output:
 
 在上述示例中，我们使用 `AutoTokenizer.from_pretrained(checkpoint)` 来自动加载名为 "bert-base-uncased" 的 BERT 模型的分词器。之后，我们使用分词器对输入文本进行分词，并输出分词结果。通过 `AutoTokenizer` 的使用，我们可以很方便地加载和切换不同的预训练模型的分词器，从而进行文本处理和 NLP 任务。
 
+### Q: 已知tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")，那么函数tokenizer有哪些参数？
+
+`AutoTokenizer.from_pretrained("bert-base-uncased")` 返回的是一个名为 `tokenizer` 的 `AutoTokenizer` 类的实例。`tokenizer` 是用于处理文本数据，将文本转换为模型可以理解的输入格式（例如，token IDs、attention masks 等）。
+
+以下是部分常见的 `tokenizer` 函数参数：
+
+1. `text`: 要处理的文本数据。
+
+2. `padding`: 是否进行填充，如果为 `True`，会根据最长的序列进行填充。
+
+3. `truncation`: 是否进行截断，如果为 `True`，会根据最长的序列进行截断。
+
+4. `return_tensors`: 指定返回的数据类型，如 `"pt"` 表示返回 PyTorch 张量。
+
+5. `max_length`: 设置最大序列长度，超过这个长度会进行截断或填充。
+
+6. `add_special_tokens`: 是否在文本的开始和结束添加特殊的 tokens，如 `[CLS]` 和 `[SEP]`。
+
+7. `return_attention_mask`: 是否返回注意力掩码（attention mask），用于标识 padding 部分。
+
+8. `return_token_type_ids`: 是否返回 token type IDs，用于区分不同的句子。
+
+9. `return_overflowing_tokens`: 是否返回超过最大长度的 token。
+
+10. `return_special_tokens_mask`: 是否返回特殊 tokens 的掩码。
+
+11. `return_offsets_mapping`: 是否返回每个 token 在原始文本中的偏移。
+
+等等...
+
+这些参数可能会因不同的 tokenizer 和模型而有所不同。要查看完整的参数列表和说明，可以查阅相关的文档或源代码。
+
 ## 2.5 Handling multiple sequences
 
 https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt

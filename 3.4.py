@@ -19,5 +19,9 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 tokenized_datasets = tokenized_datasets.remove_columns(["sentence1", "sentence2", "idx"])
 tokenized_datasets = tokenized_datasets.rename_column("label", "labels")
 tokenized_datasets.set_format("torch")
-tokenized_datasets["train"].column_names
+print("tokenized_datasets[train].column_names:", tokenized_datasets["train"].column_names)
+
+
+
+
 

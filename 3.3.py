@@ -17,6 +17,7 @@ import numpy as np
 
 
 def tokenize_function(example):
+    # `truncation`: 是否进行截断，如果为 `True`，会根据最长的序列进行截断。
     return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 
 
