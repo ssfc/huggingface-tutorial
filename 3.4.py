@@ -62,6 +62,9 @@ lr_scheduler = get_scheduler(
 )
 print("num_training_steps:", num_training_steps)
 
+# 3.4.2 The training loop
+
+
 
 
 
