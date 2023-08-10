@@ -1,5 +1,6 @@
 from datasets import load_dataset
 from torch.utils.data import DataLoader
+from transformers import AdamW
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
@@ -47,7 +48,8 @@ outputs = model(**batch)
 print("outputs.loss:", outputs.loss)
 print("outputs.logits.shape:", outputs.logits.shape)
 
-
+optimizer = AdamW(model.parameters(),  # 一个包含要优化的参数的可迭代对象，通常是模型的参数列表。
+                  lr=5e-5)  # 学习率（Learning Rate），控制每次参数更新的步长。
 
 
 

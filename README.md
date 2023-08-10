@@ -925,6 +925,38 @@ optimizer = AdamW(model.parameters(), lr=1e-5, weight_decay=0.01)
 
 在上述代码中，我们首先创建了一个 BERT 模型 `model`，然后创建了一个 `AdamW` 优化器，并将模型的参数传递给它。我们设置了学习率为 1e-5 和权重衰减率为 0.01，并在训练过程中使用这个优化器来优化模型的参数。通过使用 `AdamW` 优化器，我们可以在训练过程中控制权重的大小，从而提高模型的泛化性能。
 
+### Q: AdamW有哪些参数?
+
+`AdamW` 是一种优化器，是 Adam 优化器的一种变体，它在参数更新时引入了权重衰减（Weight Decay）以控制正则化。以下是 `torch.optim.AdamW` 类的一些常见参数：
+
+1. **params** (*iterable*)：一个包含要优化的参数的可迭代对象，通常是模型的参数列表。
+
+2. **lr** (*float*)：学习率（Learning Rate），控制每次参数更新的步长。
+
+3. **betas** (*Tuple[float, float], optional*)：用于计算梯度和梯度平方的移动平均值的系数。通常为 `(beta1, beta2)`，其中 `beta1` 控制梯度的移动平均，`beta2` 控制梯度平方的移动平均。
+
+4. **eps** (*float, optional*)：用于数值稳定性的小值，防止分母为零。
+
+5. **amsgrad** (*bool, optional*)：是否使用 AMSGrad 变体，它修正了 Adam 优化器的移动平均方差的计算方法，旨在提高稳定性。
+
+6. **weight_decay** (*float, optional*)：权重衰减，控制正则化项的强度。在 AdamW 中，权重衰减被应用于所有参数，包括偏置项。
+
+7. **correct_bias** (*bool, optional*)：是否对偏置修正进行偏差校正。如果设置为 True，偏置修正将进行偏差校正，否则不进行。
+
+8. **params** (*iterable, optional*)：要优化的参数的可迭代对象。如果未提供，将默认为模型的所有参数。
+
+9. **lr** (*float, optional*)：学习率。如果未提供，将默认为 1e-3。
+
+10. **weight_decay** (*float, optional*)：权重衰减。如果未提供，将默认为 0。
+
+11. **eps** (*float, optional*)：数值稳定性的小值。如果未提供，将默认为 1e-8。
+
+12. **amsgrad** (*bool, optional*)：是否使用 AMSGrad 变体。如果未提供，将默认为 False。
+
+13. **amsgrad_correct_bias** (*bool, optional*)：是否对 AMSGrad 变体的偏置修正进行偏差校正。如果未提供，将默认为 True。
+
+这些参数将帮助你调整 AdamW 优化器的行为以适应你的训练需求。具体参数的选择需要根据实际问题和实验来确定。
+
 ### Q: 结果中的token_type_ids是什么？
 
 在 Hugging Face Transformers 库中，`token_type_ids` 是用于处理输入序列中的分段信息的一种编码方式。对于一些预训练模型（例如 BERT、RoBERTa 等），它们在输入时需要同时考虑两个句子或分段的信息，因此需要一种方式来区分不同分段的内容。
