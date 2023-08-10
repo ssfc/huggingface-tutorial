@@ -36,5 +36,7 @@ eval_dataloader = DataLoader(
     collate_fn=data_collator  # # 用于将多个样本组合成一个批次的函数。通常用于处理不同长度的序列数据。
 )
 
-
+for batch in train_dataloader:
+    break
+print({k: v.shape for k, v in batch.items()})
 
