@@ -25,10 +25,14 @@ print("tokenized_datasets[train].column_names:", tokenized_datasets["train"].col
 
 
 train_dataloader = DataLoader(
-    tokenized_datasets["train"], shuffle=True, batch_size=8, collate_fn=data_collator
+    tokenized_datasets["train"],  # 要加载的数据集。通常是一个 `torch.utils.data.Dataset` 类的实例。
+    shuffle=True,  # 是否在每个 epoch 开始时对数据进行洗牌（随机排序）。
+    batch_size=8,  # 每个批次中的样本数量。
+    collate_fn=data_collator  # 用于将多个样本组合成一个批次的函数。通常用于处理不同长度的序列数据。
 )
 eval_dataloader = DataLoader(
-    tokenized_datasets["validation"], batch_size=8, collate_fn=data_collator
+    tokenized_datasets["validation"],  # 要加载的数据集。通常是一个 `torch.utils.data.Dataset` 类的实例。
+    batch_size=8, collate_fn=data_collator
 )
 
 
