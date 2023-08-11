@@ -1,5 +1,7 @@
 from transformers import pipeline
-# we recommend using the Auto* classes instead, as these are by design architecture-agnostic. While the previous code sample limits users to checkpoints loadable in the CamemBERT architecture, using the Auto* classes makes switching checkpoints simple
+# we recommend using the Auto* classes instead, as these are by design architecture-agnostic.
+# While the previous code sample limits users to checkpoints loadable in the CamemBERT architecture,
+# using the Auto* classes makes switching checkpoints simple
 from transformers import AutoTokenizer, AutoModelForMaskedLM
 from transformers import CamembertTokenizer, CamembertForMaskedLM
 
