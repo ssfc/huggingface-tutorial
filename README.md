@@ -1634,3 +1634,37 @@ Accelerate 是 Hugging Face 推出的一个用于加速深度学习训练的库�
 6. **自动优化器**：支持自动选择优化器，如 `torch.optim.AdamW` 和 `tf.optimizers.AdamW`。
 
 通过使用 Accelerate，你可以更轻松地将 Hugging Face Transformers 库中的模型训练过程与硬件加速技术相结合，从而提高训练速度和效率。
+
+### Q: 如果在单gpu上训练，是否可以用accelerator？
+
+是的，虽然 `accelerate` 库主要用于分布式训练、多 GPU 训练和混合精度训练等加速技术，但它同样适用于单 GPU 训练。即使在单 GPU 的情况下，你仍然可以使用 `accelerator` 来简化代码并获得一些额外的优势，例如自动的混合精度训练和训练加速。
+
+当在单 GPU 上使用 `accelerator` 时，它会为你处理混合精度的设置、训练循环的优化以及一些额外的训练加速细节。这可以让你的代码更具有可扩展性，以便将来可以轻松地切换到多 GPU 或分布式环境。
+
+以下是一个在单 GPU 上使用 `accelerator` 的示例：
+
+```python
+from accelerate import Accelerator
+
+# 创建加速器对象
+accelerator = Accelerator()
+
+# 准备训练环境
+accelerator.prepare()
+
+# 定义模型、优化器等
+model = ...
+optimizer = ...
+
+# 在训练循环中使用 accelerator 训练模型
+for epoch in range(num_epochs):
+    for batch in train_dataloader:
+        batch = accelerator.prepare(batch)  # 处理 batch 并将其移动到设备上
+        outputs = model(**batch)
+        loss = outputs.loss
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+```
+
+尽管你在单 GPU 上使用 `accelerator` 可能不会获得与多 GPU 训练相同的性能提升，但它仍然可以帮助你使代码更具有可扩展性，并且在未来进行训练环境的迁移时更加方便。
