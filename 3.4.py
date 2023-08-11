@@ -123,9 +123,16 @@ model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_label
 optimizer = AdamW(model.parameters(),  # 一个包含要优化的参数的可迭代对象，通常是模型的参数列表。
                   lr=3e-5)  # 学习率（Learning Rate），控制每次参数更新的步长。
 
-train_dl, eval_dl, model, optimizer = accelerator.prepare(
-    train_dataloader, eval_dataloader, model, optimizer
-)
+(train_dl,  # 经过加速器处理后的训练数据加载器。
+ eval_dl,  # 经过加速器处理后的评估数据加载器。
+ model_accelerated,  # 经过加速器处理后的模型。
+ optimizer) = (  # 经过加速器处理后的优化器。
+    accelerator.prepare(
+        train_dataloader,  # 训练数据加载器，用于迭代训练数据批次的迭代器。
+        eval_dataloader,  # 评估数据加载器，用于迭代评估数据批次的迭代器。
+        model,  # 要训练的深度学习模型。
+        optimizer  # 用于优化模型的优化器，例如 Adam、SGD 等。
+))
 
 num_epochs = 3
 num_training_steps = num_epochs * len(train_dl)
@@ -138,10 +145,10 @@ lr_scheduler = get_scheduler(
 
 progress_bar = tqdm(range(num_training_steps))
 
-model.train()
+model_accelerated.train()
 for epoch in range(num_epochs):
     for batch in train_dl:
-        outputs = model(**batch)
+        outputs = model_accelerated(**batch)
         loss = outputs.loss
         accelerator.backward(loss)
 
