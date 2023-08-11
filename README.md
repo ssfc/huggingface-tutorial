@@ -1811,7 +1811,7 @@ DeepSpeed 是一个用于深度学习训练的优化库和框架，旨在加速�
 
 The only thing you need to watch out for is that **the chosen checkpoint is suitable for the task it’s going to be used for**. For example, here we are loading the `camembert-base` checkpoint in the `fill-mask` pipeline, which is completely fine. But if we were to load this checkpoint in the `text-classification` pipeline, the results would not make any sense because the head of `camembert-base` is not suitable for this task! We recommend using the task selector in the Hugging Face Hub interface in order to select the appropriate checkpoints.
 
-
+## 4.3 Sharing pretrained models
 
 
 
