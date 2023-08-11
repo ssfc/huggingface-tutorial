@@ -1815,3 +1815,5 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 
 ### 4.3.1 Using the `push_to_hub` API
 
+### 4.3.2 Using the `huggingface_hub` Python library
+
