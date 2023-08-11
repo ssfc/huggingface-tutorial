@@ -1726,3 +1726,22 @@ DeepSpeed 是一个用于深度学习训练的优化库和框架，旨在加速�
 7. **易于使用**: DeepSpeed 提供了简单的 API 和配置文件，使用户能够轻松地集成和使用其中的功能。
 
 总之，DeepSpeed 是一个强大的工具，旨在帮助深度学习从业者充分利用现代硬件并加速模型训练过程。它尤其适用于需要训练大规模模型或在分布式环境中进行训练的场景。
+
+### Q: 要想使用accelorate, 是不是必须用命令accelerate launch train.py？
+
+不是必须使用命令 `accelerate launch train.py` 来使用 `accelerate` 库，但这是一种方便的方法，特别是在分布式训练环境下。`accelerate` 库提供了更多的灵活性，你可以根据自己的需要在代码中集成它。
+
+使用 `accelerate launch` 命令可以简化一些分布式训练的设置，例如自动设置 GPU、分布式参数等。然而，如果你只是在单 GPU 或者简单的训练环境下使用 `accelerate`，你可以直接在代码中使用 `accelerate` 的 API 来配置和加速训练。
+
+以下是一些使用 `accelerate` 的方法：
+
+1. **使用 `accelerate launch` 命令**：对于分布式训练，你可以使用 `accelerate launch` 命令来运行你的训练脚本，它会自动设置分布式训练参数和 GPU。
+
+2. **在代码中使用 `accelerate` API**：如果你想更加灵活地配置 `accelerate`，你可以在代码中使用 API，如 `accelerator.prepare` 函数来设置训练环境、加载器、模型等。这可以适用于单 GPU 或者不需要复杂分布式设置的情况。
+
+3. **混合使用**：你也可以将 `accelerate launch` 与代码中的 `accelerate` API 结合使用，以便在需要的地方进行更详细的配置。
+
+综上所述，虽然使用 `accelerate launch` 命令是一个方便的选项，但不是必须的。你可以根据自己的训练需求和环境来选择合适的使用方式。
+
+## 3.5 Fine-tuning, Check!
+
