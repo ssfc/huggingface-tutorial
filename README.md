@@ -1746,3 +1746,19 @@ DeepSpeed 是一个用于深度学习训练的优化库和框架，旨在加速�
 ## 3.5 Fine-tuning, Check!
 
 ## 3.6 End-of-chapter quiz
+
+### Q: 怎样理解下面这句话？ when we used AutoModelForSequenceClassification with bert-base-uncased,  we got warnings when instantiating the model. The pretrained head is not used for the sequence classification task, so it's discarded and a new  head is instantiated with random weights.
+
+这句话的含义是：
+
+当我们使用 `AutoModelForSequenceClassification` 配合 `bert-base-uncased` 预训练模型时，在实例化模型时会收到警告。这是因为预训练的模型头部（classification head）并没有在序列分类任务中被使用，所以它会被丢弃，而一个新的头部会被实例化并初始化为随机权重。
+
+更详细解释如下：
+
+- `AutoModelForSequenceClassification` 是 Hugging Face Transformers 库中的一个类，用于加载适用于序列分类任务的预训练模型。
+- `bert-base-uncased` 是 BERT 模型的一个变种，其中 "uncased" 表示该模型的输入文本已经转换为小写，不区分大小写。
+- 在序列分类任务中，我们通常需要对预训练模型进行微调，以适应具体的分类任务。这涉及到连接一个适当的分类头部（classification head）到预训练模型上，以便执行分类操作。
+- 在这个情况下，作者使用了 `bert-base-uncased` 预训练模型，但在实例化 `AutoModelForSequenceClassification` 时，会收到警告。这是因为 `bert-base-uncased` 预训练模型已经带有一个用于分类任务的头部，但是在序列分类任务中并没有使用这个预训练的头部。
+- 结果就是，为了序列分类任务，原来的预训练头部被丢弃，而一个新的头部会被实例化，并且会使用随机初始化的权重。这样，模型就可以在微调过程中学习适应序列分类任务。
+
+总之，这句话指出了在特定情况下，使用 `AutoModelForSequenceClassification` 时可能会出现的警告，以及为了序列分类任务而丢弃预训练头部并重新实例化新头部的操作。
