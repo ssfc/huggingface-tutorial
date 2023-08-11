@@ -1804,3 +1804,7 @@ DeepSpeed 是一个用于深度学习训练的优化库和框架，旨在加速�
 综上所述，如果预训练头部和微调任务不同，是否应该使用预训练头部取决于多个因素。需要考虑任务的性质、数据的特点、模型的性能以及实际需求。在一些情况下，可能需要根据实验结果进行权衡，选择最适合的策略。
 
 # 4. SHARING MODELS AND TOKENIZERS
+
+## 4.1 The Hugging Face Hub
+
+## 4.2 Using pretrained models
