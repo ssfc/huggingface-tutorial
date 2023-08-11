@@ -1507,6 +1507,68 @@ optimizer.step()  # 更新模型参数
 
 这些函数用于在训练过程中更精细地控制优化器的行为，管理梯度、参数以及学习率等信息。你可以根据训练任务的需求，选择适合的函数来进行优化器的操作和调整。
 
+### Q: lr_scheduler.step()是干啥？
+
+`lr_scheduler.step()` 是在 PyTorch 中用于调整学习率的方法。学习率调度器（Learning Rate Scheduler）用于在训练过程中自动地降低或调整学习率，以提升优化算法的效果。
+
+具体来说，解释 `lr_scheduler.step()` 如下：
+
+- `lr_scheduler` 是一个学习率调度器对象，例如 StepLR、ReduceLROnPlateau 等，用于根据指定策略调整学习率。
+
+- `lr_scheduler.step()` 是调用该方法来执行学习率的调整，通常在每个训练周期结束时调用。
+
+调用 `lr_scheduler.step()` 会根据学习率调度器的策略更新学习率，这可以根据训练过程的进展来自动调整学习率，以达到更好的训练效果。不同的学习率调度器有不同的策略，例如在一定周期内降低学习率，或者根据验证集性能自动调整学习率等。
+
+示例代码：
+
+```python
+import torch.optim as optim
+from torch.optim.lr_scheduler import StepLR
+
+# 创建一个简单的优化器和学习率调度器
+optimizer = optim.SGD(model.parameters(), lr=0.1)
+scheduler = StepLR(optimizer, step_size=10, gamma=0.5)
+
+# 在每个训练周期结束时调用学习率调度器
+for epoch in range(epochs):
+    train_model()
+    scheduler.step()
+```
+
+在上述示例中，`scheduler.step()` 会在每个训练周期结束时调用，根据 `step_size` 和 `gamma` 参数来自动调整学习率。这样可以在训练过程中逐步减小学习率，以便更好地优化模型。
+
+### Q: optimizer.zero_grad()是干啥？
+
+`optimizer.zero_grad()` 是在 PyTorch 中用于清零模型参数梯度的方法。在深度学习中，模型参数的梯度在每次反向传播之后会被累积，以便进行参数更新。然而，在每次迭代之前，通常需要将这些累积的梯度清零，以避免梯度的不正确累积。
+
+具体来说，解释 `optimizer.zero_grad()` 如下：
+
+- `optimizer` 是一个优化器对象，例如 Adam、SGD 等，用于执行参数优化的算法。
+
+- `zero_grad()` 是调用该方法来将模型参数的梯度清零，以便为下一次迭代做准备。
+
+在进行反向传播之前，通常会先调用 `zero_grad()`，然后再计算梯度和执行反向传播。这样可以确保每次迭代都使用当前批次数据的梯度，而不受之前迭代的影响。
+
+示例代码：
+
+```python
+import torch.optim as optim
+
+# 创建一个优化器
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+# 在每次迭代之前清零梯度
+optimizer.zero_grad()
+
+# 执行梯度计算和反向传播
+loss.backward()
+
+# 执行参数更新
+optimizer.step()
+```
+
+在上述示例中，`optimizer.zero_grad()` 用于在每次迭代之前清零模型参数的梯度。这样，在下一次迭代中，模型参数的梯度将从零开始累积。这是模型优化的常见步骤之一，以确保梯度计算的准确性。
+
 ### Q: progress_bar.update(1)是干啥？
 
 `progress_bar.update(1)` 是在代码中更新进度条的方式。进度条用于显示迭代过程中的进度，`tqdm` 库可以创建并管理这些进度条。

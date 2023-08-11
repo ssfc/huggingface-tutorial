@@ -94,11 +94,11 @@ for epoch in range(num_epochs):
         outputs = model(**batch)
         loss = outputs.loss
         # (3) Backward
+        optimizer.zero_grad()  # 将模型参数的梯度清零，以便为下一次迭代做准备。
         loss.backward()  # 计算损失函数的梯度
         # (4) Update
         optimizer.step()  # 更新模型参数，使其朝着梯度下降方向移动
-        lr_scheduler.step()
-        optimizer.zero_grad()
+        lr_scheduler.step()  # 调用该方法来执行学习率的调整，通常在每个训练周期结束时调用。
         progress_bar.update(1)
 
 # 3.4.3 The evaluation loop
