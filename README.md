@@ -1820,3 +1820,5 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 ### 4.3.3 Using the web interface
 
 ### 4.3.4 Uploading the model files
+
+## 4.4 Building a model card
