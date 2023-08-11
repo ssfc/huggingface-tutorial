@@ -1457,6 +1457,38 @@ print(my_dict.items())
 
 这些函数是深度学习中常用的损失函数相关函数，可以根据任务的需求选择适当的函数来计算损失、梯度以及模型参数的更新。
 
+### Q: 解释optimizer.step()
+
+`optimizer.step()` 是在 PyTorch 中用于更新模型参数的方法。在深度学习中，优化算法通常通过调整模型的参数来最小化损失函数，从而提升模型性能。
+
+具体来说，解释 `optimizer.step()` 如下：
+
+- `optimizer` 是一个优化器对象，例如 Adam、SGD 等，用于执行参数优化的算法。
+
+- `optimizer.step()` 是调用该方法来执行优化步骤，更新模型的参数。它在模型计算的反向传播（`.backward()`）之后使用，以根据梯度信息更新模型的权重。
+
+这个操作会根据优化算法的策略，沿着梯度的反方向更新模型的参数，从而使得损失函数的值逐渐减小。不同的优化算法有不同的更新策略，例如 Adam 使用动量和学习率调整等。
+
+示例代码：
+
+```python
+import torch
+import torch.optim as optim
+
+# 创建一个简单的模型和优化器
+model = torch.nn.Linear(2, 1)  # 一个简单的线性模型
+optimizer = optim.SGD(model.parameters(), lr=0.01)  # SGD 优化器
+
+# 假设已经计算得到了损失 loss
+loss = ...  # 计算得到的损失
+
+# 执行梯度计算和参数更新
+loss.backward()  # 计算梯度
+optimizer.step()  # 更新模型参数
+```
+
+在上述示例中，`optimizer.step()` 被用来执行模型参数的更新，以便使损失函数逐渐减小，模型逐渐拟合训练数据。
+
 ### Q: progress_bar.update(1)是干啥？
 
 `progress_bar.update(1)` 是在代码中更新进度条的方式。进度条用于显示迭代过程中的进度，`tqdm` 库可以创建并管理这些进度条。
