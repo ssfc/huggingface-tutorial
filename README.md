@@ -1858,3 +1858,8 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 csv，text，json，pandas
 
 ### 5.2.2 Loading a local dataset
+
+### 5.2.3 Loading a remote dataset
+
+## 5.3 Time to slice and dice
+
