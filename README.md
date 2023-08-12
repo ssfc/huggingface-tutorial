@@ -1868,3 +1868,5 @@ csv，text，json，pandas
 A good practice when doing any sort of data analysis is to **grab a small random sample** to get a quick feel for the type of data you’re working with.
 
 ### 5.3.2 Creating new columns
+
+### 5.3.3 The `map()` method's superpowers
