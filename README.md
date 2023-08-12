@@ -1886,3 +1886,13 @@ A good practice when doing any sort of data analysis is to **grab a small random
 ### 5.4.3 Streaming datasets
 
 ## 5.5 Creating your own dataset
+
+### 5.5.1 Getting the data
+
+### 5.5.2 Cleaning up the data
+
+### 5.5.3 Augmenting the dataset
+
+### 5.5.4 Uploading the dataset to the Hugging Face Hub
+
+### 5.5.5 Creating a dataset card
