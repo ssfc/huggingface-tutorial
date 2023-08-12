@@ -1846,3 +1846,8 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 ## 4.5 Part 1 completed!
 
 ## 4.6 End-of-chapter quiz
+
+# 5 THE 🤗 DATASETS LIBRARY
+
+## 5.1 Introduction
+
