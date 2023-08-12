@@ -1884,3 +1884,5 @@ A good practice when doing any sort of data analysis is to **grab a small random
 ### 5.4.2 The magic of memory mapping
 
 ### 5.4.3 Streaming datasets
+
+## 5.5 Creating your own dataset
