@@ -1870,3 +1870,17 @@ A good practice when doing any sort of data analysis is to **grab a small random
 ### 5.3.2 Creating new columns
 
 ### 5.3.3 The `map()` method's superpowers
+
+### 5.3.4 From `Dataset`s to `DataFrame`s and back
+
+### 5.3.5 Creating a validation set
+
+### 5.3.6 Saving a dataset
+
+## 5.4 Big data? 🤗 Datasets to the rescue!
+
+### 5.4.1 What is the Pile?
+
+### 5.4.2 The magic of memory mapping
+
+### 5.4.3 Streaming datasets
