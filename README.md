@@ -1826,3 +1826,9 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 ### 4.4.1 Model description
 
 ### 4.4.2 Intended uses & limitations
+
+### 4.4.3 How to use
+
+### 4.4.4 Training data
+
+### 4.4.5 Training procedure
