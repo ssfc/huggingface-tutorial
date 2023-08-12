@@ -1854,3 +1854,5 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 ## 5.2 What if my dataset isn't on the Hub?
 
 ### 5.2.1 Working with local and remote datasets
+
+csv，text，json，pandas
