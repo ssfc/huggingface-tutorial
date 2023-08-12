@@ -1863,3 +1863,8 @@ csv，text，json，pandas
 
 ## 5.3 Time to slice and dice
 
+### 5.3.1 Slicing and dicing our data
+
+A good practice when doing any sort of data analysis is to **grab a small random sample** to get a quick feel for the type of data you’re working with.
+
+### 5.3.2 Creating new columns
