@@ -1832,3 +1832,7 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 ### 4.4.4 Training data
 
 ### 4.4.5 Training procedure
+
+### 4.4.6 Variable and metrics
+
+### 4.4.7 Evaluation results
