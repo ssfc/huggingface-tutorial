@@ -1896,3 +1896,5 @@ A good practice when doing any sort of data analysis is to **grab a small random
 ### 5.5.4 Uploading the dataset to the Hugging Face Hub
 
 ### 5.5.5 Creating a dataset card
+
+## 5.6 Semantic search with FAISS
