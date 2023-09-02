@@ -1902,3 +1902,6 @@ A good practice when doing any sort of data analysis is to **grab a small random
 ### 5.6.1 Using embeddings for semantic search
 
 ### 5.6.2 Loading and preparing the dataset
+
+### 5.6.3 Creating text embeddings
+
