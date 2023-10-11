@@ -1899,9 +1899,18 @@ A good practice when doing any sort of data analysis is to **grab a small random
 
 ## 5.6 Semantic search with FAISS
 
+### Q: faiss-gpu是什么？
+
+Faiss-GPU（GPU加速的Facebook AI Similarity Search）是一个用于高效相似性搜索的库，它通过利用图形处理单元（GPU）来加速向量之间的相似性搜索操作。Faiss是Facebook AI Research开发的开源库，旨在加速大规模向量集合上的相似性搜索，这在机器学习、深度学习和信息检索等领域非常有用。
+
+Faiss-GPU 使用了GPU来加速搜索操作，因此可以在大型向量集合上更快地执行诸如K最近邻搜索（K-Nearest Neighbors，KNN）和聚类等任务。这对于许多机器学习应用程序中的特征向量检索和相似性搜索非常有用，例如图像检索、推荐系统、自然语言处理等。
+
+Faiss-GPU通常与NVIDIA的GPU一起使用，因为NVIDIA GPU提供了高性能的并行计算能力，适用于这种类型的计算密集型任务。如果您需要在大规模数据集上进行相似性搜索并且拥有适当的GPU硬件，Faiss-GPU可以帮助您加速这些操作，提高性能和效率。它的使用通常需要一定的编程和配置技能，以便有效地集成到您的应用程序中。
+
 ### 5.6.1 Using embeddings for semantic search
 
 ### 5.6.2 Loading and preparing the dataset
 
 ### 5.6.3 Creating text embeddings
 
+### 5.6.4 Using FAISS for efficient similarity search
