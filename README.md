@@ -1918,3 +1918,5 @@ Faiss-GPU通常与NVIDIA的GPU一起使用，因为NVIDIA GPU提供了高性能�
 ## 5.7 Datasets, check!
 
 ## 5.8 End-of-chapter quiz
+
+#  6 THE 🤗 TOKENIZERS LIBRARY
