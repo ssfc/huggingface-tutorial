@@ -1923,3 +1923,4 @@ Faiss-GPU通常与NVIDIA的GPU一起使用，因为NVIDIA GPU提供了高性能�
 
 ## 6.1 Introduction
 
+## 6.2 Training a new tokenizer from an old one
