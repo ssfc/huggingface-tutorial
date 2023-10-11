@@ -1914,3 +1914,5 @@ Faiss-GPU通常与NVIDIA的GPU一起使用，因为NVIDIA GPU提供了高性能�
 ### 5.6.3 Creating text embeddings
 
 ### 5.6.4 Using FAISS for efficient similarity search
+
+## 5.7 Datasets, check!
