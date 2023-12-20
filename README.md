@@ -51,6 +51,17 @@ print(result)
 
 ### 1.3.3 text generation
 
+```python
+from transformers import pipeline
+
+generator = pipeline("text-generation", model="distilgpt2")
+generator(
+    "In this course, we will teach you how to",
+    max_length=30,
+    num_return_sequences=2,
+)
+```
+
 ### 1.3.4 fill-mask
 
 ### 1.3.5 Named entity recognition
