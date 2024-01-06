@@ -122,6 +122,28 @@ classifier(
 [{'label': 'POSITIVE', 'score': 0.9598047137260437},
  {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
 
+默认情况下，此管道选择一个特定的预训练模型，该模型已针对英语情绪分析进行了微调。`classifier`创建对象时，将下载并缓存模型。如果重新运行该命令，将改用缓存的模型，无需再次下载模型。
+
+将一些文本传递到管道时，涉及三个主要步骤：
+
+1. 文本被预处理为模型可以理解的格式。
+2. 预处理的输入将传递给模型。
+3. 模型的预测是经过后处理的，因此您可以理解它们。
+
+目前[可用的一些管道](https://huggingface.co/transformers/main_classes/pipelines.html)包括：
+
+- `feature-extraction`（获取文本的向量表示）
+- `fill-mask`
+- `ner`（命名实体识别）
+- `question-answering`
+- `sentiment-analysis`
+- `summarization`
+- `text-generation`
+- `translation`
+- `zero-shot-classification`
+
+让我们来看看其中的一些！
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.2 text classification
