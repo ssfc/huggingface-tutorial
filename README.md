@@ -149,7 +149,7 @@ Comment: 仅介绍，无代码。
 
 解码器模型的预训练通常围绕预测句子中的下一个单词。
 
-这些模型最适合涉及文本生成的任务。
+这些模型最适合涉及**文本生成**的任务。
 
 CTRL
 GPT
@@ -896,6 +896,18 @@ https://huggingface.co/learn/nlp-course/chapter2/6?fw=pt
 ## 2.7 Basic usage completed!
 
 https://huggingface.co/learn/nlp-course/chapter2/7?fw=pt
+
+跟着课程到这里干得好！回顾一下，在本章中，您将：
+
+- 学习了 Transformer 模型的基本构建块。
+- 了解了标记化管道的组成。
+- 了解如何在实践中使用 Transformer 模型。
+- 学习了如何利用分词器将文本转换为模型可理解的张量。
+- 同时设置分词器和模型，以便从文本到预测。
+- 了解了输入 ID 的局限性，并了解了注意力掩码。
+- 尝试使用通用且可配置的分词器方法。
+
+从现在开始，您应该能够自由浏览🤗变形金刚文档：词汇听起来很熟悉，并且您已经看到了大部分时间会使用的方法。
 
 ## 2.8 End-of-chapter quiz
 
