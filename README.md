@@ -198,6 +198,12 @@ generator(
 )
 ```
 
+[{'generated_text': 'In this course, we will teach you how to manipulate the world and '
+                    'move your mental and physical capabilities to your advantage.'},
+ {'generated_text': 'In this course, we will teach you how to become an expert and '
+                    'practice realtime, and with a hands on experience on both real '
+                    'time and real'}]
+
 
 
 ### 1.3.1 sentiment analysis
