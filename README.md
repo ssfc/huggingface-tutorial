@@ -164,11 +164,9 @@ classifier(
 
 此管道称为*零样本*，因为无需对数据进行微调模型即可使用它。它可以直接返回您想要的任何标签列表的概率分数！
 
-### 1.3.1 sentiment analysis
+### 1.3.4 Text generation
 
-### 
-
-### 1.3.3 text generation
+现在让我们看看如何使用管道生成一些文本。这里的主要思想是提供提示，模型将通过生成剩余的文本来自动完成它。这类似于许多手机上的预测文本功能。文本生成涉及随机性，因此如果您没有得到如下所示的相同结果，这是正常的。
 
 ```python
 from transformers import pipeline
@@ -181,7 +179,7 @@ generator(
 )
 ```
 
-
+### 1.3.1 sentiment analysis
 
 ### 1.3.4 fill-mask
 
