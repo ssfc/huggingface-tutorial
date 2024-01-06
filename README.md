@@ -4,7 +4,7 @@
 
 # 0. Setup
 
-## 介绍
+## 0.1 介绍
 
 欢迎来到拥抱脸课程！本简介将指导您设置工作环境。如果您刚刚开始学习课程，我们建议您先看一下[第 1 章](https://huggingface.co/course/chapter1)，然后回来设置您的环境，以便您可以自己尝试代码。
 
@@ -16,7 +16,9 @@
 
 大部分课程都依赖于您拥有 Hugging Face 帐户。我们建议立即创建一个[：创建一个帐户](https://huggingface.co/join)。
 
-## 使用 Google Colab 笔记本
+## 0.2 使用 Google Colab 笔记本
+
+## 0.3 使用 Python 虚拟环境
 
 
 
