@@ -148,6 +148,16 @@ classifier(
 
 我们将从解决一项更具挑战性的任务开始，我们需要对未标记的文本进行分类。这在实际项目中很常见，因为注释文本通常很耗时，并且需要领域专业知识。对于此用例，`zero-shot-classification`管道非常强大：它允许您指定用于分类的标签，因此您不必依赖预训练模型的标签。您已经了解了该模型如何使用这两个标签将句子分类为正面或负面，但它也可以使用您喜欢的任何其他标签集对文本进行分类。
 
+```python
+from transformers import pipeline
+
+classifier = pipeline("zero-shot-classification")
+classifier(
+    "This is a course about the Transformers library",
+    candidate_labels=["education", "politics", "business"],
+)
+```
+
 
 
 ### 1.3.1 sentiment analysis
