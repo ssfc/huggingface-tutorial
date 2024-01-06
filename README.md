@@ -119,6 +119,9 @@ classifier(
 )
 ```
 
+[{'label': 'POSITIVE', 'score': 0.9598047137260437},
+ {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.2 text classification
