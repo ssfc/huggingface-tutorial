@@ -16,6 +16,8 @@
 
 大部分课程都依赖于您拥有 Hugging Face 帐户。我们建议立即创建一个[：创建一个帐户](https://huggingface.co/join)。
 
+## 使用 Google Colab 笔记本
+
 
 
 # 1. Transfomer Models
