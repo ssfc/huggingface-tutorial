@@ -144,9 +144,13 @@ classifier(
 
 让我们来看看其中的一些！
 
+### 1.3.2 Zero-shot classification
+
+
+
 ### 1.3.1 sentiment analysis
 
-### 1.3.2 text classification
+### 
 
 ### 1.3.3 text generation
 
