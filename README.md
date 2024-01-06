@@ -4,6 +4,20 @@
 
 # 0. Setup
 
+## 介绍
+
+欢迎来到拥抱脸课程！本简介将指导您设置工作环境。如果您刚刚开始学习课程，我们建议您先看一下[第 1 章](https://huggingface.co/course/chapter1)，然后回来设置您的环境，以便您可以自己尝试代码。
+
+我们将在本课程中使用的所有库都以 Python 包的形式提供，因此在这里我们将向您展示如何设置 Python 环境并安装您需要的特定库。
+
+我们将介绍两种设置工作环境的方法，使用 Colab 笔记本或 Python 虚拟环境。随意选择最能引起您共鸣的那个。对于初学者，我们强烈建议您开始使用 Colab 笔记本。
+
+请注意，我们不会涵盖 Windows 系统。如果您在 Windows 上运行，我们建议您使用 Colab 笔记本。如果您使用的是 Linux 发行版或 macOS，则可以使用此处所述的任一方法。
+
+大部分课程都依赖于您拥有 Hugging Face 帐户。我们建议立即创建一个[：创建一个帐户](https://huggingface.co/join)。
+
+
+
 # 1. Transfomer Models
 
 ## 1.1 Introduction
