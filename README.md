@@ -183,6 +183,21 @@ generator(
 
 ### 1.3.5 Using any model from the Hub in a pipeline
 
+前面的示例使用手头任务的默认模型，但您也可以从 Hub 中选择特定模型，以便在管道中用于特定任务（例如，文本生成）。转到模型中心，然后单击左侧的相应标签，以仅显示该任务支持的[模型](https://huggingface.co/models)。你应该进入这样的[页面。](https://huggingface.co/models?pipeline_tag=text-generation)
+
+让我们试试 [`distilgpt2`](https://huggingface.co/distilgpt2) 模型！下面介绍如何在与以前相同的管道中加载它：
+
+```python
+from transformers import pipeline
+
+generator = pipeline("text-generation", model="distilgpt2")
+generator(
+    "In this course, we will teach you how to",
+    max_length=30,
+    num_return_sequences=2,
+)
+```
+
 
 
 ### 1.3.1 sentiment analysis
