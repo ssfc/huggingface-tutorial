@@ -109,6 +109,14 @@ classifier = pipeline("sentiment-analysis")
 classifier("I've been waiting for a HuggingFace course my whole life.")
 ```
 
+输入也可以设为几句话！
+
+```python
+classifier(
+    ["I've been waiting for a HuggingFace course my whole life.", "I hate this so much!"]
+)
+```
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.2 text classification
