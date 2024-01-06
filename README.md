@@ -6,16 +6,6 @@
 
 ## 0.1 介绍
 
-欢迎来到拥抱脸课程！本简介将指导您设置工作环境。如果您刚刚开始学习课程，我们建议您先看一下[第 1 章](https://huggingface.co/course/chapter1)，然后回来设置您的环境，以便您可以自己尝试代码。
-
-我们将在本课程中使用的所有库都以 Python 包的形式提供，因此在这里我们将向您展示如何设置 Python 环境并安装您需要的特定库。
-
-我们将介绍两种设置工作环境的方法，使用 Colab 笔记本或 Python 虚拟环境。随意选择最能引起您共鸣的那个。对于初学者，我们强烈建议您开始使用 Colab 笔记本。
-
-请注意，我们不会涵盖 Windows 系统。如果您在 Windows 上运行，我们建议您使用 Colab 笔记本。如果您使用的是 Linux 发行版或 macOS，则可以使用此处所述的任一方法。
-
-大部分课程都依赖于您拥有 Hugging Face 帐户。我们建议立即创建一个[：创建一个帐户](https://huggingface.co/join)。
-
 ## 0.2 使用 Google Colab 笔记本
 
 ## 0.3 使用 Python 虚拟环境
@@ -31,6 +21,21 @@ https://huggingface.co/learn/nlp-course/chapter1/1?fw=pt
 ### 1.1.1 欢迎来到课程🤗！
 
 本课程将教您如何使用 Hugging Face 生态系统中的库（[🤗 Transformers](https://github.com/huggingface/transformers), [🤗 Datasets](https://github.com/huggingface/datasets), [🤗 Tokenizers](https://github.com/huggingface/tokenizers), and [🤗 Accelerate](https://github.com/huggingface/accelerate)）以及 [Hugging Face Hub](https://huggingface.co/models) 中的自然语言处理 （[🤗](https://github.com/huggingface/transformers) NLP）。
+
+### 1.1.2 期待什么
+
+以下是该课程的简要概述：
+
+| Introduction                      | Diving in                             | Advanced                      |
+| --------------------------------- | ------------------------------------- | ----------------------------- |
+| 1. Transformer models             | 5. The huggingface datasets library   | 9. Building and sharing demos |
+| 2. Using huggingface transformers | 6. The huggingface tokenizers library | Transformers can hear         |
+| 3. Fine-tuning a pretrained model | 7. Main NLP tasks                     | Transformers can see          |
+| 4. Sharing models and tokenizers  | 8. How to ask for help                | Optimizing for production     |
+
+- 第 1 章至第 4 章介绍了 Transformers 库的主要概念🤗。在课程的这一部分结束时，您将熟悉 Transformer 模型的工作原理，并知道如何使用 [Hugging Face](https://huggingface.co/models) Hub 中的模型，在数据集上对其进行微调，并在 Hub 上分享您的结果！
+- 第 5 章到第 8 章在深入研究经典的 NLP 任务之前教授数据集和🤗分词器的基础知识🤗。在这一部分结束时，您将能够自己解决最常见的 NLP 问题。
+- 第 9 章至第 12 章超越了 NLP，探讨了如何使用 Transformer 模型来处理语音处理和计算机视觉中的任务。在此过程中，您将学习如何构建和共享模型的演示，并针对生产环境对其进行优化。在完成这一部分时，您将准备好将 Transformer 应用于🤗（几乎）任何机器学习问题！
 
 Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几章处理CV任务的不用看。
 
