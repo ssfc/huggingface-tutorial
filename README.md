@@ -102,7 +102,12 @@ print(result)
 
 Transformers 库中最🤗基本的对象是`pipeline()`函数。它将模型与其必要的预处理和后处理步骤连接起来，允许我们直接输入任何文本并获得可理解的答案：
 
+```python
+from transformers import pipeline
 
+classifier = pipeline("sentiment-analysis")
+classifier("I've been waiting for a HuggingFace course my whole life.")
+```
 
 ### 1.3.1 sentiment analysis
 
