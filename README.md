@@ -98,6 +98,8 @@ print(result)
 
 使用 `pipeline` 可以简化 NLP 任务的实现，尤其对于非常常见的任务，你可以快速部署和测试预训练模型，而不需要深入了解模型细节和编写复杂的代码。这使得 Hugging Face Transformers 库的功能更加易用和适用于广泛的 NLP 应用。
 
+### 1.3.2 Working with pipelines
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.2 text classification
