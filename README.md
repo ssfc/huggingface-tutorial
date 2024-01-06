@@ -65,11 +65,15 @@ https://huggingface.co/learn/nlp-course/chapter1/2?fw=pt
 - **从文本中提取**答案：给定一个问题和一个上下文，根据上下文中提供的信息提取问题的答案
 - **从输入文本生成新句子**：将文本翻译成另一种语言，总结文本
 
+### 1.2.2 为什么它具有挑战性？
+
 ## 1.3 Transformers, what can they do?
 
 https://huggingface.co/learn/nlp-course/chapter1/3?fw=pt
 
 Comment: 用代码示范了下列各项任务。
+
+### 1.3.1 Transformers are everywhere!
 
 ### Q: huggingface pipline是干啥的？
 
