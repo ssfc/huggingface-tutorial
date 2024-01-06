@@ -158,6 +158,10 @@ classifier(
 )
 ```
 
+{'sequence': 'This is a course about the Transformers library',
+ 'labels': ['education', 'business', 'politics'],
+ 'scores': [0.8445963859558105, 0.111976258456707, 0.043427448719739914]}
+
 
 
 ### 1.3.1 sentiment analysis
