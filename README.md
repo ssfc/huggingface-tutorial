@@ -20,13 +20,17 @@
 
 ## 0.3 使用 Python 虚拟环境
 
-
+## 0.4 安装依赖项
 
 # 1. Transfomer Models
 
 ## 1.1 Introduction
 
 https://huggingface.co/learn/nlp-course/chapter1/1?fw=pt
+
+### 1.1.1 欢迎来到课程🤗！
+
+本课程将教您如何使用 Hugging Face 生态系统中的库（[🤗 Transformers](https://github.com/huggingface/transformers), [🤗 Datasets](https://github.com/huggingface/datasets), [🤗 Tokenizers](https://github.com/huggingface/tokenizers), and [🤗 Accelerate](https://github.com/huggingface/accelerate)）以及 [Hugging Face Hub](https://huggingface.co/models) 中的自然语言处理 （[🤗](https://github.com/huggingface/transformers) NLP）。
 
 Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几章处理CV任务的不用看。
 
