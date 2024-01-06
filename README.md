@@ -39,6 +39,10 @@ https://huggingface.co/learn/nlp-course/chapter1/1?fw=pt
 
 Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几章处理CV任务的不用看。
 
+### 1.1.3 我们是谁？
+
+
+
 ## 1.2 Natural Language Processing
 
 https://huggingface.co/learn/nlp-course/chapter1/2?fw=pt
