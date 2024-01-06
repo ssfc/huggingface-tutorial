@@ -109,6 +109,8 @@ classifier = pipeline("sentiment-analysis")
 classifier("I've been waiting for a HuggingFace course my whole life.")
 ```
 
+[{'label': 'POSITIVE', 'score': 0.9598047137260437}]
+
 输入也可以设为几句话！
 
 ```python
