@@ -181,6 +181,10 @@ generator(
 
 您可以使用`num_return_sequences`参数控制生成多少个不同的序列，并使用`max_length`参数控制输出文本的总长度。
 
+### 1.3.5 Using any model from the Hub in a pipeline
+
+
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.4 fill-mask
