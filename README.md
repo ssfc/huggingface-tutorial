@@ -41,7 +41,15 @@ Comment: 吾人把重点放在如何使用transformer处理NLP任务，最后几
 
 ### 1.1.3 我们是谁？
 
+### 1.1.4 常见问题
 
+### 1.1.5 我们走吧
+
+你准备好了吗？在本章中，您将了解：
+
+- 如何使用该函数解决文本生成和分类等 NLP 任务`pipeline()`
+- 关于 Transformer 架构
+- 如何区分编码器、解码器和编码器-解码器架构和用例
 
 ## 1.2 Natural Language Processing
 
