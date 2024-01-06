@@ -204,7 +204,9 @@ generator(
                     'practice realtime, and with a hands on experience on both real '
                     'time and real'}]
 
+您可以通过单击语言标记来优化对模型的搜索，并选择将生成另一种语言文本的模型。模型中心甚至包含支持多种语言的多语言模型的检查点。
 
+通过单击选择模型后，您会看到有一个小部件可让您直接在线试用。这样，您可以在下载模型之前快速测试模型的功能。
 
 ### 1.3.1 sentiment analysis
 
