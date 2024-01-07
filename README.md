@@ -275,6 +275,8 @@ Comment: 仅介绍，无代码。
 - BERT-like (also called *auto-encoding* Transformer models)
 - BART/T5-like (also called *sequence-to-sequence* Transformer models)
 
+### 1.4.2 Transformers are language models
+
 任务的一个例子是在阅读前 *n 个*单词后预测句子中的下一个单词。这称为*因果语言建模*，因为输出取决于过去和现在的输入，而不是未来的输入。(外插)
 
 另一个例子是掩码语言建模，其中模型预测句子中的*掩码*单词。（内插）
