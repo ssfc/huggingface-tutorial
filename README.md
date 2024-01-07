@@ -185,6 +185,8 @@ generator("In this course, we will teach you how to")
 
 您可以使用`num_return_sequences`参数控制生成多少个不同的序列，并使用`max_length`参数控制输出文本的总长度。
 
+Comment: 感觉和吾人相关的也就文本生成而已。（翻译可能算半个）
+
 ### 1.3.5 Using any model from the Hub in a pipeline
 
 前面的示例使用手头任务的默认模型，但您也可以从 Hub 中选择特定模型，以便在管道中用于特定任务（例如，文本生成）。转到模型中心，然后单击左侧的相应标签，以仅显示该任务支持的[模型](https://huggingface.co/models)。你应该进入这样的[页面。](https://huggingface.co/models?pipeline_tag=text-generation)
@@ -229,9 +231,18 @@ Comment: 好多模型的推理API被关闭或者不支持免费节点，支持�
 
 模型的大小可以从Files and versions选项卡中看出。
 
-### 1.3.1 sentiment analysis
-
 ### 1.3.4 fill-mask
+
+您将尝试的下一个管道是 `fill-mask`。这个任务的想法是填补给定文本中的空白：
+
+```python
+from transformers import pipeline
+
+unmasker = pipeline("fill-mask")
+unmasker("This course will teach you all about <mask> models.", top_k=2)
+```
+
+### 1.3.1 sentiment analysis
 
 ### 1.3.5 Named entity recognition
 
