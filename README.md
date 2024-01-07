@@ -221,9 +221,10 @@ generator(
 Comment: 好多模型的推理API被关闭或者不支持免费节点，支持的包括：
 
 + bloom  [bigscience/bloom · Hugging Face](https://huggingface.co/bigscience/bloom)
-+ StarCoder  [bigcode/starcoder · Hugging Face](https://huggingface.co/bigcode/starcoder)
++ StarCoder  [bigcode/starcoder · Hugging Face](https://huggingface.co/bigcode/starcoder)  这是一个代码模型。
 + Mistral-7B-v0.1  [mistralai/Mistral-7B-v0.1 · Hugging Face](https://huggingface.co/mistralai/Mistral-7B-v0.1)
-+ 
++ GPT-2  [gpt2 · Hugging Face](https://huggingface.co/gpt2)
++ distilgpt2  [distilgpt2 · Hugging Face](https://huggingface.co/distilgpt2)  
 
 ### 1.3.1 sentiment analysis
 
