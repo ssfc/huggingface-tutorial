@@ -242,6 +242,17 @@ unmasker = pipeline("fill-mask")
 unmasker("This course will teach you all about <mask> models.", top_k=2)
 ```
 
+[{'sequence': 'This course will teach you all about mathematical models.',
+  'score': 0.19619831442832947,
+  'token': 30412,
+  'token_str': ' mathematical'},
+ {'sequence': 'This course will teach you all about computational models.',
+  'score': 0.04052725434303284,
+  'token': 38163,
+  'token_str': ' computational'}]
+
+`top_k``<mask>`参数控制要显示多少种可能性。请注意，此处的模型填充了特殊单词，该单词通常称为*掩码标记*。其他掩码填充模型可能具有不同的掩码标记，因此在探索其他模型时，最好验证正确的掩码字。检查它的一种方法是查看小部件中使用的掩码词。
+
 ### 1.3.1 sentiment analysis
 
 ### 1.3.5 Named entity recognition
