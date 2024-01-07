@@ -387,7 +387,7 @@ GPT
 GPT-2
 Transformer XL
 
-## 1.7 Sequence-to-sequence models[sequence-to-sequence-models]
+## 1.7 Sequence-to-sequence models (Encoder-decoder models)
 
 https://huggingface.co/learn/nlp-course/chapter1/7?fw=pt
 
