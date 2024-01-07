@@ -221,6 +221,7 @@ generator(
 Comment: 好多模型的推理API被关闭或者不支持免费节点，支持的包括：
 
 + bloom  [bigscience/bloom · Hugging Face](https://huggingface.co/bigscience/bloom)
++ StarCoder  [bigcode/starcoder · Hugging Face](https://huggingface.co/bigcode/starcoder)
 + 
 
 ### 1.3.1 sentiment analysis
