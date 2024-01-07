@@ -267,7 +267,7 @@ https://huggingface.co/learn/nlp-course/chapter1/4?fw=pt
 
 Comment: 仅介绍，无代码。
 
-A bit of Transformer history
+### 1.4.1 A bit of Transformer history
 
 - GPT-like (also called *auto-regressive* Transformer models)
 - BERT-like (also called *auto-encoding* Transformer models)
