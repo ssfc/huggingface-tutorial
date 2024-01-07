@@ -253,15 +253,13 @@ unmasker("This course will teach you all about <mask> models.", top_k=2)
 
 `top_k``<mask>`参数控制要显示多少种可能性。请注意，此处的模型填充了特殊单词，该单词通常称为*掩码标记*。其他掩码填充模型可能具有不同的掩码标记，因此在探索其他模型时，最好验证正确的掩码字。检查它的一种方法是查看小部件中使用的掩码词。
 
-### 1.3.1 sentiment analysis
+### 1.3.7 Named entity recognition
 
-### 1.3.5 Named entity recognition
+### 1.3.8 Question answering
 
-### 1.3.6 Question answering
+### 1.3.9 summarization
 
-### 1.3.7 summarization
-
-### 1.3.8 translation
+### 1.3.10 translation
 
 ## 1.4 How do Transformers work?
 
