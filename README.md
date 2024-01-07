@@ -173,12 +173,8 @@ classifier(
 ```python
 from transformers import pipeline
 
-generator = pipeline("text-generation", model="distilgpt2")
-generator(
-    "In this course, we will teach you how to",
-    max_length=30,
-    num_return_sequences=2,
-)
+generator = pipeline("text-generation")
+generator("In this course, we will teach you how to")
 ```
 
 您可以使用`num_return_sequences`参数控制生成多少个不同的序列，并使用`max_length`参数控制输出文本的总长度。
