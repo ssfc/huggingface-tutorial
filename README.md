@@ -283,9 +283,13 @@ Comment: 仅介绍，无代码。
 
 ### 1.4.3 Transformers are big models
 
+除了一些异常值（如DistilBERT）之外，实现更好性能的一般策略是增加模型的大小以及预训练的数据量。
+
 ### 1.4.4 Transfer Learning
 
 fine-tune属于迁移学习。
+
+### 1.4.5 General architecture
 
 预训练模型已经在与微调数据集有一些相似之处的数据集上进行训练。
 
