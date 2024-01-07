@@ -222,6 +222,7 @@ Comment: 好多模型的推理API被关闭或者不支持免费节点，支持�
 
 + bloom  [bigscience/bloom · Hugging Face](https://huggingface.co/bigscience/bloom)
 + StarCoder  [bigcode/starcoder · Hugging Face](https://huggingface.co/bigcode/starcoder)
++ Mistral-7B-v0.1  [mistralai/Mistral-7B-v0.1 · Hugging Face](https://huggingface.co/mistralai/Mistral-7B-v0.1)
 + 
 
 ### 1.3.1 sentiment analysis
