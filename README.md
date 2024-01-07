@@ -177,6 +177,12 @@ generator = pipeline("text-generation")
 generator("In this course, we will teach you how to")
 ```
 
+[{'generated_text': 'In this course, we will teach you how to understand and use '
+                    'data flow and data interchange when handling user data. We '
+                    'will be working with one or more of the most commonly used '
+                    'data flows — data flows of various types, as seen by the '
+                    'HTTP'}]
+
 您可以使用`num_return_sequences`参数控制生成多少个不同的序列，并使用`max_length`参数控制输出文本的总长度。
 
 ### 1.3.5 Using any model from the Hub in a pipeline
