@@ -489,7 +489,11 @@ classifier(
 [{'label': 'POSITIVE', 'score': 0.9598047137260437},
  {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
 
+正如我们在第 [1 章](https://huggingface.co/course/chapter1)中看到的，此管道将三个步骤组合在一起：预处理、通过模型传递输入和后处理：
 
+![完整的 NLP 管道：文本的标记化、到 ID 的转换以及通过 Transformer 模型和模型头进行推理。](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter2/full_nlp_pipeline.svg)
+
+让我们快速回顾一下其中的每一个。
 
 Comment: 将端到端pipeline分解为3个步骤。
 
