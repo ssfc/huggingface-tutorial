@@ -596,6 +596,13 @@ print(tokens)
 
 由于管道`sentiment-analysis`的默认检查点是`distilbert-base-uncased-finetuned-sst-2-english`（您可以[在此处](https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english)查看其模型卡），因此我们运行以下命令：
 
+```python
+from transformers import AutoTokenizer
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+```
+
 ### 2.2.2 Going through the model
 
 ### 2.3.3 A high-dimensional vector?
