@@ -495,7 +495,7 @@ classifier(
 
 让我们快速回顾一下其中的每一个。
 
-Comment: 将端到端pipeline分解为3个步骤。
+Comment: Raw text(This course is amazing) -> (Tokenizer) -> input IDs([101, 2023, 2607, 2003, 6429, 999, 102]) -> (Model) -> Logits([-4.36, 4,68]) -> (Post Processing) -> predictions(Positive 99%, Negative 1%)
 
 ### Q: huggingface AutoModel是干啥的？
 
