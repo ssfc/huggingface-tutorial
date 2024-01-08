@@ -637,6 +637,12 @@ print(inputs)
 
 ### 2.2.2 Going through the model
 
+
+
+
+
+
+
 ### 2.3.3 A high-dimensional vector?
 
 ### Q: model(**inputs)为什么inputs前面有\*\*?
