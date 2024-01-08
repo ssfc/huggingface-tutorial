@@ -470,11 +470,28 @@ Hugging Face Transformers 库受到广泛的欢迎和使用，它在学术界和
 
 https://huggingface.co/learn/nlp-course/chapter2/2?fw=pt
 
+让我们从一个完整的示例开始，看看我们在[第 1 章](https://huggingface.co/course/chapter1)中执行以下代码时幕后发生了什么：
+
+```python
+from transformers import pipeline
+
+classifier = pipeline("sentiment-analysis")
+classifier(
+    [
+        "I've been waiting for a HuggingFace course my whole life.",
+        "I hate this so much!",
+    ]
+)
+```
+
+并获得：
+
+[{'label': 'POSITIVE', 'score': 0.9598047137260437},
+ {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
 
 
-Comment: 将端到端pipeline分解为各个步骤。
 
-
+Comment: 将端到端pipeline分解为3个步骤。
 
 ### Q: huggingface AutoModel是干啥的？
 
