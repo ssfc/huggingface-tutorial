@@ -603,6 +603,25 @@ checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
+一旦我们有了分词器，我们就可以直接将我们的句子传递给它，我们将得到一个准备提供给我们的模型的字典！剩下唯一要做的就是将输入 ID 列表转换为张量。
+
+您可以使用 🤗 Transformers，而不必担心将哪个 ML 框架用作后端;对于某些模型，它可能是 PyTorch 或 TensorFlow，或者是 Flax。但是，Transformer 模型只接受*张量*作为输入。如果这是你第一次听说张量，你可以把它们看作是 NumPy 数组。NumPy 数组可以是标量 （0D）、向量 （1D）、矩阵 （2D） 或具有更多维度。它实际上是一个张量;其他 ML 框架的张量行为类似，通常与 NumPy 数组一样易于实例化。
+
+为了指定我们想要返回的张量类型（PyTorch、TensorFlow 或普通 NumPy），我们使用参数`return_tensors`：
+
+```python
+raw_inputs = [
+    "I've been waiting for a HuggingFace course my whole life.",
+    "I hate this so much!",
+]
+inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
+print(inputs)
+```
+
+
+
+
+
 ### 2.2.2 Going through the model
 
 ### 2.3.3 A high-dimensional vector?
