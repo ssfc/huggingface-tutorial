@@ -646,9 +646,13 @@ checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
 model = AutoModel.from_pretrained(checkpoint)
 ```
 
+在此代码片段中，我们下载了之前在管道中使用的相同检查点（它实际上应该已经缓存），并用它实例化了模型。
 
+此体系结构仅包含基本的 Transformer 模块：给定一些输入，它会输出我们所说的*隐藏状态*，也称为*功能*。对于每个模型输入，我们将检索一个高维向量，表示 **Transformer 模型对该输入的上下文理解**。
 
+如果这没有意义，请不要担心。我们稍后会解释这一切。
 
+虽然这些隐藏状态本身很有用，但它们通常是模型另一部分（称为*头部*）的输入。在第 [1 章](https://huggingface.co/course/chapter1)中，可以使用相同的架构执行不同的任务，但每个任务都有与之关联的不同头。
 
 ### 2.3.3 A high-dimensional vector?
 
