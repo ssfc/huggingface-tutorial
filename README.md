@@ -633,7 +633,7 @@ print(inputs)
     ])
 }
 
-输出本身是一个字典，包含两个键`input_ids``attention_mask`和 `input_ids``attention_mask`. 包含两行整数（每个句子一个），它们是每个句子中标记的唯一标识符。我们将在本章后面解释它是什么。
+输出本身是一个字典，包含两个键`input_ids`和 `attention_mask`. `input_ids`包含两行整数（每个句子一个），它们是每个句子中标记的唯一标识符。我们将在本章后面解释`attention_mask`是什么。
 
 ### 2.2.2 Going through the model
 
