@@ -637,7 +637,7 @@ print(inputs)
 
 ### 2.2.2 Going through the model
 
-
+我们可以像使用分词器一样下载预训练模型。🤗 Transformers 提供了一个`AutoModel`类，该类也有一个`from_pretrained()`方法：
 
 
 
