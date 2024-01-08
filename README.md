@@ -470,13 +470,11 @@ Hugging Face Transformers 库受到广泛的欢迎和使用，它在学术界和
 
 https://huggingface.co/learn/nlp-course/chapter2/2?fw=pt
 
+
+
 Comment: 将端到端pipeline分解为各个步骤。
 
-*分词器*，它将负责：
 
-- 将输入拆分为称为*标记*的单词、子单词或符号（如标点符号）
-- 将每个标记映射到一个整数
-- 添加可能对模型有用的其他输入
 
 ### Q: huggingface AutoModel是干啥的？
 
@@ -566,6 +564,12 @@ print(tokens)
 在上述示例中，我们使用 `AutoTokenizer.from_pretrained(checkpoint)` 来自动加载名为 "bert-base-uncased" 的 BERT 模型的分词器。之后，我们使用分词器对输入文本进行分词，并输出分词结果。通过 `AutoTokenizer` 的使用，我们可以很方便地加载和切换不同的预训练模型的分词器，从而进行文本处理和 NLP 任务。
 
 ### 2.2.1 Preprocessing with a tokenizer
+
+*分词器*，它将负责：
+
+- 将输入拆分为称为*标记*的单词、子单词或符号（如标点符号）
+- 将每个标记映射到一个整数
+- 添加可能对模型有用的其他输入
 
 ### 2.2.2 Going through the model
 
