@@ -592,7 +592,7 @@ print(tokens)
 - 将每个令牌映射到整数
 - 添加可能对模型有用的其他输入
 
-所有这些预处理都需要以与预训练模型时完全相同的方式完成，因此我们首先需要从[模型中心](https://huggingface.co/models)下载该信息。为此，我们使用类及其方法。使用模型的检查点名称，它将自动获取与模型的分词器关联的数据并缓存它（因此仅在您第一次运行下面的代码时下载它）。`AutoTokenizer``from_pretrained()`
+所有这些预处理都需要以与预训练模型时完全相同的方式完成，因此我们首先需要从[模型中心](https://huggingface.co/models)下载该信息。为此，我们使用`AutoTokenizer`类及`from_pretrained()`方法。使用模型的检查点名称，它将自动获取与模型的分词器关联的数据并缓存它（因此仅在您第一次运行下面的代码时下载它）。
 
 由于管道`sentiment-analysis`的默认检查点是`distilbert-base-uncased-finetuned-sst-2-english`（您可以[在此处](https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english)查看其模型卡），因此我们运行以下命令：
 
