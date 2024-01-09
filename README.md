@@ -1295,7 +1295,7 @@ print(inputs)
 
 加载使用与 BERT 相同的检查点训练的 BERT 分词器与加载模型的方式相同，只是我们使用类：`BertTokenizer`
 
-```
+```python
 from transformers import BertTokenizer
 
 tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
