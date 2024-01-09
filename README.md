@@ -1301,7 +1301,7 @@ from transformers import BertTokenizer
 tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
 ```
 
-与 类似，该类将根据检查点名称在库中获取适当的 tokenizer 类，并且可以直接与任何检查点一起使用：`AutoModel``AutoTokenizer`
+与`AutoModel`类似，`AutoTokenizer`类将根据检查点名称在库中获取适当的 tokenizer 类，并且可以直接与任何检查点一起使用：
 
 ```
 from transformers import AutoTokenizer
