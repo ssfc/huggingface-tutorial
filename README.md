@@ -1109,6 +1109,24 @@ model = BertModel.from_pretrained("bert-base-cased")
 
 ### 2.3.3 Saving methods
 
+保存模型就像加载模型一样简单 - 我们使用的方法类似于该方法：`save_pretrained()``from_pretrained()`
+
+```python
+model.save_pretrained("directory_on_my_computer")
+```
+
+这会将两个文件保存到磁盘：
+
+```python
+ls directory_on_my_computer
+
+config.json pytorch_model.bin
+```
+
+如果查看 *config.json* 文件，您将认识到构建模型体系结构所需的属性。此文件还包含一些元数据，例如检查点的来源以及🤗上次保存检查点时使用的 Transformers 版本。
+
+*pytorch_model.bin*文件称为*状态字典*;它包含模型的所有权重。这两个文件齐头并进;配置对于了解模型的架构是必要的，而模型权重是模型的参数。
+
 ### 2.3.4 Using a Transformer model for inference
 
 ## 2.4 Tokenizers
