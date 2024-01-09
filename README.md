@@ -1129,6 +1129,32 @@ config.json pytorch_model.bin
 
 ### 2.3.4 Using a Transformer model for inference
 
+现在您已经知道如何加载和保存模型，让我们尝试使用它来进行一些预测。Transformer 模型只能处理数字 — 分词器生成的数字。但在讨论分词器之前，让我们先探讨一下模型接受哪些输入。
+
+分词器可以负责将输入转换为相应框架的张量，但为了帮助您了解正在发生的事情，我们将快速了解在将输入发送到模型之前必须执行的操作。
+
+假设我们有几个序列：
+
+```
+sequences = ["Hello!", "Cool.", "Nice!"]
+```
+
+分词器将这些转换为词汇索引，这些索引通常称为*输入 ID*。每个序列现在都是一个数字列表！结果输出为：
+
+encoded_sequences = [
+    [101, 7592, 999, 102],
+    [101, 4658, 1012, 102],
+    [101, 3835, 999, 102],
+]
+
+这是编码序列的列表：列表的列表。张量只接受矩形（想想矩阵）。这个“数组”已经是矩形的，所以把它转换为张量很容易：
+
+```python
+import torch
+
+model_inputs = torch.tensor(encoded_sequences)
+```
+
 ## 2.4 Tokenizers
 
 https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
