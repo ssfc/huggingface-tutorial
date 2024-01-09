@@ -759,7 +759,7 @@ Transformer 模型的输出直接发送到要处理的模型头。
 - `*ForTokenClassification`
 - 🤗 和其他人
 
-在我们的示例中，我们需要一个带有序列分类头的模型（以便能够将句子分类为正句或负句）。因此，我们实际上不会使用该类，但是：`AutoModel``AutoModelForSequenceClassification`
+在我们的示例中，我们需要一个带有序列分类头的模型（以便能够将句子分类为正句或负句）。因此，我们实际上不会使用`AutoModel`类，但是`AutoModelForSequenceClassification`：
 
 ```python
 from transformers import AutoModelForSequenceClassification
