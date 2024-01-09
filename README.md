@@ -740,6 +740,44 @@ Comment: 其实last_hidden_state的维数远远大于logits的维数。
 
 ### 2.3.4 Model heads: Making sense out of numbers
 
+模型头将隐藏状态的高维向量作为输入，并将它们投影到不同的维度上。它们通常由一个或几个线性层组成：
+
+![一个 Transformer 网络，旁边有一个 Transformer。](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter2/transformer_and_head.svg)
+
+Transformer 模型的输出直接发送到要处理的模型头。
+
+在此图中，模型由其嵌入层和后续层表示。嵌入层将标记化输入中的每个输入 ID 转换为表示关联标记的向量。随后的层使用注意力机制操纵这些向量，以产生句子的最终表示。
+
+变形金刚中有🤗许多不同的架构，每个架构都围绕处理特定任务而设计。以下是非详尽列表：
+
+- `*Model`（检索隐藏状态）
+- `*ForCausalLM`
+- `*ForMaskedLM`
+- `*ForMultipleChoice`
+- `*ForQuestionAnswering`
+- `*ForSequenceClassification`
+- `*ForTokenClassification`
+- 🤗 和其他人
+
+在我们的示例中，我们需要一个带有序列分类头的模型（以便能够将句子分类为正句或负句）。因此，我们实际上不会使用该类，但是：`AutoModel``AutoModelForSequenceClassification`
+
+```
+from transformers import AutoModelForSequenceClassification
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+outputs = model(**inputs)
+```
+
+现在，如果我们看一下输出的形状，维数会低得多：模型头部将我们之前看到的高维向量作为输入，并输出包含两个值（每个标签一个）的向量：
+
+```
+print(outputs.logits.shape)
+torch.Size([2, 2])
+```
+
+由于我们只有两个句子和两个标签，因此我们从模型中得到的结果是 2 x 2 的形状。
+
 ### 2.3.5 Postprocessing the output
 
 ### Q: 什么是logits?
