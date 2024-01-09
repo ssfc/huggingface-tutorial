@@ -654,7 +654,7 @@ model = AutoModel.from_pretrained(checkpoint)
 
 虽然这些隐藏状态本身很有用，但它们通常是模型另一部分（称为*头部*）的输入。在第 [1 章](https://huggingface.co/course/chapter1)中，可以使用相同的架构执行不同的任务，但每个任务都有与之关联的不同头。
 
-### 2.3.3 A high-dimensional vector?
+### 2.2.3 A high-dimensional vector?
 
 Transformer 模块输出的矢量通常很大。它通常有三个维度：
 
@@ -738,7 +738,7 @@ model(**inputs)
 
 Comment: 其实last_hidden_state的维数远远大于logits的维数。
 
-### 2.3.4 Model heads: Making sense out of numbers
+### 2.2.4 Model heads: Making sense out of numbers
 
 模型头将隐藏状态的高维向量作为输入，并将它们投影到不同的维度上。它们通常由一个或几个线性层组成：
 
@@ -795,7 +795,7 @@ torch.Size([2, 2])
 
 总体而言，"head" 在Transformer中通常指的是多头注意力机制中的一个子头，而 "model head" 这个术语可能更倾向于描述整个多头注意力机制的概念，包括所有的注意力头。在实践中，多头注意力是Transformer模型中一个关键的组成部分，有助于处理序列数据中的复杂关系。
 
-### 2.3.5 Postprocessing the output
+### 2.2.5 Postprocessing the output
 
 我们从模型中获得的输出值本身并不一定有意义。让我们来看看：
 
