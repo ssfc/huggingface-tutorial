@@ -912,6 +912,12 @@ print(predicted_label)
 
 https://huggingface.co/learn/nlp-course/chapter2/3?fw=pt
 
+在本节中，我们将仔细研究如何创建和使用模型。我们将使用该类，当您想从检查点实例化任何模型时，该类非常方便。`AutoModel`
+
+`AutoModel`类及其所有亲戚实际上是库中各种可用模型的简单包装器。这是一个聪明的包装器，因为它可以自动猜测检查点的适当模型架构，然后使用此架构实例化模型。
+
+但是，如果您知道要使用的模型类型，则可以直接使用定义其体系结构的类。让我们来看看它是如何与BERT模型一起工作的。
+
 ### 2.3.1 Creating a Transformer
 
 ### Q: huggingface中的BertConfig是什么？
