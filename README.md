@@ -1303,7 +1303,7 @@ tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
 
 与`AutoModel`类似，`AutoTokenizer`类将根据检查点名称在库中获取适当的 tokenizer 类，并且可以直接与任何检查点一起使用：
 
-```
+```python
 from transformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
@@ -1311,12 +1311,13 @@ tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 
 现在，我们可以使用分词器，如上一节所示：
 
-```
+```python
 tokenizer("Using a Transformer network is simple")
+```
+
 {'input_ids': [101, 7993, 170, 11303, 1200, 2443, 1110, 3014, 102],
  'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 0],
  'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1]}
-```
 
 保存分词器与保存模型相同：
 
