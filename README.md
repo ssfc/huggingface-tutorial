@@ -1169,6 +1169,18 @@ output = model(model_inputs)
 
 https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
 
+分词器是 NLP 管道的核心组件之一。它们有一个目的：将文本转换为可由模型处理的数据。模型只能处理数字，因此分词器需要将我们的文本输入转换为数字数据。在本节中，我们将探讨令牌化管道中发生的情况。
+
+在 NLP 任务中，通常处理的数据是原始文本。下面是此类文本的示例：
+
+```
+Jim Henson was a puppeteer
+```
+
+但是，模型只能处理数字，因此我们需要找到一种方法将原始文本转换为数字。这就是分词器所做的，有很多方法可以解决这个问题。目标是找到最有意义的表示形式，即对模型最有意义的表示形式，如果可能的话，找到最小的表示形式。
+
+让我们看一下标记化算法的一些示例，并尝试回答您可能遇到的有关标记化的一些问题。
+
 ### Q: BertTokenizer是干啥的？
 
 `BertTokenizer` 是 Hugging Face Transformers 库中用于将文本转换为 BERT 模型可接受的输入格式的工具类。BERT（Bidirectional Encoder Representations from Transformers）模型在输入文本之前需要进行一系列的预处理，包括分词（tokenization）和添加特殊标记（special tokens）。`BertTokenizer` 就是用来完成这些预处理步骤的。
