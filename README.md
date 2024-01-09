@@ -1291,6 +1291,41 @@ print(inputs)
 
 ### 2.4.5 Loading and saving
 
+加载和保存分词器与使用模型一样简单。实际上，它基于相同的两种方法：`from_pretrained()`和 `save_pretrained()`. 这些方法将加载或保存分词器使用的算法（有点像模型的*架构*）及其词汇表（有点像模型的*权重*）。
+
+加载使用与 BERT 相同的检查点训练的 BERT 分词器与加载模型的方式相同，只是我们使用类：`BertTokenizer`
+
+```
+from transformers import BertTokenizer
+
+tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
+```
+
+与 类似，该类将根据检查点名称在库中获取适当的 tokenizer 类，并且可以直接与任何检查点一起使用：`AutoModel``AutoTokenizer`
+
+```
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
+```
+
+现在，我们可以使用分词器，如上一节所示：
+
+```
+tokenizer("Using a Transformer network is simple")
+{'input_ids': [101, 7993, 170, 11303, 1200, 2443, 1110, 3014, 102],
+ 'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 0],
+ 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1]}
+```
+
+保存分词器与保存模型相同：
+
+```
+tokenizer.save_pretrained("directory_on_my_computer")
+```
+
+我们将在第 [3 章](https://huggingface.co/course/chapter3)中详细讨论，稍后我们将解释关键。首先，让我们看看 是如何生成的。为此，我们需要查看分词器的中间方法。`token_type_ids``attention_mask``input_ids`
+
 ### Q: tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")是啥意思？
 
 这行代码使用 Hugging Face Transformers 库中的 `AutoTokenizer` 类来加载预训练的 BERT 模型的分词器（Tokenizer）。`AutoTokenizer` 是一个方便的工具，用于根据模型名称自动选择合适的分词器。
