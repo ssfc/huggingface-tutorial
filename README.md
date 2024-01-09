@@ -1135,7 +1135,7 @@ config.json pytorch_model.bin
 
 假设我们有几个序列：
 
-```
+```python
 sequences = ["Hello!", "Cool.", "Nice!"]
 ```
 
@@ -1154,6 +1154,16 @@ import torch
 
 model_inputs = torch.tensor(encoded_sequences)
 ```
+
+### 2.3.5 Using the tensors as inputs to the model
+
+在模型中使用张量非常简单——我们只需使用输入调用模型：
+
+```python
+output = model(model_inputs)
+```
+
+虽然模型接受许多不同的参数，但只有输入 ID 是必需的。我们将解释其他参数的作用以及稍后何时需要它们， 但首先，我们需要仔细研究构建 Transformer 模型可以理解的输入的分词器。
 
 ## 2.4 Tokenizers
 
