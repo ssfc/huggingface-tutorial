@@ -920,6 +920,36 @@ https://huggingface.co/learn/nlp-course/chapter2/3?fw=pt
 
 ### 2.3.1 Creating a Transformer
 
+初始化 BERT 模型，我们需要做的第一件事是加载一个配置对象：
+
+```python
+from transformers import BertConfig, BertModel
+
+# Building the config
+config = BertConfig()
+
+# Building the model from the config
+model = BertModel(config)
+```
+
+该配置包含许多用于构建模型的属性：
+
+```python
+print(config)
+```
+
+BertConfig {
+  [...]
+  "hidden_size": 768,
+  "intermediate_size": 3072,
+  "max_position_embeddings": 512,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  [...]
+}
+
+虽然您还没有看到所有这些属性的作用，但您应该认识到其中的一些：`hidden_size`属性定义了矢量`hidden_states`的大小，`num_hidden_layers`定义了 Transformer 模型的层数。
+
 ### Q: huggingface中的BertConfig是什么？
 
 在 Hugging Face Transformers 库中，`BertConfig` 是用于配置 BERT 模型的类。BERT（Bidirectional Encoder Representations from Transformers）是一种流行的预训练模型，在自然语言处理（NLP）任务中取得了很好的效果。`BertConfig` 类用于定义和设置 BERT 模型的超参数和配置选项。
