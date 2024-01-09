@@ -1281,6 +1281,14 @@ print(inputs)
 
 ### 2.4.4 And more!
 
+不出所料，还有更多的技术。仅举几例：
+
+- GPT-2 中使用的字节级 BPE
+- WordPiece，用于 BERT
+- SentencePiece 或 Unigram，用于多个多语言模型
+
+现在，您应该对分词器的工作原理有足够的了解，以便开始使用 API。
+
 ### 2.4.5 Loading and saving
 
 ### Q: tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")是啥意思？
