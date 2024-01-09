@@ -1103,7 +1103,7 @@ model = BertModel.from_pretrained("bert-base-cased")
 
 现在，此模型已使用检查点的所有权重进行初始化。它可以直接用于对训练任务进行推理，也可以对新任务进行微调。通过使用预先训练的权重而不是从头开始训练，我们可以快速取得良好的结果。
 
-权重已下载并缓存在缓存文件夹中（因此将来对该方法的调用不会重新下载它们），该文件夹默认为 *~/.cache/huggingface/transformers*。您可以通过设置环境变量来自定义缓存文件夹。`from_pretrained()``HF_HOME`
+权重已下载并缓存在缓存文件夹中（因此将来对`from_pretrained()`方法的调用不会重新下载它们），该文件夹默认为 *~/.cache/huggingface/transformers*。您可以通过设置环境变量来自定义缓存文件夹。`HF_HOME`
 
 用于加载模型的标识符可以是模型中心上任何模型的标识符，只要它与 BERT 架构兼容即可。可以[在此处](https://huggingface.co/models?filter=bert)找到可用 BERT 检查点的完整列表。
 
