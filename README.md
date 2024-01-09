@@ -1097,7 +1097,7 @@ from transformers import BertModel
 model = BertModel.from_pretrained("bert-base-cased")
 ```
 
-正如您之前所看到的，我们可以用等效的类替换。从现在开始，我们将这样做，因为这会生成与检查点无关的代码;如果您的代码适用于一个检查点，则它应该与另一个检查点无缝协作。即使体系结构不同，只要检查点针对类似任务（例如，情绪分析任务）进行了训练，这也适用。`BertModel``AutoModel`
+正如您之前所看到的，我们可以用等效的`BertModel`类替换`AutoModel`。从现在开始，我们将这样做，因为这会生成与检查点无关的代码;如果您的代码适用于一个检查点，则它应该与另一个检查点无缝协作。即使体系结构不同，只要检查点针对类似任务（例如，情绪分析任务）进行了训练，这也适用。
 
 在上面的代码示例中，我们没有使用 ，而是通过标识符加载了预训练模型。这是一个模型检查点，由 BERT 的作者自己训练;您可以在其[模型卡](https://huggingface.co/bert-base-cased)中找到有关它的更多详细信息。`BertConfig``bert-base-cased`
 
