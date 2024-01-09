@@ -1076,6 +1076,37 @@ hidden_states = outputs.last_hidden_state
 
 ### 2.3.2 Different loading methods
 
+从默认配置创建模型会使用随机值对其进行初始化：
+
+```python
+from transformers import BertConfig, BertModel
+
+config = BertConfig()
+model = BertModel(config)
+
+# Model is randomly initialized!
+```
+
+该模型可以在这种状态下使用，但它会输出乱码;它需要先进行训练。我们可以在手头的任务上从头开始训练模型，但正如您在[第 1 章](https://huggingface.co/course/chapter1)中看到的那样，这将需要很长时间和大量数据，并且对环境的影响不可忽视。为了避免不必要和重复的工作，必须能够共享和重用已经训练过的模型。
+
+加载一个已经训练好的 Transformer 模型很简单——我们可以使用以下方法做到这一点：`from_pretrained()`
+
+```
+from transformers import BertModel
+
+model = BertModel.from_pretrained("bert-base-cased")
+```
+
+正如您之前所看到的，我们可以用等效的类替换。从现在开始，我们将这样做，因为这会生成与检查点无关的代码;如果您的代码适用于一个检查点，则它应该与另一个检查点无缝协作。即使体系结构不同，只要检查点针对类似任务（例如，情绪分析任务）进行了训练，这也适用。`BertModel``AutoModel`
+
+在上面的代码示例中，我们没有使用 ，而是通过标识符加载了预训练模型。这是一个模型检查点，由 BERT 的作者自己训练;您可以在其[模型卡](https://huggingface.co/bert-base-cased)中找到有关它的更多详细信息。`BertConfig``bert-base-cased`
+
+现在，此模型已使用检查点的所有权重进行初始化。它可以直接用于对训练任务进行推理，也可以对新任务进行微调。通过使用预先训练的权重而不是从头开始训练，我们可以快速取得良好的结果。
+
+权重已下载并缓存在缓存文件夹中（因此将来对该方法的调用不会重新下载它们），该文件夹默认为 *~/.cache/huggingface/transformers*。您可以通过设置环境变量来自定义缓存文件夹。`from_pretrained()``HF_HOME`
+
+用于加载模型的标识符可以是模型中心上任何模型的标识符，只要它与 BERT 架构兼容即可。可以[在此处](https://huggingface.co/models?filter=bert)找到可用 BERT 检查点的完整列表。
+
 ### 2.3.3 Saving methods
 
 ### 2.3.4 Using a Transformer model for inference
