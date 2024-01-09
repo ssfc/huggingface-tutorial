@@ -1089,7 +1089,7 @@ model = BertModel(config)
 
 该模型可以在这种状态下使用，但它会输出乱码;它需要先进行训练。我们可以在手头的任务上从头开始训练模型，但正如您在[第 1 章](https://huggingface.co/course/chapter1)中看到的那样，这将需要很长时间和大量数据，并且对环境的影响不可忽视。为了避免不必要和重复的工作，必须能够共享和重用已经训练过的模型。
 
-加载一个已经训练好的 Transformer 模型很简单——我们可以使用以下方法做到这一点：`from_pretrained()`
+加载一个已经训练好的 Transformer 模型很简单——我们可以使用`from_pretrained()`方法做到这一点：
 
 ```python
 from transformers import BertModel
