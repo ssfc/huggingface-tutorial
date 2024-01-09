@@ -1321,11 +1321,11 @@ tokenizer("Using a Transformer network is simple")
 
 保存分词器与保存模型相同：
 
-```
+```python
 tokenizer.save_pretrained("directory_on_my_computer")
 ```
 
-我们将在第 [3 章](https://huggingface.co/course/chapter3)中详细讨论，稍后我们将解释关键。首先，让我们看看 是如何生成的。为此，我们需要查看分词器的中间方法。`token_type_ids``attention_mask``input_ids`
+我们将在第 [3 章](https://huggingface.co/course/chapter3)中详细讨论`token_type_ids`，稍后我们将解释`attention_mask` key。首先，让我们看看`input_ids`是如何生成的。为此，我们需要查看分词器的中间方法。
 
 ### Q: tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")是啥意思？
 
