@@ -808,14 +808,15 @@ tensor([[-1.5607,  1.6123],
 
 我们的模型预测了第一句话和第二句话。这些不是概率，而是*logits*，即模型最后一层输出的原始非归一化分数。要转换为概率，它们需要经过一个 SoftMax 层（所有 🤗 Transformer 模型都输出对数，因为用于训练的损失函数通常会将最后一个激活函数（如 [SoftMax](https://en.wikipedia.org/wiki/Softmax_function)）与实际损失函数（如交叉熵）融合）：`[-1.5607, 1.6123]``[ 4.1692, -3.3464]`
 
-```
+```python
 import torch
 
 predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
 print(predictions)
-tensor([[4.0195e-02, 9.5980e-01],
-        [9.9946e-01, 5.4418e-04]], grad_fn=<SoftmaxBackward>)
 ```
+
+tensor([[4.0195e-02, 9.5980e-01],
+              [9.9946e-01, 5.4418e-04]], grad_fn=<SoftmaxBackward>)
 
 现在我们可以看到模型预测了第一句话和第二句话。这些是可识别的概率分数。`[0.0402, 0.9598]``[0.9995, 0.0005]`
 
