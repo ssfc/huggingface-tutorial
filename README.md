@@ -761,7 +761,7 @@ Transformer 模型的输出直接发送到要处理的模型头。
 
 在我们的示例中，我们需要一个带有序列分类头的模型（以便能够将句子分类为正句或负句）。因此，我们实际上不会使用该类，但是：`AutoModel``AutoModelForSequenceClassification`
 
-```
+```python
 from transformers import AutoModelForSequenceClassification
 
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
@@ -771,10 +771,11 @@ outputs = model(**inputs)
 
 现在，如果我们看一下输出的形状，维数会低得多：模型头部将我们之前看到的高维向量作为输入，并输出包含两个值（每个标签一个）的向量：
 
-```
+```python
 print(outputs.logits.shape)
-torch.Size([2, 2])
 ```
+
+torch.Size([2, 2])
 
 由于我们只有两个句子和两个标签，因此我们从模型中得到的结果是 2 x 2 的形状。
 
