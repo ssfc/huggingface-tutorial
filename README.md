@@ -656,6 +656,29 @@ model = AutoModel.from_pretrained(checkpoint)
 
 ### 2.3.3 A high-dimensional vector?
 
+Transformer 模块输出的矢量通常很大。它通常有三个维度：
+
+- **批量大小**：一次处理的序列数（在我们的示例中为 2 个）。
+- 序列长度：序列的数字表示的**长度**（在我们的示例中为 16）。
+- **隐藏大小**：每个模型输入的向量维度。
+
+由于最后一个值，它被称为“高维”。隐藏尺寸可能非常大（768 对于较小的型号很常见，在较大的型号中可以达到 3072 或更多）。
+
+如果我们将预处理的输入馈送到模型中，我们可以看到这一点：
+
+```python
+outputs = model(**inputs)
+print(outputs.last_hidden_state.shape)
+```
+
+torch.Size([2, 16, 768])
+
+
+
+
+
+
+
 ### Q: model(**inputs)为什么inputs前面有\*\*?
 
 在 Python 中，双星号（`**`）用于解包字典（或关键字参数）并将其作为关键字参数传递给函数。在 `model(**inputs)` 中，`**inputs` 表示将 `inputs` 这个字典中的键值对解包，并将其中的键作为关键字参数名，将对应的值作为关键字参数值传递给函数 `model`。
