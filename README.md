@@ -1091,7 +1091,7 @@ model = BertModel(config)
 
 加载一个已经训练好的 Transformer 模型很简单——我们可以使用以下方法做到这一点：`from_pretrained()`
 
-```
+```python
 from transformers import BertModel
 
 model = BertModel.from_pretrained("bert-base-cased")
