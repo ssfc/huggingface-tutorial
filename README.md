@@ -1267,6 +1267,18 @@ print(inputs)
 
 ### 2.4.3 Subword tokenization
 
+子词标记化算法所依据的原则是，常用词不应拆分为较小的子词，而应将生僻词分解为有意义的子词。
+
+例如，“烦人地”可能被认为是一个罕见的词，可以分解为“烦人”和“ly”。它们都可能更频繁地作为独立的子词出现，而同时“烦人”的含义由“烦人”和“ly”的复合含义保留。
+
+下面是一个示例，显示了子词标记化算法如何标记序列“Let's do tokenization！”：
+
+![A subword tokenization algorithm.](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter2/bpe_subword.svg)
+
+这些子词最终提供了大量的语义含义：例如，在上面的例子中，“tokenization”被拆分为“token”和“ization”，这两个词具有语义意义，同时又节省空间（只需要两个词来表示一个长词）。这使我们能够在小词汇量下获得相对良好的覆盖率，并且几乎没有未知的标记。
+
+这种方法在凝集语言（如土耳其语）中特别有用，您可以在其中通过将子词串在一起来形成（几乎）任意长的复杂单词。
+
 ### 2.4.4 And more!
 
 ### 2.4.5 Loading and saving
