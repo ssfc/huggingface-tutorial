@@ -1395,7 +1395,24 @@ tokenizer.save_pretrained("directory_on_my_computer")
 
 ### 2.4.7 Tokenization
 
-原来一个单词transformer也可以分成两个。
+标记化过程是通过标记器的方法完成的：`tokenize()`
+
+```python
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
+
+sequence = "Using a Transformer network is simple"
+tokens = tokenizer.tokenize(sequence)
+
+print(tokens)
+```
+
+此方法的输出是字符串或标记的列表：
+
+['Using', 'a', 'transform', '##er', 'network', 'is', 'simple']
+
+这个分词器是一个子词分词器：它拆分单词，直到它获得可以由其词汇表表示的分词。`transformer`就是这种情况，它被拆分为两个标记：`transform`和`##er` 。
 
 ### 2.4.8 From tokens to input IDs
 
