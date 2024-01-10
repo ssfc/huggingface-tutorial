@@ -1416,6 +1416,18 @@ print(tokens)
 
 ### 2.4.8 From tokens to input IDs
 
+到输入 ID 的转换由`convert_tokens_to_ids()`  tokenizer 方法处理：
+
+```python
+ids = tokenizer.convert_tokens_to_ids(tokens)
+
+print(ids)
+```
+
+[7993, 170, 11303, 1200, 2443, 1110, 3014]
+
+这些输出一旦转换为适当的框架张量，就可以用作模型的输入，如本章前面所述。
+
 ### 2.4.9 Decoding
 
 ### Q: AutoTokenizer是干啥的？
