@@ -1564,7 +1564,7 @@ tensor([[  101,  1045,  1005,  2310,  2042,  3403,  2005,  1037, 17662, 12172,
 
 让我们再试一次，添加一个新维度：
 
-```
+```python
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
