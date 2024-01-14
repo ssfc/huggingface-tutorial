@@ -1623,7 +1623,7 @@ batched_ids = [
 
 填充令牌 ID 可在 `tokenizer.pad_token_id`中找到。让我们使用它，将我们的两个句子单独发送到模型中，并一起批处理：
 
-```
+```python
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
 
 sequence1_ids = [[200, 200, 200]]
@@ -1636,11 +1636,12 @@ batched_ids = [
 print(model(torch.tensor(sequence1_ids)).logits)
 print(model(torch.tensor(sequence2_ids)).logits)
 print(model(torch.tensor(batched_ids)).logits)
-tensor([[ 1.5694, -1.3895]], grad_fn=<AddmmBackward>)
-tensor([[ 0.5803, -0.4125]], grad_fn=<AddmmBackward>)
-tensor([[ 1.5694, -1.3895],
-        [ 1.3373, -1.2163]], grad_fn=<AddmmBackward>)
 ```
+
+tensor([[ 1.5694, -1.3895]], grad_fn=\<AddmmBackward>)
+tensor([[ 0.5803, -0.4125]], grad_fn=\<AddmmBackward>)
+tensor([[ 1.5694, -1.3895],
+        [ 1.3373, -1.2163]], grad_fn=\<AddmmBackward>)
 
 我们批量预测中的对数有问题：第二行应该与第二句话的对数相同，但我们的值完全不同！
 
