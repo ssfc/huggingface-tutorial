@@ -1529,6 +1529,77 @@ https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 
 ### 2.5.1 Models expect a batch of inputs
 
+在上一个练习中，您了解了如何将序列转换为数字列表。让我们将这个数字列表转换为张量并将其发送到模型：
+
+```python
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+
+sequence = "I've been waiting for a HuggingFace course my whole life."
+
+tokens = tokenizer.tokenize(sequence)
+ids = tokenizer.convert_tokens_to_ids(tokens)
+input_ids = torch.tensor(ids)
+# This line will fail.
+model(input_ids)
+```
+
+IndexError: Dimension out of range (expected to be in range of [-1, 0], but got 1)
+
+哦不！为什么会失败？“我们遵循了第 2 节中管道中的步骤。
+
+问题在于我们向模型发送了一个序列，而 🤗 Transformer 模型默认需要多个句子。在这里，我们尝试在将分词器应用于 .但如果你仔细观察，你会发现分词器不仅将输入 ID 列表转换为张量，还在它上面添加了一个维度：`sequence`
+
+```
+tokenized_inputs = tokenizer(sequence, return_tensors="pt")
+print(tokenized_inputs["input_ids"])
+tensor([[  101,  1045,  1005,  2310,  2042,  3403,  2005,  1037, 17662, 12172,
+          2607,  2026,  2878,  2166,  1012,   102]])
+```
+
+让我们再试一次，添加一个新维度：
+
+```
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+
+sequence = "I've been waiting for a HuggingFace course my whole life."
+
+tokens = tokenizer.tokenize(sequence)
+ids = tokenizer.convert_tokens_to_ids(tokens)
+
+input_ids = torch.tensor([ids])
+print("Input IDs:", input_ids)
+
+output = model(input_ids)
+print("Logits:", output.logits)
+```
+
+我们打印输入 ID 以及生成的日志 — 这是输出：
+
+```
+Input IDs: [[ 1045,  1005,  2310,  2042,  3403,  2005,  1037, 17662, 12172,  2607, 2026,  2878,  2166,  1012]]
+Logits: [[-2.7276,  2.8789]]
+```
+
+*批处理*是通过模型一次发送多个句子的行为。如果只有一个句子，则可以只使用单个序列构建一个批处理：
+
+```
+batched_ids = [ids, ids]
+```
+
+这是一批两个相同的序列！
+
+批处理允许模型在向其提供多个句子时工作。使用多个序列就像使用单个序列构建批处理一样简单。不过，还有第二个问题。当您尝试将两个（或更多）句子批处理在一起时，它们的长度可能不同。如果您以前使用过张量，您就会知道它们必须是矩形的，因此您将无法将输入 ID 列表直接转换为张量。为了解决这个问题，我们通常会*填充*输入。
+
 ### 2.5.2 Padding the inputs
 
 类似于computer vision中给缺失的部分填充上。也类似于python的broadcast. 
