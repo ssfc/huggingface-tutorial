@@ -1744,6 +1744,19 @@ outputs = model(**inputs)
 
 ### 2.5.4 Longer sequences
 
+对于 Transformer 模型，我们可以传递模型的序列长度是有限制的。大多数模型最多处理 512 或 1024 个令牌的序列，当要求处理更长的序列时会崩溃。此问题有两种解决方案：
+
+- 使用具有较长受支持序列长度的模型。
+- 截断序列。
+
+模型具有不同的受支持序列长度，有些模型专门用于处理非常长的序列。[Longformer](https://huggingface.co/docs/transformers/model_doc/longformer) 就是一个例子，另一个是 [LED](https://huggingface.co/docs/transformers/model_doc/led)。如果您正在处理需要很长序列的任务，我们建议您查看这些模型。
+
+否则，我们建议您通过指定`max_sequence_length`参数来截断序列：
+
+```python
+sequence = sequence[:max_sequence_length]
+```
+
 ## 2.6 Putting it all together
 
 https://huggingface.co/learn/nlp-course/chapter2/6?fw=pt
