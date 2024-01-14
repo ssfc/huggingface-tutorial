@@ -1601,9 +1601,52 @@ batched_ids = [ids, ids]
 
 ### 2.5.2 Padding the inputs
 
-类似于computer vision中给缺失的部分填充上。也类似于python的broadcast. 
+以下列表列表无法转换为张量：
 
-填充短的句子，截断长的句子，使所有句子表示长度相同。
+```python
+batched_ids = [
+    [200, 200, 200],
+    [200, 200]
+]
+```
+
+为了解决这个问题，我们将使用*填充*来使我们的张量具有矩形。填充通过向值较少的句子添加一个称为*填充标记*的特殊单词来确保我们所有的句子都具有相同的长度。例如，如果您有 10 个句子包含 10 个单词，1 个句子包含 20 个单词，则填充将确保所有句子都有 20 个单词。在我们的示例中，生成的张量如下所示：
+
+```
+padding_id = 100
+
+batched_ids = [
+    [200, 200, 200],
+    [200, 200, padding_id],
+]
+```
+
+填充令牌 ID 可在 中找到。让我们使用它，将我们的两个句子单独发送到模型中，并一起批处理：`tokenizer.pad_token_id`
+
+```
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+
+sequence1_ids = [[200, 200, 200]]
+sequence2_ids = [[200, 200]]
+batched_ids = [
+    [200, 200, 200],
+    [200, 200, tokenizer.pad_token_id],
+]
+
+print(model(torch.tensor(sequence1_ids)).logits)
+print(model(torch.tensor(sequence2_ids)).logits)
+print(model(torch.tensor(batched_ids)).logits)
+tensor([[ 1.5694, -1.3895]], grad_fn=<AddmmBackward>)
+tensor([[ 0.5803, -0.4125]], grad_fn=<AddmmBackward>)
+tensor([[ 1.5694, -1.3895],
+        [ 1.3373, -1.2163]], grad_fn=<AddmmBackward>)
+```
+
+我们批量预测中的对数有问题：第二行应该与第二句话的对数相同，但我们的值完全不同！
+
+这是因为 Transformer 模型的关键特征是将每个令牌*上下文化*的注意力层。这些将考虑填充标记，因为它们涉及序列的所有标记。为了在模型中传递不同长度的单个句子时，或者在传递具有相同句子和填充的批处理时获得相同的结果，我们需要告诉这些注意层忽略填充标记。这是通过使用注意力掩码来完成的。
+
+Comment:  类似于computer vision中给缺失的部分填充上。也类似于python的broadcast.  填充短的句子，截断长的句子，使所有句子表示长度相同。
 
 ### 2.5.3 Attention masks
 
