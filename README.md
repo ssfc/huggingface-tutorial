@@ -1552,7 +1552,7 @@ IndexError: Dimension out of range (expected to be in range of [-1, 0], but got 
 
 哦不！为什么会失败？“我们遵循了第 2 节中管道中的步骤。
 
-问题在于我们向模型发送了一个序列，而 🤗 Transformer 模型默认需要多个句子。在这里，我们尝试在将分词器应用于 .但如果你仔细观察，你会发现分词器不仅将输入 ID 列表转换为张量，还在它上面添加了一个维度：`sequence`
+问题在于我们向模型发送了一个序列，而 🤗 Transformer 模型默认需要多个句子。在这里，我们尝试在将分词器应用于`sequence` .但如果你仔细观察，你会发现分词器不仅将输入 ID 列表转换为张量，还在它上面添加了一个维度：
 
 ```
 tokenized_inputs = tokenizer(sequence, return_tensors="pt")
