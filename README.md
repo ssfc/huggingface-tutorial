@@ -1621,7 +1621,7 @@ batched_ids = [
 ]
 ```
 
-填充令牌 ID 可在 中找到。让我们使用它，将我们的两个句子单独发送到模型中，并一起批处理：`tokenizer.pad_token_id`
+填充令牌 ID 可在 `tokenizer.pad_token_id`中找到。让我们使用它，将我们的两个句子单独发送到模型中，并一起批处理：
 
 ```
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
