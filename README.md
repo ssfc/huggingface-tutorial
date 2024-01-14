@@ -1518,6 +1518,15 @@ Output:
 
 https://huggingface.co/learn/nlp-course/chapter2/5?fw=pt
 
+在上一节中，我们探讨了最简单的用例：对小长度的单个序列进行推理。但是，已经出现了一些问题：
+
+- 我们如何处理多个序列？
+- 我们如何处理*多个不同长度的*序列？
+- 词汇索引是允许模型正常工作的唯一输入吗？
+- 有没有序列太长这样的事情？
+
+让我们看看这些问题会带来什么样的问题，以及如何使用 🤗 Transformers API 解决这些问题。
+
 ### 2.5.1 Models expect a batch of inputs
 
 ### 2.5.2 Padding the inputs
