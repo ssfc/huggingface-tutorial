@@ -1651,6 +1651,37 @@ Comment:  类似于computer vision中给缺失的部分填充上。也类似于p
 
 ### 2.5.3 Attention masks
 
+*注意力掩码*是与输入 ID 张量形状完全相同的张量，填充了 0 和 1：1 表示应该关注相应的令牌，0 表示不应该关注相应的标记（即，它们应该被模型的注意力层忽略）。
+
+让我们用注意力掩码完成前面的例子：
+
+```python
+batched_ids = [
+    [200, 200, 200],
+    [200, 200, tokenizer.pad_token_id],
+]
+
+attention_mask = [
+    [1, 1, 1],
+    [1, 1, 0],
+]
+
+outputs = model(torch.tensor(batched_ids), attention_mask=torch.tensor(attention_mask))
+print(outputs.logits)
+```
+
+tensor([[ 1.5694, -1.3895],
+              [ 0.5803, -0.4125]], grad_fn=\<AddmmBackward>)
+
+对比之前
+
+tensor([[ 1.5694, -1.3895]], grad_fn=\<AddmmBackward>)
+tensor([[ 0.5803, -0.4125]], grad_fn=\<AddmmBackward>)
+
+现在，我们得到批处理中第二个句子的相同日志。
+
+请注意，第二个序列的最后一个值是填充 ID，即注意力掩码中的 0 值。
+
 ### Q: Attention masks是干啥的？
 
 Attention masks在自然语言处理中是一种用于控制注意力的机制，特别是在Transformer模型中。Transformer模型是一种基于自注意力机制的神经网络，它在处理序列数据时，可以根据输入的注意力掩码（Attention masks）来决定是否忽略特定位置的信息。
