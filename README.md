@@ -1958,7 +1958,57 @@ optimizer.step()
 
 ### 3.2.1 Loading a dataset from the Hub
 
+该中心不仅包含模型;它还具有许多不同语言的多个数据集。您可以[在此处](https://huggingface.co/datasets)浏览数据集，我们建议您在完成本节后尝试加载和处理新数据集（请参阅[此处](https://huggingface.co/docs/datasets/loading)的一般文档）。但现在，让我们专注于MRPC数据集！这是构成 [GLUE 基准的](https://gluebenchmark.com/) 10 个数据集之一，GLUE 基准是一个学术基准，用于衡量 ML 模型在 10 个不同文本分类任务中的性能。
 
+🤗 数据集库提供了一个非常简单的命令，用于在 Hub 上下载和缓存数据集。我们可以像这样下载 MRPC 数据集：
+
+```python
+from datasets import load_dataset
+
+raw_datasets = load_dataset("glue", "mrpc")
+raw_datasets
+DatasetDict({
+    train: Dataset({
+        features: ['sentence1', 'sentence2', 'label', 'idx'],
+        num_rows: 3668
+    })
+    validation: Dataset({
+        features: ['sentence1', 'sentence2', 'label', 'idx'],
+        num_rows: 408
+    })
+    test: Dataset({
+        features: ['sentence1', 'sentence2', 'label', 'idx'],
+        num_rows: 1725
+    })
+})
+```
+
+正如你所看到的，我们得到一个`DatasetDict`对象，其中包含训练集、验证集和测试集。其中每个都包含几列（`sentence1`、`sentence2`、`label`和`idx`）和可变行数，即每个集合中的元素数（因此，训练集中有 3,668 对句子，验证集中有 408 对，测试集中有 1,725 对）。
+
+此命令下载并缓存数据集，默认存储在 *~/.cache/huggingface/datasets* 中。回想一下第 2 章，您可以通过设置`HF_HOME`环境变量来自定义缓存文件夹。
+
+我们可以通过索引来访问`raw_datasets`对象中的每一对句子，就像使用字典一样：
+
+```python
+raw_train_dataset = raw_datasets["train"]
+raw_train_dataset[0]
+{'idx': 0,
+ 'label': 1,
+ 'sentence1': 'Amrozi accused his brother , whom he called " the witness " , of deliberately distorting his evidence .',
+ 'sentence2': 'Referring to him as only " the witness " , Amrozi accused his brother of deliberately distorting his evidence .'}
+```
+
+我们可以看到标签已经是整数，因此我们不必在那里进行任何预处理。要知道哪个整数对应于哪个标签，我们可以检查我们的 .这将告诉我们每列的类型：`features``raw_train_dataset`
+
+```
+raw_train_dataset.features
+{'sentence1': Value(dtype='string', id=None),
+ 'sentence2': Value(dtype='string', id=None),
+ 'label': ClassLabel(num_classes=2, names=['not_equivalent', 'equivalent'], names_file=None, id=None),
+ 'idx': Value(dtype='int32', id=None)}
+```
+
+在后台，是 类型，整数到标签名称的映射存储在 *names* 文件夹中。 对应于 ，对应于 。`label``ClassLabel``0``not_equivalent``1``equivalent`
 
 ### 3.2.2 Preprocessing a dataset
 
