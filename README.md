@@ -2009,7 +2009,7 @@ raw_train_dataset.features
  'label': ClassLabel(num_classes=2, names=['not_equivalent', 'equivalent'], names_file=None, id=None),
  'idx': Value(dtype='int32', id=None)}
 
-在后台，是 类型，整数到标签名称的映射存储在 *names* 文件夹中。 对应于 ，对应于 。`label``ClassLabel``0``not_equivalent``1``equivalent`
+在后台，`label`是 类型，整数到标签名称的映射存储在 *names* 文件夹中。 对应于 ，对应于 。`ClassLabel``0``not_equivalent``1``equivalent`
 
 ### 3.2.2 Preprocessing a dataset
 
