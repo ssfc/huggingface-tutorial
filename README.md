@@ -1786,7 +1786,7 @@ sequence = "I've been waiting for a HuggingFace course my whole life."
 model_inputs = tokenizer(sequence)
 ```
 
-它还一次处理多个序列，而 API 没有变化：
+它还**一次处理多个序列**，而 API 没有变化：
 
 ```python
 sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
@@ -1794,7 +1794,7 @@ sequences = ["I've been waiting for a HuggingFace course my whole life.", "So ha
 model_inputs = tokenizer(sequences)
 ```
 
-它可以根据以下几个目标进行垫片：
+它可以根据以下几个目标进行padding：
 
 ```python
 # Will pad the sequences up to the maximum sequence length
@@ -1808,9 +1808,9 @@ model_inputs = tokenizer(sequences, padding="max_length")
 model_inputs = tokenizer(sequences, padding="max_length", max_length=8)
 ```
 
-它还可以截断序列：
+它还可以**截断**序列：
 
-```
+```python
 sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
 
 # Will truncate the sequences that are longer than the model max length
@@ -1821,9 +1821,9 @@ model_inputs = tokenizer(sequences, truncation=True)
 model_inputs = tokenizer(sequences, max_length=8, truncation=True)
 ```
 
-该对象可以处理到特定框架张量的转换，然后可以将其直接发送到模型。例如，在以下代码示例中，我们提示分词器从不同的框架返回张量 — 返回 PyTorch 张量，返回 TensorFlow 张量，并返回 NumPy 数组：`tokenizer``"pt"``"tf"``"np"`
+`tokenizer`对象可以处理到特定框架张量的转换，然后可以将其直接发送到模型。例如，在以下代码示例中，我们提示分词器从不同的框架返回张量 — `"pt"`返回 PyTorch 张量，`"tf"`返回 TensorFlow 张量，`"np"`返回 NumPy 数组：
 
-```
+```python
 sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
 
 # Returns PyTorch tensors
