@@ -2000,7 +2000,10 @@ raw_train_dataset[0]
 
 我们可以看到标签已经是整数，因此我们不必在那里进行任何预处理。要知道哪个整数对应于哪个标签，我们可以检查我们`raw_train_dataset`的`features` .这将告诉我们每列的类型：
 
+```python
 raw_train_dataset.features
+```
+
 {'sentence1': Value(dtype='string', id=None),
  'sentence2': Value(dtype='string', id=None),
  'label': ClassLabel(num_classes=2, names=['not_equivalent', 'equivalent'], names_file=None, id=None),
