@@ -1842,9 +1842,32 @@ Comment 2:  不过因为分词还有后续的处理，所以默认类型就可�
 
 ### 2.6.1 Special tokens
 
+如果我们看一下分词器返回的输入 ID，我们会发现它们与我们之前的输入略有不同：
+
+```python
+sequence = "I've been waiting for a HuggingFace course my whole life."
+
+model_inputs = tokenizer(sequence)
+print(model_inputs["input_ids"])
+
+tokens = tokenizer.tokenize(sequence)
+ids = tokenizer.convert_tokens_to_ids(tokens)
+print(ids)
+[101, 1045, 1005, 2310, 2042, 3403, 2005, 1037, 17662, 12172, 2607, 2026, 2878, 2166, 1012, 102]
+[1045, 1005, 2310, 2042, 3403, 2005, 1037, 17662, 12172, 2607, 2026, 2878, 2166, 1012]
 ```
-[CLS] i've been waiting for a huggingface course my whole life. [SEP]
+
+开头添加一个令牌 ID，末尾添加一个令牌 ID。让我们解码上面的两个 ID 序列，看看这是关于什么的：
+
+```python
+print(tokenizer.decode(model_inputs["input_ids"]))
+print(tokenizer.decode(ids))
 ```
+
+"[CLS] i've been waiting for a huggingface course my whole life. [SEP]"
+"i've been waiting for a huggingface course my whole life."
+
+分词器在开头添加了特殊词`[CLS]`，在末尾添加了特殊词`[SEP]`。这是因为模型是用这些预训练的，所以为了获得相同的推理结果，我们也需要添加它们。请注意，某些模型不会添加特殊单词，或添加不同的单词;模型也可以只在开头或结尾添加这些特殊单词。无论如何，分词器知道哪些是预期的，并会为您处理这个问题。
 
 ### 2.6.2 Wrapping up: From tokenizer to model
 
