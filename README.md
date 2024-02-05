@@ -1780,7 +1780,7 @@ model_inputs = tokenizer(sequence)
 
 正如我们将在下面的一些示例中看到的那样，这种方法非常强大。首先，它可以标记单个序列：
 
-```
+```python
 sequence = "I've been waiting for a HuggingFace course my whole life."
 
 model_inputs = tokenizer(sequence)
@@ -1788,7 +1788,7 @@ model_inputs = tokenizer(sequence)
 
 它还一次处理多个序列，而 API 没有变化：
 
-```
+```python
 sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
 
 model_inputs = tokenizer(sequences)
@@ -1796,7 +1796,7 @@ model_inputs = tokenizer(sequences)
 
 它可以根据以下几个目标进行垫片：
 
-```
+```python
 # Will pad the sequences up to the maximum sequence length
 model_inputs = tokenizer(sequences, padding="longest")
 
@@ -1835,6 +1835,8 @@ model_inputs = tokenizer(sequences, padding=True, return_tensors="tf")
 # Returns NumPy arrays
 model_inputs = tokenizer(sequences, padding=True, return_tensors="np")
 ```
+
+Comment:  这一节似乎想表达分词器tokenizer非常强大，功能众多。(2024年2月5日)
 
 ### 2.6.1 Special tokens
 
