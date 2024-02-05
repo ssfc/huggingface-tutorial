@@ -1998,15 +1998,13 @@ raw_train_dataset[0]
  'sentence2': 'Referring to him as only " the witness " , Amrozi accused his brother of deliberately distorting his evidence .'}
 ```
 
-我们可以看到标签已经是整数，因此我们不必在那里进行任何预处理。要知道哪个整数对应于哪个标签，我们可以检查我们的 .这将告诉我们每列的类型：`features``raw_train_dataset`
+我们可以看到标签已经是整数，因此我们不必在那里进行任何预处理。要知道哪个整数对应于哪个标签，我们可以检查我们`raw_train_dataset`的`features` .这将告诉我们每列的类型：
 
-```
 raw_train_dataset.features
 {'sentence1': Value(dtype='string', id=None),
  'sentence2': Value(dtype='string', id=None),
  'label': ClassLabel(num_classes=2, names=['not_equivalent', 'equivalent'], names_file=None, id=None),
  'idx': Value(dtype='int32', id=None)}
-```
 
 在后台，是 类型，整数到标签名称的映射存储在 *names* 文件夹中。 对应于 ，对应于 。`label``ClassLabel``0``not_equivalent``1``equivalent`
 
