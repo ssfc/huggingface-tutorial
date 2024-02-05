@@ -1838,6 +1838,8 @@ model_inputs = tokenizer(sequences, padding=True, return_tensors="np")
 
 Comment:  这一节似乎想表达分词器tokenizer非常强大，功能众多。(2024年2月5日)
 
+Comment 2:  不过因为分词还有后续的处理，所以默认类型就可以了。(2024年2月5日)
+
 ### 2.6.1 Special tokens
 
 ```
