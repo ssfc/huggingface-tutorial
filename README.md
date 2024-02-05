@@ -1761,6 +1761,81 @@ sequence = sequence[:max_sequence_length]
 
 https://huggingface.co/learn/nlp-course/chapter2/6?fw=pt
 
+在最后几个部分中，我们一直在尽最大努力手动完成大部分工作。我们探讨了分词器的工作原理，并研究了分词化、转换为输入 ID、填充、截断和注意力掩码。
+
+但是，正如我们在第 2 节中看到的，🤗 Transformers API 可以通过一个高级函数为我们处理所有这些问题，我们将在这里深入探讨。当您直接对句子调用你的 `tokenizer`时，您会得到准备通过模型的输入：
+
+```
+from transformers import AutoTokenizer
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+
+sequence = "I've been waiting for a HuggingFace course my whole life."
+
+model_inputs = tokenizer(sequence)
+```
+
+在这里，变量包含模型正常运行所需的一切。对于 DistilBERT，这包括输入 ID 以及注意力掩码。其他接受额外输入的模型也将具有对象输出的这些输入。`model_inputs``tokenizer`
+
+正如我们将在下面的一些示例中看到的那样，这种方法非常强大。首先，它可以标记单个序列：
+
+```
+sequence = "I've been waiting for a HuggingFace course my whole life."
+
+model_inputs = tokenizer(sequence)
+```
+
+它还一次处理多个序列，而 API 没有变化：
+
+```
+sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
+
+model_inputs = tokenizer(sequences)
+```
+
+它可以根据以下几个目标进行垫片：
+
+```
+# Will pad the sequences up to the maximum sequence length
+model_inputs = tokenizer(sequences, padding="longest")
+
+# Will pad the sequences up to the model max length
+# (512 for BERT or DistilBERT)
+model_inputs = tokenizer(sequences, padding="max_length")
+
+# Will pad the sequences up to the specified max length
+model_inputs = tokenizer(sequences, padding="max_length", max_length=8)
+```
+
+它还可以截断序列：
+
+```
+sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
+
+# Will truncate the sequences that are longer than the model max length
+# (512 for BERT or DistilBERT)
+model_inputs = tokenizer(sequences, truncation=True)
+
+# Will truncate the sequences that are longer than the specified max length
+model_inputs = tokenizer(sequences, max_length=8, truncation=True)
+```
+
+该对象可以处理到特定框架张量的转换，然后可以将其直接发送到模型。例如，在以下代码示例中，我们提示分词器从不同的框架返回张量 — 返回 PyTorch 张量，返回 TensorFlow 张量，并返回 NumPy 数组：`tokenizer``"pt"``"tf"``"np"`
+
+```
+sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
+
+# Returns PyTorch tensors
+model_inputs = tokenizer(sequences, padding=True, return_tensors="pt")
+
+# Returns TensorFlow tensors
+model_inputs = tokenizer(sequences, padding=True, return_tensors="tf")
+
+# Returns NumPy arrays
+model_inputs = tokenizer(sequences, padding=True, return_tensors="np")
+```
+
 ### 2.6.1 Special tokens
 
 ```
