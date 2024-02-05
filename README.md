@@ -1956,6 +1956,10 @@ optimizer.step()
 
 在本节中，我们将使用MRPC（Microsoft Research Paraphrase Corpus）数据集作为示例，该数据集在William B. Dolan和Chris Brockett的[论文](https://www.aclweb.org/anthology/I05-5002.pdf)中介绍。该数据集由 5,801 对句子组成，并带有一个标签，指示它们是否是释义（即，如果两个句子的意思相同）。我们之所以选择它作为本章，是因为它是一个小型数据集，因此很容易对其进行训练。
 
+### 3.2.1 Loading a dataset from the Hub
+
+
+
 ### 3.2.2 Preprocessing a dataset
 
 ### Q: huggingface的AdamW是干啥的？
