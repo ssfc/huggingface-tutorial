@@ -1765,7 +1765,7 @@ https://huggingface.co/learn/nlp-course/chapter2/6?fw=pt
 
 但是，正如我们在第 2 节中看到的，🤗 Transformers API 可以通过一个高级函数为我们处理所有这些问题，我们将在这里深入探讨。当您直接对句子调用你的 `tokenizer`时，您会得到准备通过模型的输入：
 
-```
+```python
 from transformers import AutoTokenizer
 
 checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
@@ -1776,7 +1776,7 @@ sequence = "I've been waiting for a HuggingFace course my whole life."
 model_inputs = tokenizer(sequence)
 ```
 
-在这里，变量包含模型正常运行所需的一切。对于 DistilBERT，这包括输入 ID 以及注意力掩码。其他接受额外输入的模型也将具有对象输出的这些输入。`model_inputs``tokenizer`
+在这里，`model_inputs`变量包含模型正常运行所需的一切。对于 DistilBERT，这包括输入 ID 以及注意力掩码。其他接受额外输入的模型也将具有`tokenizer`对象输出的这些输入。
 
 正如我们将在下面的一些示例中看到的那样，这种方法非常强大。首先，它可以标记单个序列：
 
