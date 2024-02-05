@@ -1956,7 +1956,7 @@ optimizer.step()
 
 在本节中，我们将使用MRPC（Microsoft Research Paraphrase Corpus）数据集作为示例，该数据集在William B. Dolan和Chris Brockett的[论文](https://www.aclweb.org/anthology/I05-5002.pdf)中介绍。该数据集由 5,801 对句子组成，并带有一个标签，指示它们是否是释义（即，如果两个句子的意思相同）。我们之所以选择它作为本章，是因为它是一个小型数据集，因此很容易对其进行训练。
 
-### 3.2.1 Preprocessing a dataset
+### 3.2.2 Preprocessing a dataset
 
 ### Q: huggingface的AdamW是干啥的？
 
@@ -2079,7 +2079,7 @@ print(tokens)
 
 在上述示例中，`convert_ids_to_tokens` 方法将标记 ID 列表 `[101, 2023, 2003, ...]` 转换为对应的文本标记列表 `['[CLS]', 'what', 'is', 'a', 'good', 'answer', 'to', 'the', 'question', '[SEP]']`。这使得您可以更好地理解模型输出，并进行后续的分析和可视化。
 
-### 3.2.2 Dynamic padding
+### 3.2.3 Dynamic padding
 
 ### Q: 你知道transformer的Dynamic padding吗？
 
