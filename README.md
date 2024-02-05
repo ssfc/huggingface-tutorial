@@ -1910,6 +1910,15 @@ https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
 
 # 3. FINE-TUNING A PRETRAINED MODEL
 
+在第 [2 章](https://huggingface.co/course/chapter2)中，我们探讨了如何使用分词器和预训练模型进行预测。但是，如果您想为自己的数据集微调预训练模型，该怎么办？这就是本章的主题！您将学习：
+
+- 如何从 Hub 准备大型数据集
+- 如何使用高级 API `Trainer`微调模型
+- 如何使用自定义训练循环
+- 如何利用 🤗 Accelerate 库在任何分布式设置上轻松运行自定义训练循环
+
+为了将训练过的检查点上传到 Hugging Face Hub，您需要一个 huggingface.co 帐户：[创建一个帐户](https://huggingface.co/join)
+
 ## 3.1 Introduction
 
 https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
@@ -1917,6 +1926,35 @@ https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
 ## 3.2 Processing the data
 
 https://huggingface.co/learn/nlp-course/chapter3/2?fw=pt
+
+继续[上一章](https://huggingface.co/course/chapter2)中的示例，以下是我们如何在 PyTorch 中的一个批处理上训练序列分类器：
+
+```python
+import torch
+from transformers import AdamW, AutoTokenizer, AutoModelForSequenceClassification
+
+# Same as before
+checkpoint = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+sequences = [
+    "I've been waiting for a HuggingFace course my whole life.",
+    "This course is amazing!",
+]
+batch = tokenizer(sequences, padding=True, truncation=True, return_tensors="pt")
+
+# This is new
+batch["labels"] = torch.tensor([1, 1])
+
+optimizer = AdamW(model.parameters())
+loss = model(**batch).loss
+loss.backward()
+optimizer.step()
+```
+
+当然，仅仅用两个句子来训练模型不会产生很好的结果。为了获得更好的结果，您需要准备一个更大的数据集。
+
+在本节中，我们将使用MRPC（Microsoft Research Paraphrase Corpus）数据集作为示例，该数据集在William B. Dolan和Chris Brockett的[论文](https://www.aclweb.org/anthology/I05-5002.pdf)中介绍。该数据集由 5,801 对句子组成，并带有一个标签，指示它们是否是释义（即，如果两个句子的意思相同）。我们之所以选择它作为本章，是因为它是一个小型数据集，因此很容易对其进行训练。
 
 ### 3.2.1 Preprocessing a dataset
 
