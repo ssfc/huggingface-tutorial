@@ -1871,6 +1871,23 @@ print(tokenizer.decode(ids))
 
 ### 2.6.2 Wrapping up: From tokenizer to model
 
+现在我们已经了解了`tokenizer`对象在应用于文本时使用的所有单个步骤，让我们最后一次看看它如何使用其主要 API 处理多个序列（填充！）、非常长的序列（截断！）和多种类型的张量：
+
+```python
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+sequences = ["I've been waiting for a HuggingFace course my whole life.", "So have I!"]
+
+tokens = tokenizer(sequences, padding=True, truncation=True, return_tensors="pt")
+output = model(**tokens)
+```
+
+Comment:  办法就是加上各种参数嘛。
+
 ## 2.7 Basic usage completed!
 
 https://huggingface.co/learn/nlp-course/chapter2/7?fw=pt
