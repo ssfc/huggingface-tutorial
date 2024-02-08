@@ -28,15 +28,16 @@ generator = pipeline("text-generation")
 result = generator("I suck a girl's nipples and ", max_length=60,)
 print(result)
 '''
-'''
+
 generator = pipeline("text-generation", model="distilgpt2")
 result = generator(
-    "In this course, we will teach you how to",
-    max_length=30,
+    # "In this course, we will teach you how to",
+    "I suck a girl's nipples and ",
+    max_length=60,
     num_return_sequences=2,
 )
 print(result)
-'''
+
 
 # Section 4: fill-mask
 '''
@@ -90,9 +91,10 @@ result = summarizer(
 print(result)
 '''
 
+'''
 # Section 8: translation
 translator = pipeline("translation", model="Helsinki-NLP/opus-mt-fr-en")
 result = translator("Ce cours est produit par Hugging Face.")
 print(result)
-
+'''
 
