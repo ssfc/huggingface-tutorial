@@ -10,6 +10,8 @@ https://huggingface.co/distilbert/distilgpt2
 
 DistilGPT2 is an English-language model pre-trained with the supervision of the 124 million parameter version of GPT-2. DistilGPT2, which has 82 million parameters. 
 
+DistilGPT2本地存储空间340M。
+
 
 
 Comment:  这样看来distilgpt2并不比gpt2小多少嘛。(2024年2月9日)
