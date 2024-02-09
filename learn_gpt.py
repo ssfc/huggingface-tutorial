@@ -4,7 +4,8 @@ from transformers import pipeline
 # 模型链接: https://huggingface.co/distilbert/distilgpt2
 # generator = pipeline("text-generation", model="distilgpt2")
 # generator = pipeline("text-generation", model="gpt2")
-generator = pipeline("text-generation", model="gpt2-medium")
+# generator = pipeline("text-generation", model="gpt2-medium")
+generator = pipeline("text-generation", model="gpt2-large")
 
 result = generator(
     # "In this course, we will teach you how to",

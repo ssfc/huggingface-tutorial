@@ -16,6 +16,8 @@ DistilGPT2本地存储空间340M。
 
 Comment:  这样看来distilgpt2并不比gpt2小多少嘛。(2024年2月9日)
 
+
+
 ## openai-community/gpt2
 
 https://huggingface.co/openai-community/gpt2
@@ -29,6 +31,8 @@ GPT2本地存储空间526M。
 526/340 = 1.547
 
 参数量的比值和本地存储空间的比值还挺接近。(2024年2月9日)
+
+
 
 ## openai-community/gpt2-medium
 
@@ -44,11 +48,15 @@ gpt2-medium本地存储空间1.5G。
 
 这个参数量的比值和本地存储空间的比值也挺接近。(2024年2月9日)
 
+
+
 ## openai-community/gpt2-large
 
 https://huggingface.co/openai-community/gpt2-large
 
 GPT-2 Large is the **774M parameter** version of GPT-2. 
+
+gpt2-medium本地存储空间3.1G。(2024年2月9日)
 
 
 
