@@ -66,7 +66,7 @@ https://huggingface.co/openai-community/gpt2-xl
 
 GPT-2 XL is the **1.5B parameter** version of GPT-2. 
 
-
+Comment:  模型越大，推理时间也会越长。(2024年2月9日)
 
 
 
