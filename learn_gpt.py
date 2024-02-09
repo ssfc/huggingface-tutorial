@@ -5,7 +5,8 @@ from transformers import pipeline
 # generator = pipeline("text-generation", model="distilgpt2")
 # generator = pipeline("text-generation", model="gpt2")
 # generator = pipeline("text-generation", model="gpt2-medium")
-generator = pipeline("text-generation", model="gpt2-large")
+# generator = pipeline("text-generation", model="gpt2-large")
+generator = pipeline("text-generation", model="gpt2-xl")
 
 result = generator(
     # "In this course, we will teach you how to",
