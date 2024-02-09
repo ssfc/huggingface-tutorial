@@ -1,5 +1,9 @@
 # GPT
 
+默认存储路径：/home/ssfc/.cache/huggingface
+
+
+
 ## distilbert/distilgpt2
 
 https://huggingface.co/distilbert/distilgpt2
