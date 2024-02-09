@@ -22,7 +22,13 @@ https://huggingface.co/openai-community/gpt2
 
 This is the **smallest** version of GPT-2, with 124M parameters.
 
+GPT2本地存储空间526M。
 
+124/82 = 1.512
+
+526/340 = 1.547
+
+参数量的比值和本地存储空间的比值还挺接近。(2024年2月9日)
 
 ## openai-community/gpt2-medium
 
@@ -30,7 +36,13 @@ https://huggingface.co/openai-community/gpt2-medium
 
 GPT-2 Medium is the **355M parameter** version of GPT-2. 
 
+gpt2-medium本地存储空间1.5G。
 
+355/124 = 2.863
+
+1.5/0.526 = 2.852
+
+这个参数量的比值和本地存储空间的比值也挺接近。(2024年2月9日)
 
 ## openai-community/gpt2-large
 
