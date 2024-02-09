@@ -24,6 +24,8 @@ https://huggingface.co/learn/nlp-course/chapter1/1?fw=pt
 
 本课程将教您如何使用 Hugging Face 生态系统中的库（[🤗 Transformers](https://github.com/huggingface/transformers), [🤗 Datasets](https://github.com/huggingface/datasets), [🤗 Tokenizers](https://github.com/huggingface/tokenizers), and [🤗 Accelerate](https://github.com/huggingface/accelerate)）以及 [Hugging Face Hub](https://huggingface.co/models) 中的自然语言处理 （[🤗](https://github.com/huggingface/transformers) NLP）。
 
+Comment:  原来huggingface space是网页端应用的意思。(2024年2月9日)
+
 ### 1.1.2 期待什么
 
 以下是该课程的简要概述：
