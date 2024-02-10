@@ -13,12 +13,14 @@ start_time = time.time()
 # device cpu: 24.30s
 # device 4090: 21.68s
 
-generator = pipeline("text-generation", model="gpt2-medium", device="cuda")
+# generator = pipeline("text-generation", model="gpt2-medium", device="cuda")
 # device cpu: 32.33s
+# device 1660s: 23.55s
 # device 4090: 23.33s
 
-# generator = pipeline("text-generation", model="gpt2-large", device="cuda")
+generator = pipeline("text-generation", model="gpt2-large", device="cuda")
 # device cpu: 45.14s
+# device 1660s: 25.05s
 # device 4090: 26.03s
 
 # generator = pipeline("text-generation", model="gpt2-xl", device="cuda")
