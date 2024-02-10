@@ -1914,6 +1914,10 @@ https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
 
 # 3. FINE-TUNING A PRETRAINED MODEL
 
+## 3.1 Introduction
+
+https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
+
 在第 [2 章](https://huggingface.co/course/chapter2)中，我们探讨了如何使用分词器和预训练模型进行预测。但是，如果您想为自己的数据集微调预训练模型，该怎么办？这就是本章的主题！您将学习：
 
 - 如何从 Hub 准备大型数据集
@@ -1924,10 +1928,6 @@ https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
 为了将训练过的检查点上传到 Hugging Face Hub，您需要一个 huggingface.co 帐户：[创建一个帐户](https://huggingface.co/join)
 
 Comment:  原来和训练有关的trainer在这里。(2024年2月10日)
-
-## 3.1 Introduction
-
-https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
 
 ## 3.2 Processing the data
 
