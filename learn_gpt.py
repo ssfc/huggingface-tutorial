@@ -6,24 +6,24 @@ start_time = time.time()
 # 模型链接: https://huggingface.co/distilbert/distilgpt2
 # generator = pipeline("text-generation", model="distilgpt2", device="cuda")
 # device cpu: 22.94s
-# device cuda: 21.40s
+# device 4090: 21.40s
 
 
 # generator = pipeline("text-generation", model="gpt2", device="cuda")
 # device cpu: 24.30s
-# device cuda: 21.68s
+# device 4090: 21.68s
 
 generator = pipeline("text-generation", model="gpt2-medium", device="cuda")
 # device cpu: 32.33s
-# device cuda: 23.33s
+# device 4090: 23.33s
 
 # generator = pipeline("text-generation", model="gpt2-large", device="cuda")
 # device cpu: 45.14s
-# device cuda: 26.03s
+# device 4090: 26.03s
 
 # generator = pipeline("text-generation", model="gpt2-xl", device="cuda")
 # device cpu: 69.23s
-# device cpu: 30.95s
+# device 4090: 30.95s
 
 result = generator(
     # "In this course, we will teach you how to",
