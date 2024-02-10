@@ -1923,6 +1923,8 @@ https://huggingface.co/learn/nlp-course/chapter2/8?fw=pt
 
 为了将训练过的检查点上传到 Hugging Face Hub，您需要一个 huggingface.co 帐户：[创建一个帐户](https://huggingface.co/join)
 
+Comment:  原来和训练有关的trainer在这里。(2024年2月10日)
+
 ## 3.1 Introduction
 
 https://huggingface.co/learn/nlp-course/chapter3/1?fw=pt
