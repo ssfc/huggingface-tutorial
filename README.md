@@ -189,6 +189,8 @@ generator("In this course, we will teach you how to")
 
 Comment: 感觉和吾人相关的也就文本生成而已。（翻译可能算半个）
 
+Comment 1:  通过 `generator = pipeline("text-generation", model="gpt2-large", device="cuda")` 可以设置device, 通过 `print("Pipeline device:", generator.device)` 可以输出当前使用的device. (2024年2月10日)
+
 ### 1.3.5 Using any model from the Hub in a pipeline
 
 前面的示例使用手头任务的默认模型，但您也可以从 Hub 中选择特定模型，以便在管道中用于特定任务（例如，文本生成）。转到模型中心，然后单击左侧的相应标签，以仅显示该任务支持的[模型](https://huggingface.co/models)。你应该进入这样的[页面。](https://huggingface.co/models?pipeline_tag=text-generation)
