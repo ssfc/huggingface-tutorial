@@ -4,26 +4,28 @@ import time
 
 start_time = time.time()
 # 模型链接: https://huggingface.co/distilbert/distilgpt2
-# generator = pipeline("text-generation", model="distilgpt2")
-# device 4090 default: 22.94s
+# generator = pipeline("text-generation", model="distilgpt2", device="cuda")
+# device cpu: 22.94s
 # device 1660s default: 23.46
-# device 0: 21.34s
-# device -1: 22.89s.
-# device cuda: 21.39s.
-# device cpu: 22.88s
+# device cuda: 21.40s
 
-generator = pipeline("text-generation", model="gpt2")
-# device 4090 default: 24.30s
+
+# generator = pipeline("text-generation", model="gpt2", device="cuda")
+# device cpu: 24.30s
 # device 1660s default: 24.71s
+# device cuda: 21.68s
 
-# generator = pipeline("text-generation", model="gpt2-medium")
-# device default: 32.33s
+generator = pipeline("text-generation", model="gpt2-medium", device="cuda")
+# device cpu: 32.33s
+# device cuda: 23.33s
 
-# generator = pipeline("text-generation", model="gpt2-large")
-# device default: 45.14s
+# generator = pipeline("text-generation", model="gpt2-large", device="cuda")
+# device cpu: 45.14s
+# device cuda: 26.03s
 
-# generator = pipeline("text-generation", model="gpt2-xl")
-# device default: 69.23s
+# generator = pipeline("text-generation", model="gpt2-xl", device="cuda")
+# device cpu: 69.23s
+# device cpu: 30.95s
 
 result = generator(
     # "In this course, we will teach you how to",
@@ -35,6 +37,8 @@ result = generator(
 
 print(result[0])
 print(result[1])
+
+print("Pipeline device:", generator.device)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
