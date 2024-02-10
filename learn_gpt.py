@@ -25,7 +25,9 @@ generator = pipeline("text-generation", model="gpt2-large", device="cuda")
 
 # generator = pipeline("text-generation", model="gpt2-xl", device="cuda")
 # device cpu: 69.23s
+# device 1660s: CUDA out of memory.
 # device 4090: 30.95s
+# 4090相比于1660s的计算速度优势还没有显现，大显存的优势倒是显示出来了。
 
 result = generator(
     # "In this course, we will teach you how to",
