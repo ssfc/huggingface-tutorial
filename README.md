@@ -2017,6 +2017,8 @@ raw_train_dataset.features
 
 在后台，`label` 是 `ClassLabel` 类型，整数到标签名称的映射存储在 *names* 文件夹中。`0` 对应于 `not_equivalent`，`1`对应于 `equivalent`。
 
+Comment:  看起来raw_datasets是个二维字典。(2024年2月14日)
+
 ### 3.2.2 Preprocessing a dataset
 
 ### Q: huggingface的AdamW是干啥的？
