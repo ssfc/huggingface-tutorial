@@ -2045,6 +2045,8 @@ inputs
   'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 }
 
+Comment:  这里的input_ids我运行出来和文档中是一样的。可见分词结果是个定数。(2024年2月14日)
+
 我们在第 [2 章](https://huggingface.co/course/chapter2)中讨论了 `input_ids` 和 `attention_mask` 键，但我们推迟了讨论 `token_type_ids`。在此示例中，`token_type_ids`就是告诉模型输入的哪一部分是第一句话，哪一部分是第二句话。
 
 ✏️ 试**试看！**采用训练集的元素 15，将两个句子分别标记化，并成对标记。这两个结果之间有什么区别？
