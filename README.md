@@ -2035,7 +2035,7 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 但是，我们不能只将两个序列传递给模型并预测这两个句子是否是释义。我们需要将两个序列作为一对处理，并应用适当的预处理。幸运的是，分词器还可以获取一对序列，并按照我们的 BERT 模型期望的方式进行准备：
 
 ```python
-tokenized_inputs = tokenizer("This is the first sentence.", "This is the second one.")
+tokenized_ids = tokenizer("This is the first sentence.", "This is the second one.")
 ```
 
 inputs
@@ -2061,12 +2061,10 @@ tokenizer.convert_ids_to_tokens(inputs["input_ids"])
 
 ['[CLS]', 'this', 'is', 'the', 'first', 'sentence', '.', '[SEP]', 'this', 'is', 'the', 'second', 'one', '.', '[SEP]']
 
-因此，我们看到模型期望输入是当有两个句子时的形式。将其与 the 保持一致，可以让我们：`[CLS] sentence1 [SEP] sentence2 [SEP]``token_type_ids`
+因此，我们看到模型期望输入是当有两个句子`[CLS] sentence1 [SEP] sentence2 [SEP]`时的形式。将其与`token_type_ids`保持一致，可以让我们：
 
-```
 ['[CLS]', 'this', 'is', 'the', 'first', 'sentence', '.', '[SEP]', 'this', 'is', 'the', 'second', 'one', '.', '[SEP]']
-[      0,      0,    0,     0,       0,          0,   0,       0,      1,    1,     1,        1,     1,   1,       1]
-```
+[      0,      0,      0,     0,       0,          0,            0,     0,        1,     1,     1,        1,             1,   1,       1]
 
 如您所见，输入中对应于 all 的部分的令牌类型 ID 为 ，而对应于 的其他部分的令牌类型 ID 均为 。`[CLS] sentence1 [SEP]``0``sentence2 [SEP]``1`
 
