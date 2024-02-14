@@ -2472,7 +2472,7 @@ trainer.train()
 
 这将开始微调（在 GPU 上应该需要几分钟），并每 500 步报告一次训练损失。但是，它不会告诉您模型的性能有多好（或有多差）。这是因为：
 
-1. 我们没有通过设置 `evaluation_strategy` 为 `"steps"`（评估每个）或（在每个时期结束时评估）来告诉 `Trainer` 训练期间进行评估。`eval_steps``"epoch"`
+1. 我们没有通过设置 `evaluation_strategy` 为 `"steps"`（评估每个`eval_steps`）或 `"epoch"`（在每个时期结束时评估）来告诉 `Trainer` 训练期间进行评估。
 2. 在上述评估期间，我们没有提供计算指标的函数（否则评估只会打印损失，这不是一个非常直观的数字）。`Trainer``compute_metrics()`
 
 ### Q: 解释from transformers import TrainingArguments
