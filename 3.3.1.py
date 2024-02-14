@@ -4,6 +4,7 @@ from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
 from transformers import Trainer
 from transformers import TrainingArguments
+import evaluate
 import numpy as np
 
 
@@ -34,10 +35,13 @@ trainer = Trainer(
     tokenizer=tokenizer,
 )
 
-trainer.train()
+# trainer.train()
 
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
 preds = np.argmax(predictions.predictions, axis=-1)
+
+metric = evaluate.load("glue", "mrpc")
+metric.compute(predictions=preds, references=predictions.label_ids)
 
 
