@@ -2445,7 +2445,7 @@ from transformers import AutoModelForSequenceClassification
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
 ```
 
-您会注意到，与[第 2 章](https://huggingface.co/course/chapter2)不同，在实例化此预训练模型后，您会收到警告。这是因为 BERT 尚未对句子对进行分类预训练，因此丢弃了预训练模型的头部，而是添加了适合序列分类的新头部。警告表明某些权重未被使用（对应于丢弃的预训练头的权重），而其他一些权重是随机初始化的（新头的权重）。最后，它鼓励你训练模型，这正是我们现在要做的。
+您会注意到，与[第 2 章](https://huggingface.co/course/chapter2)不同，在实例化此预训练模型后，您会收到警告。这是**因为 BERT 尚未对句子对进行分类预训练，因此丢弃了预训练模型的头部，而是添加了适合序列分类的新头部**。警告表明某些权重未被使用（对应于丢弃的预训练头的权重），而其他一些权重是随机初始化的（新头的权重）。最后，它鼓励你训练模型，这正是我们现在要做的。
 
 一旦我们有了模型，我们就可以通过向它传递到目前为止构建的所有对象来定义一个 `Trainer` ---- `model`、 `training_args`、 训练和验证数据集、我们的 `data_collator` 和 我们的 `tokenizer`：
 
