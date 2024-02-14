@@ -23,8 +23,8 @@ tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 tokenized_sentences_1 = tokenizer(raw_datasets["train"]["sentence1"])
 tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 
-inputs = tokenizer("This is the first sentence.", "This is the second one.")
-print("inputs:", inputs)
+tokenized_inputs = tokenizer("This is the first sentence.", "This is the second one.")
+print("tokenized_inputs:", tokenized_inputs)
 
 # ✏️ 试试看！采用训练集的元素 15，将两个句子分别标记化，并成对标记。这两个结果之间有什么区别？
 tokenized_train15_1 = tokenizer(raw_datasets["train"][15]["sentence1"])
