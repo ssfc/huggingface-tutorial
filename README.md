@@ -2574,7 +2574,7 @@ training_args = TrainingArguments(
 
 ### 3.3.2 Evaluation
 
-让我们看看如何构建一个有用的 `compute_metrics()` 函数，并在下次训练时使用它。该函数必须接受一个 `EvalPrediction` 对象（该对象是带有`predictions`字段和字段的命名元组），并将返回将字符串映射到浮点数的字典（字符串是返回的指标的名称，浮点数是它们的值）。为了从我们的模型中获取一些预测，我们可以使用以下命令：`label_ids``Trainer.predict()`
+让我们看看如何构建一个有用的 `compute_metrics()` 函数，并在下次训练时使用它。该函数必须接受一个 `EvalPrediction` 对象（该对象是带有 `predictions` 字段和 `label_ids` 字段的命名元组），并将返回将字符串映射到浮点数的字典（字符串是返回的指标的名称，浮点数是它们的值）。为了从我们的模型中获取一些预测，我们可以使用以下命令：`Trainer.predict()`
 
 ```python
 predictions = trainer.predict(tokenized_datasets["validation"])
