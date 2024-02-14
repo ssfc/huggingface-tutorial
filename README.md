@@ -2582,7 +2582,7 @@ print(predictions.predictions.shape, predictions.label_ids.shape)
 (408, 2) (408,)
 ```
 
-`predict()`方法的输出是另一个命名的元组，其中包含三个字段：`predictions`、 `label_ids`和`metrics` 。该字段将仅包含传递的数据集的损失，以及一些时间指标（预测所需的时间、总计和平均值）。一旦我们完成函数并将其传递给 ，该字段还将包含 返回的指标。`metrics``compute_metrics()``Trainer``compute_metrics()`
+`predict()`方法的输出是另一个命名的元组，其中包含三个字段：`predictions`、 `label_ids`和`metrics` 。`metrics`字段将仅包含传递的数据集的损失，以及一些时间指标（预测所需的时间、总计和平均值）。一旦我们完成函数并将其传递给 ，该字段还将包含 返回的指标。`compute_metrics()``Trainer``compute_metrics()`
 
 如您所见，是一个形状为 408 x 2 的二维数组（408 是我们使用的数据集中的元素数）。这些是我们传递到的数据集中每个元素的 logit（正如您在[上一章](https://huggingface.co/course/chapter2)中看到的，所有 Transformer 模型都返回 logits）。为了将它们转换为可以与标签进行比较的预测，我们需要在第二轴上取具有最大值的索引：`predictions``predict()`
 
