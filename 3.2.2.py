@@ -27,6 +27,7 @@ tokenized_inputs = tokenizer("This is the first sentence.", "This is the second 
 print("tokenized_inputs:", tokenized_inputs)
 
 # ✏️ 试试看！采用训练集的元素 15，将两个句子分别标记化，并成对标记。这两个结果之间有什么区别？
+# token_type_ids前面是0后面是1. 
 tokenized_train15_1 = tokenizer(raw_datasets["train"][15]["sentence1"])
 tokenized_train15_2 = tokenizer(raw_datasets["train"][15]["sentence2"])
 tokenized_train15_12 = tokenizer(raw_datasets["train"][15]["sentence1"], raw_datasets["train"][15]["sentence2"])

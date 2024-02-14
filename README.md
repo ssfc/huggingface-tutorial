@@ -2035,7 +2035,7 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 但是，我们不能只将两个序列传递给模型并预测这两个句子是否是释义。我们需要将两个序列作为一对处理，并应用适当的预处理。幸运的是，分词器还可以获取一对序列，并按照我们的 BERT 模型期望的方式进行准备：
 
 ```python
-inputs = tokenizer("This is the first sentence.", "This is the second one.")
+tokenized_inputs = tokenizer("This is the first sentence.", "This is the second one.")
 ```
 
 inputs
