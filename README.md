@@ -2586,7 +2586,7 @@ print(predictions.predictions.shape, predictions.label_ids.shape)
 
 如您所见，是一个形状为 408 x 2 的二维数组（408 是我们使用的数据集中的元素数）。这些是我们传递到的数据集中每个元素的 logit（正如您在[上一章](https://huggingface.co/course/chapter2)中看到的，所有 Transformer 模型都返回 logits）。为了将它们转换为可以与标签进行比较的预测，我们需要在第二轴上取具有最大值的索引：`predictions``predict()`
 
-```
+```python
 import numpy as np
 
 preds = np.argmax(predictions.predictions, axis=-1)
