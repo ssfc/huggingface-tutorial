@@ -2427,6 +2427,54 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 ### 3.3.1 Training
 
+在定义之前，第一步是定义一个类，该类将包含将用于训练和评估的所有超参数。您必须提供的唯一参数是将保存经过训练的模型的目录，以及沿途的检查点。对于其余的，您可以保留默认值，这对于基本的微调应该很有效。`Trainer``TrainingArguments``Trainer`
+
+```python
+from transformers import TrainingArguments
+
+training_args = TrainingArguments("test-trainer")
+```
+
+💡 如果要在训练期间自动将模型上传到 Hub，请在 .我们将在第 [4 章](https://huggingface.co/course/chapter4/3)中对此进行更多了解`push_to_hub=True``TrainingArguments`
+
+第二步是定义我们的模型。与[上一章](https://huggingface.co/course/chapter2)一样，我们将使用带有两个标签的类：`AutoModelForSequenceClassification`
+
+```python
+from transformers import AutoModelForSequenceClassification
+
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+```
+
+您会注意到，与[第 2 章](https://huggingface.co/course/chapter2)不同，在实例化此预训练模型后，您会收到警告。这是因为 BERT 尚未对句子对进行分类预训练，因此丢弃了预训练模型的头部，而是添加了适合序列分类的新头部。警告表明某些权重未被使用（对应于丢弃的预训练头的权重），而其他一些权重是随机初始化的（新头的权重）。最后，它鼓励你训练模型，这正是我们现在要做的。
+
+一旦我们有了模型，我们就可以通过向它传递到目前为止构建的所有对象来定义一个 — 、 、 、 训练和验证数据集、我们的 和 我们的：`Trainer``model``training_args``data_collator``tokenizer`
+
+```python
+from transformers import Trainer
+
+trainer = Trainer(
+    model,
+    training_args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["validation"],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+)
+```
+
+请注意，当您像我们在这里所做的那样传递 时，使用的默认值将是前面定义的 a，因此您可以跳过此调用中的行。在第 2 节中向您展示这部分处理仍然很重要！`tokenizer``data_collator``Trainer``DataCollatorWithPadding``data_collator=data_collator`
+
+为了在我们的数据集上微调模型，我们只需要调用我们的方法：`train()``Trainer`
+
+```
+trainer.train()
+```
+
+这将开始微调（在 GPU 上应该需要几分钟），并每 500 步报告一次训练损失。但是，它不会告诉您模型的性能有多好（或有多差）。这是因为：
+
+1. 我们没有通过设置为（评估每个）或（在每个时期结束时评估）来告诉训练期间进行评估。`Trainer``evaluation_strategy``"steps"``eval_steps``"epoch"`
+2. 在上述评估期间，我们没有提供计算指标的函数（否则评估只会打印损失，这不是一个非常直观的数字）。`Trainer``compute_metrics()`
+
 ### Q: 解释from transformers import TrainingArguments
 
 `from transformers import TrainingArguments` 是从 Hugging Face Transformers 库中导入 `TrainingArguments` 类。这个类用于配置和管理模型训练的各种参数和选项。
