@@ -2087,7 +2087,7 @@ tokenized_dataset = tokenizer(
 )
 ```
 
-这很好用，但它的缺点是返回字典（使用我们的键、`input_ids`、`attention_mask` 和 `token_type_ids`、以及作为列表列表的值）。它也只有在标记化期间有足够的 RAM 来存储整个数据集时才有效（而数据集库中的🤗数据集是存储在磁盘上的 [Apache Arrow](https://arrow.apache.org/) 文件，因此您只将您要求的样本加载到内存中）。
+这很好用，但它的缺点是返回字典（使用我们的键、`input_ids`、`attention_mask` 和 `token_type_ids`、以及作为列表列表的值）。它也只有在标记化期间有足够的 RAM 来存储整个数据集时才有效（而数据集库中的🤗数据集是存储在磁盘上的 [Apache Arrow](https://arrow.apache.org/) 文件，因此您只将您要求的样本加载到内存中）。（比如说存储文件是glue-train.arrow）
 
 为了将数据保留为数据集，我们将使用 [`Dataset.map（）`](https://huggingface.co/docs/datasets/package_reference/main_classes#datasets.Dataset.map) 方法。这也为我们提供了一些额外的灵活性，如果我们需要做更多的预处理，而不仅仅是标记化。该方法的工作原理是在数据集的每个元素上应用一个函数，因此让我们定义一个函数来标记我们的输入：`map()`
 
