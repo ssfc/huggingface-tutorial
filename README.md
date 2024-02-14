@@ -2034,17 +2034,18 @@ tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
 
 但是，我们不能只将两个序列传递给模型并预测这两个句子是否是释义。我们需要将两个序列作为一对处理，并应用适当的预处理。幸运的是，分词器还可以获取一对序列，并按照我们的 BERT 模型期望的方式进行准备：
 
-```
+```python
 inputs = tokenizer("This is the first sentence.", "This is the second one.")
+```
+
 inputs
 { 
   'input_ids': [101, 2023, 2003, 1996, 2034, 6251, 1012, 102, 2023, 2003, 1996, 2117, 2028, 1012, 102],
   'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
   'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 }
-```
 
-我们在第 [2 章](https://huggingface.co/course/chapter2)中讨论了 和 键，但我们推迟了讨论 。在此示例中，这就是告诉模型输入的哪一部分是第一句话，哪一部分是第二句话。`input_ids``attention_mask``token_type_ids`
+我们在第 [2 章](https://huggingface.co/course/chapter2)中讨论了 `input_ids` 和 `attention_mask` 键，但我们推迟了讨论 `token_type_ids`。在此示例中，这就是告诉模型输入的哪一部分是第一句话，哪一部分是第二句话。
 
 ✏️ 试**试看！**采用训练集的元素 15，将两个句子分别标记化，并成对标记。这两个结果之间有什么区别？
 
