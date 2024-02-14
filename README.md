@@ -2066,7 +2066,7 @@ tokenizer.convert_ids_to_tokens(inputs["input_ids"])
 ['[CLS]', 'this', 'is', 'the', 'first', 'sentence', '.', '[SEP]', 'this', 'is', 'the', 'second', 'one', '.', '[SEP]']
 [      0,      0,      0,     0,       0,          0,            0,     0,        1,     1,     1,        1,             1,   1,       1]
 
-如您所见，输入中对应于 all 的部分的令牌类型 ID 为 ，而对应于 的其他部分的令牌类型 ID 均为 。`[CLS] sentence1 [SEP]``0``sentence2 [SEP]``1`
+如您所见，输入中对应于 `[CLS] sentence1 [SEP]` 的部分的令牌类型 ID 为`0` ，而对应于 `sentence2 [SEP]` 的其他部分的令牌类型 ID 均为 `1`。
 
 请注意，如果选择其他检查点，则不一定在标记化输入中包含 （例如，如果使用 DistilBERT 模型，则不会返回它们）。只有当模型知道如何处理它们时，它们才会返回，因为它在预训练期间已经看到了它们。`token_type_ids`
 
