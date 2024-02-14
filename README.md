@@ -2271,9 +2271,10 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 ```python
 samples = tokenized_datasets["train"][:8]
 samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
-[len(x) for x in samples["input_ids"]]
-[50, 59, 47, 67, 59, 50, 62, 32]
+print([len(x) for x in samples["input_ids"]])
 ```
+
+[50, 59, 47, 67, 59, 50, 62, 32]
 
 毫不奇怪，我们得到了不同长度的样本，从 32 到 67。动态填充意味着此批次中的样品都应填充到 67 的长度，即批次内的最大长度。如果没有动态填充，则必须将所有样本填充到整个数据集中的最大长度或模型可以接受的最大长度。让我们仔细检查我们的是否正确地动态填充了批处理：`data_collator`
 
