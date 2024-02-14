@@ -2579,8 +2579,9 @@ training_args = TrainingArguments(
 ```python
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
-(408, 2) (408,)
 ```
+
+(408, 2) (408,)
 
 `predict()`方法的输出是另一个命名的元组，其中包含三个字段：`predictions`、 `label_ids`和`metrics` 。`metrics`字段将仅包含传递的数据集的损失，以及一些时间指标（预测所需的时间、总计和平均值）。一旦我们完成`compute_metrics()`函数并将其传递给 `Trainer`，该字段还将包含 `compute_metrics()` 返回的指标。
 
