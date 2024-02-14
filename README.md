@@ -2593,7 +2593,7 @@ import numpy as np
 preds = np.argmax(predictions.predictions, axis=-1)
 ```
 
-我们现在可以将它们与标签进行比较。为了构建我们的函数，我们将依赖于 [Evaluate](https://github.com/huggingface/evaluate/) 库中的🤗指标。我们可以像加载数据集一样轻松地加载与 MRPC 数据集相关的指标，这次使用函数。返回的对象有一个可用于执行度量计算的方法：`preds``compute_metric()``evaluate.load()``compute()`
+我们现在可以将`preds`与标签进行比较。为了构建我们的函数，我们将依赖于 [Evaluate](https://github.com/huggingface/evaluate/) 库中的🤗指标。我们可以像加载数据集一样轻松地加载与 MRPC 数据集相关的指标，这次使用函数。返回的对象有一个可用于执行度量计算的方法：`compute_metric()``evaluate.load()``compute()`
 
 ```python
 import evaluate
