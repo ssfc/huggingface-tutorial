@@ -7,16 +7,13 @@ def tokenize_function(example):
     return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 
 
-raw_datasets = load_dataset("glue", "mrpc")
-print(raw_datasets)
-
 checkpoint = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
+raw_datasets = load_dataset("glue", "mrpc")
+print("raw_datasets", raw_datasets)
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 print("tokenized_datasets:", tokenized_datasets)
-
-
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 

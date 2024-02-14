@@ -2266,7 +2266,7 @@ from transformers import DataCollatorWithPadding
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 ```
 
-为了测试这个新玩具，让我们从训练集中获取一些样本，我们想将它们分批在一起。在这里，我们删除了列 、 ，因为它们不需要并且包含字符串（并且我们不能使用字符串创建张量），并查看批处理中每个条目的长度：`idx``sentence1``sentence2`
+为了测试这个新玩具，让我们从训练集中获取一些样本，我们想将它们分批在一起。在这里，我们删除了列`idx` 、`sentence1` 和 `sentence2`，因为它们不需要并且包含字符串（并且我们不能使用字符串创建张量），并查看批处理中每个条目的长度：
 
 ```python
 samples = tokenized_datasets["train"][:8]
