@@ -2427,7 +2427,7 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 ### 3.3.1 Training
 
-在定义 `Trainer` 之前，第一步是定义一个类，该类将包含将用于训练和评估的所有超参数。您必须提供的唯一参数是将保存经过训练的模型的目录，以及沿途的检查点。对于其余的，您可以保留默认值，这对于基本的微调应该很有效。`TrainingArguments``Trainer`
+在定义 `Trainer` 之前，第一步是定义一个 `TrainingArguments` 类，该类将包含 `Trainer` 将用于训练和评估的所有超参数。您必须提供的唯一参数是将保存经过训练的模型的目录，以及沿途的检查点。对于其余的，您可以保留默认值，这对于基本的微调应该很有效。
 
 ```python
 from transformers import TrainingArguments
