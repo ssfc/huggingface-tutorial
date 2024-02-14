@@ -2051,7 +2051,7 @@ Comment:  这里的input_ids我运行出来和文档中是一样的。可见分�
 
 ✏️ 试**试看！**采用训练集的元素 15，将两个句子分别标记化，并成对标记。这两个结果之间有什么区别？
 
-如果我们将里面的 ID 解码回单词：`input_ids`
+如果我们将`input_ids`里面的 ID 解码回单词：
 
 ```
 tokenizer.convert_ids_to_tokens(inputs["input_ids"])
