@@ -39,4 +39,17 @@ tokenized_words = tokenizer.convert_ids_to_tokens(tokenized_ids["input_ids"])
 print("tokenized_words:", tokenized_words)
 
 
+def tokenize_function(example):
+    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+
+
+tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+print("tokenized_datasets:", tokenized_datasets)
+
+
+
+
+
+
+
 

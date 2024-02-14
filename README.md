@@ -2107,24 +2107,23 @@ tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 tokenized_datasets
 ```
 
-Datasets 库应用此处理的方式🤗是向数据集添加新字段，预处理函数返回的字典中的每个键对应一个字段：
+Datasets 库应用此处理的方式🤗**是向数据集添加新字段**，预处理函数返回的字典中的每个键对应一个字段：
 
-```
 DatasetDict({
     train: Dataset({
-        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-        num_rows: 3668
-    })
-    validation: Dataset({
-        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-        num_rows: 408
-    })
-    test: Dataset({
-        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-        num_rows: 1725
-    })
+        features: ['attention_mask', '**idx**', 'input_ids', '**label**', '**sentence1**', '**sentence2**', 'token_type_ids'],
+
+​        num_rows: 3668
+​    })
+​    validation: Dataset({
+​        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
+​        num_rows: 408
+​    })
+​    test: Dataset({
+​        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
+​        num_rows: 1725
+​    })
 })
-```
 
 在应用预处理函数时，您甚至可以通过传递参数来使用多重处理。我们在这里没有这样做，🤗因为 Tokenizers 库已经使用多个线程来更快地标记我们的样本，但如果你没有使用这个库支持的快速标记器，这可能会加快你的预处理速度。`map()``num_proc`
 
