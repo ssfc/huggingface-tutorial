@@ -25,10 +25,10 @@ tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 trainer = Trainer(
-    model,
-    training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
+    model,  # 选了一个Auto二分model
+    training_args,  # 名字是test-trainer
+    train_dataset=tokenized_datasets["train"],  # glue中的train
+    eval_dataset=tokenized_datasets["validation"],  # glue中的validation
     data_collator=data_collator,
     tokenizer=tokenizer,
 )
