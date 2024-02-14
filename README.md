@@ -2133,6 +2133,8 @@ DatasetDict({
 
 我们需要做的最后一件事是，当我们将元素批处理在一起时，将所有示例填充到最长元素的长度上——我们称之为*动态填充*的技术。
 
+Comment:  我看明白了，这是用glue-mrpc作为数据集，用bert-base-uncased作为分词器。(2024年2月14日)
+
 ### Q: huggingface的AdamW是干啥的？
 
 在 Hugging Face Transformers 库中，`AdamW` 是一个优化器类，用于实现带有权重衰减（Weight Decay）的 Adam 优化算法。AdamW 是对 Adam 优化算法的一个变种，它在原始的 Adam 算法基础上添加了权重衰减的功能，以解决优化器在一些任务中可能会导致模型过拟合的问题。
