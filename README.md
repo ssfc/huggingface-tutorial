@@ -2021,6 +2021,118 @@ Comment:  看起来raw_datasets是个二维字典。(2024年2月14日)
 
 ### 3.2.2 Preprocessing a dataset
 
+为了预处理数据集，我们需要将文本转换为模型可以理解的数字。正如您在[上一章](https://huggingface.co/course/chapter2)中看到的，这是通过分词器完成的。我们可以向分词器提供一句话或一个句子列表，这样我们就可以直接标记每对的所有第一句话和所有第二句话，如下所示：
+
+```python
+from transformers import AutoTokenizer
+
+checkpoint = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+tokenized_sentences_1 = tokenizer(raw_datasets["train"]["sentence1"])
+tokenized_sentences_2 = tokenizer(raw_datasets["train"]["sentence2"])
+```
+
+但是，我们不能只将两个序列传递给模型并预测这两个句子是否是释义。我们需要将两个序列作为一对处理，并应用适当的预处理。幸运的是，分词器还可以获取一对序列，并按照我们的 BERT 模型期望的方式进行准备：
+
+```
+inputs = tokenizer("This is the first sentence.", "This is the second one.")
+inputs
+{ 
+  'input_ids': [101, 2023, 2003, 1996, 2034, 6251, 1012, 102, 2023, 2003, 1996, 2117, 2028, 1012, 102],
+  'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+  'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+}
+```
+
+我们在第 [2 章](https://huggingface.co/course/chapter2)中讨论了 和 键，但我们推迟了讨论 。在此示例中，这就是告诉模型输入的哪一部分是第一句话，哪一部分是第二句话。`input_ids``attention_mask``token_type_ids`
+
+✏️ 试**试看！**采用训练集的元素 15，将两个句子分别标记化，并成对标记。这两个结果之间有什么区别？
+
+如果我们将里面的 ID 解码回单词：`input_ids`
+
+```
+tokenizer.convert_ids_to_tokens(inputs["input_ids"])
+```
+
+我们将得到：
+
+```
+['[CLS]', 'this', 'is', 'the', 'first', 'sentence', '.', '[SEP]', 'this', 'is', 'the', 'second', 'one', '.', '[SEP]']
+```
+
+因此，我们看到模型期望输入是当有两个句子时的形式。将其与 the 保持一致，可以让我们：`[CLS] sentence1 [SEP] sentence2 [SEP]``token_type_ids`
+
+```
+['[CLS]', 'this', 'is', 'the', 'first', 'sentence', '.', '[SEP]', 'this', 'is', 'the', 'second', 'one', '.', '[SEP]']
+[      0,      0,    0,     0,       0,          0,   0,       0,      1,    1,     1,        1,     1,   1,       1]
+```
+
+如您所见，输入中对应于 all 的部分的令牌类型 ID 为 ，而对应于 的其他部分的令牌类型 ID 均为 。`[CLS] sentence1 [SEP]``0``sentence2 [SEP]``1`
+
+请注意，如果选择其他检查点，则不一定在标记化输入中包含 （例如，如果使用 DistilBERT 模型，则不会返回它们）。只有当模型知道如何处理它们时，它们才会返回，因为它在预训练期间已经看到了它们。`token_type_ids`
+
+在这里，BERT 使用令牌类型 ID 进行预训练，除了我们在第 [1 章](https://huggingface.co/course/chapter1)中讨论的掩码语言建模目标之外，它还有一个额外的目标，称为*下一句预测*。此任务的目标是对句子对之间的关系进行建模。
+
+通过下一个句子预测，模型被提供成对的句子（带有随机掩码标记），并要求预测第二个句子是否在第一个句子之后。为了使任务不平凡，一半的时间句子在原始文档中彼此跟随，另一半时间这两个句子来自两个不同的文档。
+
+一般来说，你不需要担心你的标记化输入中是否有：只要你对标记器和模型使用相同的检查点，一切都会好起来的，因为标记器知道要向它的模型提供什么。`token_type_ids`
+
+现在我们已经了解了我们的分词器如何处理一对句子，我们可以使用它来标记我们的整个数据集：就像[在上一章](https://huggingface.co/course/chapter2)中一样，我们可以通过给分词器提供第一个句子列表，然后是第二个句子列表来为分词器提供句子对列表。这也与我们[在第 2 章](https://huggingface.co/course/chapter2)中看到的填充和截断选项兼容。因此，预处理训练数据集的一种方法是：
+
+```
+tokenized_dataset = tokenizer(
+    raw_datasets["train"]["sentence1"],
+    raw_datasets["train"]["sentence2"],
+    padding=True,
+    truncation=True,
+)
+```
+
+这很好用，但它的缺点是返回字典（使用我们的键、、和、以及作为列表列表的值）。它也只有在标记化期间有足够的 RAM 来存储整个数据集时才有效（而数据集库中的🤗数据集是存储在磁盘上的 [Apache Arrow](https://arrow.apache.org/) 文件，因此您只将您要求的样本加载到内存中）。`input_ids``attention_mask``token_type_ids`
+
+为了将数据保留为数据集，我们将使用 [`Dataset.map（）`](https://huggingface.co/docs/datasets/package_reference/main_classes#datasets.Dataset.map) 方法。这也为我们提供了一些额外的灵活性，如果我们需要做更多的预处理，而不仅仅是标记化。该方法的工作原理是在数据集的每个元素上应用一个函数，因此让我们定义一个函数来标记我们的输入：`map()`
+
+```
+def tokenize_function(example):
+    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+```
+
+此函数采用字典（如数据集中的项目）并返回一个带有键 、 和 的新字典。请注意，如果字典包含多个样本（每个键作为句子列表），它也有效，因为如前所述，它适用于句子对列表。这将允许我们在调用 中使用该选项，这将大大加快标记化的速度。它由 Tokenizers 库中用 Rust [🤗](https://github.com/huggingface/tokenizers) 编写的分词器提供支持。这个分词器可以非常快，但前提是我们一次给它很多输入。`input_ids``attention_mask``token_type_ids``example``tokenizer``batched=True``map()``tokenizer`
+
+请注意，我们暂时在标记化函数中省略了该参数。这是因为将所有样本填充到最大长度是效率不高的：最好在构建批处理时填充样本，因为这样我们只需要填充到该批次中的最大长度，而不是整个数据集中的最大长度。当输入的长度非常可变时，这可以节省大量时间和处理能力！`padding`
+
+以下是我们如何同时在所有数据集上应用标记化函数。我们在调用中使用，因此该函数一次应用于数据集的多个元素，而不是单独应用于每个元素。这样可以加快预处理速度。`batched=True``map`
+
+```
+tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+tokenized_datasets
+```
+
+Datasets 库应用此处理的方式🤗是向数据集添加新字段，预处理函数返回的字典中的每个键对应一个字段：
+
+```
+DatasetDict({
+    train: Dataset({
+        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
+        num_rows: 3668
+    })
+    validation: Dataset({
+        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
+        num_rows: 408
+    })
+    test: Dataset({
+        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
+        num_rows: 1725
+    })
+})
+```
+
+在应用预处理函数时，您甚至可以通过传递参数来使用多重处理。我们在这里没有这样做，🤗因为 Tokenizers 库已经使用多个线程来更快地标记我们的样本，但如果你没有使用这个库支持的快速标记器，这可能会加快你的预处理速度。`map()``num_proc`
+
+我们返回一个带有键 、 和 的字典，因此这三个字段被添加到数据集的所有拆分中。请注意，如果我们的预处理函数为我们应用的数据集中的现有键返回新值，我们也可以更改现有字段。`tokenize_function``input_ids``attention_mask``token_type_ids``map()`
+
+我们需要做的最后一件事是，当我们将元素批处理在一起时，将所有示例填充到最长元素的长度上——我们称之为*动态填充*的技术。
+
 ### Q: huggingface的AdamW是干啥的？
 
 在 Hugging Face Transformers 库中，`AdamW` 是一个优化器类，用于实现带有权重衰减（Weight Decay）的 Adam 优化算法。AdamW 是对 Adam 优化算法的一个变种，它在原始的 Adam 算法基础上添加了权重衰减的功能，以解决优化器在一些任务中可能会导致模型过拟合的问题。
