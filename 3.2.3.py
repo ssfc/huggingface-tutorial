@@ -21,4 +21,6 @@ samples = tokenized_datasets["train"][:8]
 samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
 print([len(x) for x in samples["input_ids"]])
 
+batch = data_collator(samples)
+print({k: v.shape for k, v in batch.items()})
 
