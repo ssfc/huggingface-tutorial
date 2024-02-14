@@ -2404,6 +2404,27 @@ print(batch)
 
 ## 3.3 Fine-tuning a model with the Trainer API
 
+🤗 Transformers 提供了一个`Trainer`类，可帮助您微调它在数据集上提供的任何预训练模型。完成上一节中的所有数据预处理工作后，只需几个步骤即可定义 `Trainer` . 最难的部分可能是准备 `Trainer.train()` 运行环境，因为它在 CPU 上运行速度非常慢。如果您没有设置 GPU，可以在 [Google Colab](https://colab.research.google.com/) 上访问免费的 GPU 或 TPU。
+
+下面的代码示例假定您已经执行了上一节中的示例。以下是概述您需要的简短摘要：
+
+```python
+from datasets import load_dataset
+from transformers import AutoTokenizer, DataCollatorWithPadding
+
+raw_datasets = load_dataset("glue", "mrpc")
+checkpoint = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+
+
+def tokenize_function(example):
+    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+
+
+tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+```
+
 ### 3.3.1 Training
 
 ### Q: 解释from transformers import TrainingArguments
