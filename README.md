@@ -2053,15 +2053,13 @@ Comment:  这里的input_ids我运行出来和文档中是一样的。可见分�
 
 如果我们将`input_ids`里面的 ID 解码回单词：
 
-```
+```python
 tokenizer.convert_ids_to_tokens(inputs["input_ids"])
 ```
 
 我们将得到：
 
-```
 ['[CLS]', 'this', 'is', 'the', 'first', 'sentence', '.', '[SEP]', 'this', 'is', 'the', 'second', 'one', '.', '[SEP]']
-```
 
 因此，我们看到模型期望输入是当有两个句子时的形式。将其与 the 保持一致，可以让我们：`[CLS] sentence1 [SEP] sentence2 [SEP]``token_type_ids`
 
