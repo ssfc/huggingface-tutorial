@@ -2256,6 +2256,40 @@ print(tokens)
 
 ### 3.2.3 Dynamic padding
 
+负责将批处理中的样本放在一起的函数称为 *collate 函数*。这是一个参数，您可以在构建 `DataLoader` 时传递 ，默认值是一个函数，该函数只会将您的样本转换为 PyTorch 张量并将它们连接起来（如果您的元素是列表、元组或字典，则递归）。在我们的例子中，这是不可能的，因为我们拥有的输入不会都具有相同的大小。我们特意推迟了填充，只在每个批次上根据需要应用它，并避免有过长的输入和大量的填充。这将大大加快训练速度，但请注意，如果您在 TPU 上进行训练，可能会导致问题——TPU 更喜欢固定形状，即使这需要额外的填充。
+
+为了在实践中做到这一点，我们必须定义一个 collate 函数，该函数将正确数量的填充应用于我们想要批处理在一起的数据集项目。幸运的是，🤗 Transformers 库通过 为我们提供了这样的功能。当你实例化它时，它需要一个分词器（以知道要使用哪个填充标记，以及模型期望填充是在输入的左侧还是右侧），并将执行您需要的所有操作：`DataCollatorWithPadding`
+
+```python
+from transformers import DataCollatorWithPadding
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+```
+
+为了测试这个新玩具，让我们从训练集中获取一些样本，我们想将它们分批在一起。在这里，我们删除了列 、 ，因为它们不需要并且包含字符串（并且我们不能使用字符串创建张量），并查看批处理中每个条目的长度：`idx``sentence1``sentence2`
+
+```python
+samples = tokenized_datasets["train"][:8]
+samples = {k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]}
+[len(x) for x in samples["input_ids"]]
+[50, 59, 47, 67, 59, 50, 62, 32]
+```
+
+毫不奇怪，我们得到了不同长度的样本，从 32 到 67。动态填充意味着此批次中的样品都应填充到 67 的长度，即批次内的最大长度。如果没有动态填充，则必须将所有样本填充到整个数据集中的最大长度或模型可以接受的最大长度。让我们仔细检查我们的是否正确地动态填充了批处理：`data_collator`
+
+```python
+batch = data_collator(samples)
+{k: v.shape for k, v in batch.items()}
+{'attention_mask': torch.Size([8, 67]),
+ 'input_ids': torch.Size([8, 67]),
+ 'token_type_ids': torch.Size([8, 67]),
+ 'labels': torch.Size([8])}
+```
+
+看起来不错！现在我们已经从原始文本变成了模型可以处理的批处理，我们准备对其进行微调！
+
+✏️ 试**试看！**在 GLUE SST-2 数据集上复制预处理。它有点不同，因为它是由单个句子而不是成对组成的，但我们所做的其余部分应该看起来相同。对于更难的挑战，请尝试编写一个适用于任何 GLUE 任务的预处理函数。
+
 ### Q: 你知道transformer的Dynamic padding吗？
 
 在 Transformer 模型中，Dynamic Padding 是一种技术，用于处理输入序列的不等长问题。在自然语言处理等任务中，输入文本的长度往往会不同，而 Transformer 模型要求输入序列的长度固定，因此需要将不等长的输入序列转换成等长的形式。
