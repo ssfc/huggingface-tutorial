@@ -2078,7 +2078,7 @@ tokenizer.convert_ids_to_tokens(inputs["input_ids"])
 
 现在我们已经了解了我们的分词器如何处理一对句子，我们可以使用它来标记我们的整个数据集：就像[在上一章](https://huggingface.co/course/chapter2)中一样，我们可以通过给分词器提供第一个句子列表，然后是第二个句子列表来为分词器提供句子对列表。这也与我们[在第 2 章](https://huggingface.co/course/chapter2)中看到的填充和截断选项兼容。因此，预处理训练数据集的一种方法是：
 
-```
+```python
 tokenized_dataset = tokenizer(
     raw_datasets["train"]["sentence1"],
     raw_datasets["train"]["sentence2"],
