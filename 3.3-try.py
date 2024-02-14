@@ -35,6 +35,5 @@ trainer = Trainer(
 
 trainer.train()
 
-predictions = trainer.predict(tokenized_datasets["validation"])
-print(predictions.predictions.shape, predictions.label_ids.shape)
+
 

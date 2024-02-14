@@ -4,6 +4,7 @@ from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
 from transformers import Trainer
 from transformers import TrainingArguments
+import numpy as np
 
 
 training_args = TrainingArguments("test-trainer")
@@ -35,5 +36,8 @@ trainer = Trainer(
 
 trainer.train()
 
+predictions = trainer.predict(tokenized_datasets["validation"])
+print(predictions.predictions.shape, predictions.label_ids.shape)
+preds = np.argmax(predictions.predictions, axis=-1)
 
 
