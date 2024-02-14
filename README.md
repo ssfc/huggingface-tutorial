@@ -2280,12 +2280,13 @@ print([len(x) for x in samples["input_ids"]])
 
 ```python
 batch = data_collator(samples)
-{k: v.shape for k, v in batch.items()}
+print({k: v.shape for k, v in batch.items()})
+```
+
 {'attention_mask': torch.Size([8, 67]),
  'input_ids': torch.Size([8, 67]),
  'token_type_ids': torch.Size([8, 67]),
  'labels': torch.Size([8])}
-```
 
 看起来不错！现在我们已经从原始文本变成了模型可以处理的批处理，我们准备对其进行微调！
 
