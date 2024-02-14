@@ -2096,7 +2096,7 @@ def tokenize_function(example):
     return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
 ```
 
-此函数采用字典（如数据集中的项目）并返回一个带有键 `input_ids`、`attention_mask` 和 `token_type_ids` 的新字典。请注意，如果字典包含多个样本（每个键作为句子列表），它也有效，因为如前所述，它适用于句子对列表。这将允许我们在调用 中使用该选项，这将大大加快标记化的速度。它由 Tokenizers 库中用 Rust [🤗](https://github.com/huggingface/tokenizers) 编写的分词器提供支持。这个分词器可以非常快，但前提是我们一次给它很多输入。`example``tokenizer``batched=True``map()``tokenizer`
+此函数采用字典（如数据集中的项目）并返回一个带有键 `input_ids`、`attention_mask` 和 `token_type_ids` 的新字典。请注意，如果`example` 字典包含多个样本（每个键作为句子列表），它也有效，因为如前所述，它适用于句子对列表。这将允许我们在调用 中使用该选项，这将大大加快标记化的速度。它由 Tokenizers 库中用 Rust [🤗](https://github.com/huggingface/tokenizers) 编写的分词器提供支持。这个分词器可以非常快，但前提是我们一次给它很多输入。`tokenizer``batched=True``map()``tokenizer`
 
 请注意，我们暂时在标记化函数中省略了该参数。这是因为将所有样本填充到最大长度是效率不高的：最好在构建批处理时填充样本，因为这样我们只需要填充到该批次中的最大长度，而不是整个数据集中的最大长度。当输入的长度非常可变时，这可以节省大量时间和处理能力！`padding`
 
