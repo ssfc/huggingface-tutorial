@@ -2651,7 +2651,7 @@ trainer.train()
 
 `Trainer`将在多个 GPU 或 TPU 上开箱即用，并提供许多选项，例如混合精度训练（在训练参数中使用`fp16 = True`）。我们将在第 10 章中介绍它支持的所有内容。
 
-使用 API 进行微调的介绍到此结束。[第 7 章](https://huggingface.co/course/chapter7)将给出一个针对大多数常见 NLP 任务执行此操作的示例，但现在让我们看看如何在纯 PyTorch 中执行相同的操作。`Trainer`
+使用 `Trainer` API 进行微调的介绍到此结束。[第 7 章](https://huggingface.co/course/chapter7)将给出一个针对大多数常见 NLP 任务执行此操作的示例，但现在让我们看看如何在纯 PyTorch 中执行相同的操作。
 
 ✏️ 试试看！使用在第 2 节中执行的数据处理，在 GLUE SST-2 数据集上微调模型。
 
