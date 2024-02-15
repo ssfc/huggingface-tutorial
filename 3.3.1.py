@@ -35,7 +35,7 @@ trainer = Trainer(
     tokenizer=tokenizer,
 )
 
-# trainer.train()
+trainer.train()
 
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
@@ -50,27 +50,6 @@ print(metric.compute(predictions=preds, references=predictions.label_ids))
 # 训练后的结果2：{'accuracy': 0.8578431372549019, 'f1': 0.901023890784983}
 
 
-def compute_metrics(eval_preds):
-    metric = evaluate.load("glue", "mrpc")
-    logits, labels = eval_preds
-    predictions = np.argmax(logits, axis=-1)
-    return metric.compute(predictions=predictions, references=labels)
-
-
-training_args = TrainingArguments("test-trainer", evaluation_strategy="epoch")
-model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
-
-trainer = Trainer(
-    model,
-    training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
-    data_collator=data_collator,
-    tokenizer=tokenizer,
-    compute_metrics=compute_metrics,
-)
-
-trainer.train()
 
 
 
