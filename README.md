@@ -2641,7 +2641,7 @@ trainer = Trainer(
 )
 ```
 
-请注意，我们创建了一个新模型，并设置了一个新模型，否则，我们只会继续训练我们已经训练的模型。为了启动新的训练运行，我们执行：`TrainingArguments``evaluation_strategy``"epoch"`
+Note that we create a new `TrainingArguments` with its `evaluation_strategy` set to `"epoch"` and a new model，否则，我们只会继续训练我们已经训练的模型。为了启动新的训练运行，我们执行：
 
 ```python
 trainer.train()
