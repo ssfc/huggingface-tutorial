@@ -2616,7 +2616,7 @@ def compute_metrics(eval_preds):
     return metric.compute(predictions=predictions, references=labels)
 ```
 
-为了查看它在每个纪元结束时报告指标的实际应用，以下是我们如何使用此函数定义一个新指标：`Trainer``compute_metrics()`
+为了查看它在每个epoch结束时报告指标的实际应用，以下是我们如何使用`compute_metrics()`函数定义一个新`Trainer`：
 
 ```python
 training_args = TrainingArguments("test-trainer", evaluation_strategy="epoch")
