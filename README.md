@@ -2604,6 +2604,14 @@ metric.compute(predictions=preds, references=predictions.label_ids)
 
 {'accuracy': 0.8578431372549019, 'f1': 0.8996539792387542}
 
+我的未训练的结果1：{'accuracy': 0.6838235294117647, 'f1': 0.8122270742358079}
+
+我的未训练的结果2：{'accuracy': 0.5563725490196079, 'f1': 0.6629422718808194}
+
+我的训练后的结果1：{'accuracy': 0.8627450980392157, 'f1': 0.903448275862069}
+
+我的训练后的结果2：{'accuracy': 0.8578431372549019, 'f1': 0.901023890784983}
+
 您获得的确切结果可能会有所不同，因为模型头的随机初始化可能会改变它实现的指标。在这里，我们可以看到我们的模型**在验证集上**的准确率为 85.78%，F1 得分为 89.97。这是用于评估 GLUE 基准的 MRPC 数据集结果的两个指标。[BERT论文](https://arxiv.org/pdf/1810.04805.pdf)中的表格报告了基本模型的F1得分为88.9。That was the `uncased` model while we are currently using the `cased` model, which explains the better result. 
 
 将所有内容包装在一起，我们得到我们的`compute_metrics()`函数：
