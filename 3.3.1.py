@@ -44,6 +44,7 @@ preds = np.argmax(predictions.predictions, axis=-1)
 metric = evaluate.load("glue", "mrpc")
 print(metric.compute(predictions=preds, references=predictions.label_ids))
 
-
+# 未训练的结果1：{'accuracy': 0.6838235294117647, 'f1': 0.8122270742358079}
+# 未训练的结果2：{'accuracy': 0.5563725490196079, 'f1': 0.6629422718808194}
 
 
