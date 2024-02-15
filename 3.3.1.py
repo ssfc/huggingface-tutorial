@@ -35,7 +35,7 @@ trainer = Trainer(
     tokenizer=tokenizer,
 )
 
-# trainer.train()
+trainer.train()
 
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
@@ -46,5 +46,8 @@ print(metric.compute(predictions=preds, references=predictions.label_ids))
 
 # 未训练的结果1：{'accuracy': 0.6838235294117647, 'f1': 0.8122270742358079}
 # 未训练的结果2：{'accuracy': 0.5563725490196079, 'f1': 0.6629422718808194}
+# 训练后的结果1：{'accuracy': 0.8627450980392157, 'f1': 0.903448275862069}
+# 训练后的结果2：{'accuracy': 0.8578431372549019, 'f1': 0.901023890784983}
+
 
 
