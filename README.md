@@ -2606,7 +2606,7 @@ metric.compute(predictions=preds, references=predictions.label_ids)
 
 您获得的确切结果可能会有所不同，因为模型头的随机初始化可能会改变它实现的指标。在这里，我们可以看到我们的模型**在验证集上**的准确率为 85.78%，F1 得分为 89.97。这是用于评估 GLUE 基准的 MRPC 数据集结果的两个指标。[BERT论文](https://arxiv.org/pdf/1810.04805.pdf)中的表格报告了基本模型的F1得分为88.9。That was the `uncased` model while we are currently using the `cased` model, which explains the better result. 
 
-将所有内容包装在一起，我们得到我们的函数：`compute_metrics()`
+将所有内容包装在一起，我们得到我们的`compute_metrics()`函数：
 
 ```python
 def compute_metrics(eval_preds):
