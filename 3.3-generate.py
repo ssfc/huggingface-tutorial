@@ -4,16 +4,20 @@ from transformers import DataCollatorForLanguageModeling
 from transformers import Trainer, TrainingArguments
 
 # Load dataset
-datasets = load_dataset('wikitext', 'wikitext-103-raw-v1')
+datasets = load_dataset('wikitext', 'wikitext-2-raw-v1')
 
 # Load pre-trained model and tokenizer
 model_name = 'distilgpt2'
 model = AutoModelForCausalLM.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer.pad_token = tokenizer.eos_token
+# tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
 
 # Tokenize dataset
 def tokenize_function(examples):
-    return tokenizer(examples["text"])
+    return tokenizer(examples["text"], truncation=True, padding='max_length', max_length=512)
+
 
 tokenized_datasets = datasets.map(tokenize_function, batched=True, num_proc=4, remove_columns=["text"])
 
