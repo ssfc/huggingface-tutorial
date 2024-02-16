@@ -7,9 +7,9 @@ from transformers import Trainer, TrainingArguments
 datasets = load_dataset('wikitext', 'wikitext-2-raw-v1')
 
 # Load pre-trained model and tokenizer
-model_name = 'distilgpt2'
-model = AutoModelForCausalLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+checkpoint = 'distilgpt2'
+model = AutoModelForCausalLM.from_pretrained(checkpoint)
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 tokenizer.pad_token = tokenizer.eos_token
 # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
