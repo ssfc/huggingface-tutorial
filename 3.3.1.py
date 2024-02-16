@@ -36,6 +36,7 @@ trainer = Trainer(
 )
 
 trainer.train()
+# {'train_runtime': 37.6836, 'train_samples_per_second': 292.01, 'train_steps_per_second': 36.541, 'train_loss': 0.5535052374990072, 'epoch': 3.0}
 
 predictions = trainer.predict(tokenized_datasets["validation"])
 print(predictions.predictions.shape, predictions.label_ids.shape)
