@@ -46,5 +46,5 @@ trainer.train()
 
 # {'eval_loss': 0.6194150447845459, 'eval_accuracy': 0.8529411764705882, 'eval_f1': 0.8972602739726027,
 # 'eval_runtime': 4.1786, 'eval_samples_per_second': 97.641, 'eval_steps_per_second': 12.205, 'epoch': 3.0}
-
+# 和3.3.1中的结果差不多
 
