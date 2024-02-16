@@ -2464,9 +2464,7 @@ trainer = Trainer(
 )
 ```
 
-请注意，当您像我们在这里所做的那样传递 时，使用的默认值将是前面定义的 a，因此您可以跳过此调用中的行。在第 2 节中向您展示这部分处理仍然很重要！`tokenizer``data_collator``Trainer``DataCollatorWithPadding``data_collator=data_collator`
-
-为了在我们的数据集上微调模型，我们只需要调用我们的方法：`train()``Trainer`
+Note that we create a new `TrainingArguments` with its `evaluation_strategy` set to `"epoch"` and a new model — otherwise, we would just be continuing the training of the model we have already trained. To launch a new training run, we execute:
 
 ```
 trainer.train()
