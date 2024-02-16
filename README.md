@@ -2435,6 +2435,8 @@ from transformers import TrainingArguments
 training_args = TrainingArguments("test-trainer")
 ```
 
+（Comment:  test-trainer是checkpoint存储路径）
+
 💡 If you want to automatically upload your model to the Hub during training, pass along `push_to_hub=True` in the `TrainingArguments`. 我们将在第 [4 章](https://huggingface.co/course/chapter4/3)中对此进行更多了解。
 
 第二步是定义我们的模型。与[上一章](https://huggingface.co/course/chapter2)一样，我们将使用带有两个标签的类 `AutoModelForSequenceClassification`：

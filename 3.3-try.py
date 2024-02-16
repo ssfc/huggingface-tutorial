@@ -6,7 +6,7 @@ from transformers import Trainer
 from transformers import TrainingArguments
 
 
-training_args = TrainingArguments("test-trainer")
+training_args = TrainingArguments("test-trainer")  # test-training是路径
 
 
 checkpoint = "bert-base-uncased"
