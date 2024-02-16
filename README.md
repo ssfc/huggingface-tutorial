@@ -2466,7 +2466,7 @@ trainer = Trainer(
 
 Note that we create a new `TrainingArguments` with its `evaluation_strategy` set to `"epoch"` and a new model — otherwise, we would just be continuing the training of the model we have already trained. To launch a new training run, we execute:
 
-```
+```python
 trainer.train()
 ```
 
