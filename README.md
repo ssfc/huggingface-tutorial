@@ -3641,7 +3641,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 我们需要一个数据整理器来处理动态批处理的填充。在这种情况下，我们不能像在第 [3 章](https://huggingface.co/course/chapter3)中使用 `DataCollatorWithPadding`，因为这只会填充输入（输入 ID、注意掩码和令牌类型 ID）。我们的标签也应填充到标签中遇到的最大长度。而且，如前所述，用于填充标签的填充值应该是分词器的填充值 `-100`，而不是填充标记器的填充标记，以确保在损失计算中忽略这些填充值。
 
-这一切都是由[`DataCollatorForSeq2Seq`](https://huggingface.co/transformers/main_classes/data_collator.html#datacollatorforseq2seq)完成的。与 一样，它需要 用于预处理输入，但它也需要 .这是因为此数据整理器还将负责准备解码器输入 ID，这些 ID 是标签的移动版本，开头带有特殊标记。由于这种转变对于不同的架构略有不同，因此需要了解对象：`DataCollatorWithPadding``tokenizer``model``DataCollatorForSeq2Seq``model`
+这一切都是由[`DataCollatorForSeq2Seq`](https://huggingface.co/transformers/main_classes/data_collator.html#datacollatorforseq2seq)完成的。与 `DataCollatorWithPadding` 一样，它需要 用于预处理输入，但它也需要 .这是因为此数据整理器还将负责准备解码器输入 ID，这些 ID 是标签的移动版本，开头带有特殊标记。由于这种转变对于不同的架构略有不同，因此需要了解对象：`tokenizer``model``DataCollatorForSeq2Seq``model`
 
 ```python
 from transformers import DataCollatorForSeq2Seq
