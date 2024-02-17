@@ -3810,7 +3810,7 @@ def compute_metrics(eval_preds):
 
 第一步是登录到 Hugging Face，以便能够将结果上传到模型中心。在笔记本中有一个方便的功能可以帮助您完成此操作：
 
-```
+```python
 from huggingface_hub import notebook_login
 
 notebook_login()
@@ -3820,11 +3820,11 @@ notebook_login()
 
 如果您不在笔记本中工作，只需在终端中键入以下行：
 
-```
+```shell
 huggingface-cli login
 ```
 
-完成此操作后，我们可以定义我们的 .与 一样，我们使用包含更多字段的子类：`Seq2SeqTrainingArguments``Trainer``TrainingArguments`
+完成此操作后，我们可以定义我们的 `Seq2SeqTrainingArguments`. 与 `Trainer` 一样，我们使用包含更多字段的`TrainingArguments` 的子类：
 
 ```
 from transformers import Seq2SeqTrainingArguments
