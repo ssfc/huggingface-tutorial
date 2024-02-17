@@ -3559,7 +3559,7 @@ model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, return_tensors="pt")
 ```
 
-您还可以从 [Hub](https://huggingface.co/models) 或保存预训练模型和分词器的本地文件夹中将其替换为您喜欢的任何其他模型。`model_checkpoint`
+You can also replace the `model_checkpoint` with any other model you prefer from the [Hub](https://huggingface.co/models), or a local folder where you’ve saved a pretrained model and a tokenizer. 
 
 💡 如果您使用的是多语言分词器，例如 mBART、mBART-50 或 M2M100，则需要通过设置 和 来设置输入和目标的语言代码。`tokenizer.src_lang``tokenizer.tgt_lang`
 
