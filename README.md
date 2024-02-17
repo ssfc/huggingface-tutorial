@@ -3706,7 +3706,7 @@ BLEU的一个弱点是它期望文本已经被标记化，这使得很难比较�
 !pip install sacrebleu
 ```
 
-然后，我们可以像[在第 3 章](https://huggingface.co/course/chapter3)中所做的那样加载它：`evaluate.load()`
+然后，我们可以像[在第 3 章](https://huggingface.co/course/chapter3)中所做的那样加载它`evaluate.load()`：
 
 ```python
 import evaluate
