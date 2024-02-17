@@ -3623,7 +3623,7 @@ tokenized_datasets = split_datasets.map(
 
 现在数据已经过预处理，我们准备微调我们的预训练模型了！
 
-
+### 7.4.2 Fine-tuning the model with the Trainer API
 
 
 
