@@ -3637,7 +3637,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 请注意，这次我们使用的是在翻译任务上训练的模型，并且实际上已经可以使用，因此没有关于缺少权重或新初始化的权重的警告。
 
-
+#### Data collation
 
 
 
