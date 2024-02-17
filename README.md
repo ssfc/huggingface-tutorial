@@ -3534,12 +3534,13 @@ split_datasets["train"][172]["translation"]
 
 然而，我们的预训练模型坚持使用紧凑而熟悉的英语单词：
 
-```
+```python
 translator(
     "Unable to import %1 using the OFX importer plugin. This file is not the correct format."
 )
-[{'translation_text': "Impossible d'importer %1 en utilisant le plugin d'importateur OFX. Ce fichier n'est pas le bon format."}]
 ```
+
+[{'translation_text': "Impossible d'importer %1 en utilisant le plugin d'importateur OFX. Ce fichier n'est pas le bon format."}]
 
 看看我们微调的模型是否能抓住数据集的这些特殊性，这将是一件有趣的事情（剧透警告：它会的）。
 
