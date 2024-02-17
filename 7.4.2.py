@@ -10,10 +10,10 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, return_tensors="pt")
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
-max_length = 128
 
 
 def preprocess_function(examples):
+    max_length = 128
     inputs = [ex["en"] for ex in examples["translation"]]
     targets = [ex["fr"] for ex in examples["translation"]]
     model_inputs = tokenizer(
