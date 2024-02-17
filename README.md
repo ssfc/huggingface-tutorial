@@ -3696,7 +3696,7 @@ for i in range(1, 3):
 
 `Seq2SeqTrainer` 添加到其超类 `Trainer` 的功能是在评估或预测期间使用 `generate()` 方法的能力。在训练期间，模型将使用带有注意力掩码的 `decoder_input_ids` ，以确保它不会在尝试预测的令牌之后使用标记，以加快训练速度。在推理过程中，我们将无法使用这些标签，因为我们没有标签，因此最好使用相同的设置来评估我们的模型。
 
-正如我们在第 [1 章](https://huggingface.co/course/chapter1/6)中看到的，解码器通过逐个预测令牌来执行推理——这是通过 `generate()` 方法在《变形金刚》中🤗幕后实现的。如果我们设置 ，将允许我们使用该方法进行评估。`Seq2SeqTrainer``predict_with_generate=True`
+正如我们在第 [1 章](https://huggingface.co/course/chapter1/6)中看到的，解码器通过逐个预测令牌来执行推理——这是通过 `generate()` 方法在《变形金刚》中🤗幕后实现的。如果我们设置 `predict_with_generate=True`，将允许我们使用 `Seq2SeqTrainer` 方法进行评估。
 
 用于翻译的传统指标是 [BLEU 分数](https://en.wikipedia.org/wiki/BLEU)，在 [2002](https://aclanthology.org/P02-1040.pdf) 年 Kishore Papineni 等人的一篇文章中引入。BLEU 分数评估翻译与其标签的接近程度。它不衡量模型生成输出的可理解性或语法正确性，而是使用统计规则来确保生成输出中的所有单词也出现在目标中。此外，还有一些规则会惩罚相同单词的重复，如果它们在目标中也没有重复（以避免模型输出句子，如 ）和输出比目标中的句子短的句子（以避免模型输出句子，如 ）。`"the the the the the"``"the"`
 
