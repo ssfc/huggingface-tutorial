@@ -3639,7 +3639,54 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 #### Data collation
 
+我们需要一个数据整理器来处理动态批处理的填充。在这种情况下，我们不能只在第 [3 章](https://huggingface.co/course/chapter3)中使用 like，因为这只会填充输入（输入 ID、注意掩码和令牌类型 ID）。我们的标签也应填充到标签中遇到的最大长度。而且，如前所述，用于填充标签的填充值应该是分词器的填充值，而不是填充标记器的填充标记，以确保在损失计算中忽略这些填充值。`DataCollatorWithPadding``-100`
 
+这一切都是由[`DataCollatorForSeq2Seq`](https://huggingface.co/transformers/main_classes/data_collator.html#datacollatorforseq2seq)完成的。与 一样，它需要 用于预处理输入，但它也需要 .这是因为此数据整理器还将负责准备解码器输入 ID，这些 ID 是标签的移动版本，开头带有特殊标记。由于这种转变对于不同的架构略有不同，因此需要了解对象：`DataCollatorWithPadding``tokenizer``model``DataCollatorForSeq2Seq``model`
+
+```python
+from transformers import DataCollatorForSeq2Seq
+
+data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
+```
+
+为了在几个示例上对此进行测试，我们只需在标记化训练集中的示例列表中调用它：
+
+```python
+batch = data_collator([tokenized_datasets["train"][i] for i in range(1, 3)])
+batch.keys()
+dict_keys(['attention_mask', 'input_ids', 'labels', 'decoder_input_ids'])
+```
+
+我们可以检查我们的标签是否已填充到批次的最大长度，使用：`-100`
+
+```python
+batch["labels"]
+tensor([[  577,  5891,     2,  3184,    16,  2542,     5,  1710,     0,  -100,
+          -100,  -100,  -100,  -100,  -100,  -100],
+        [ 1211,     3,    49,  9409,  1211,     3, 29140,   817,  3124,   817,
+           550,  7032,  5821,  7907, 12649,     0]])
+```
+
+我们还可以看一下解码器输入 ID，看看它们是标签的移位版本：
+
+```python
+batch["decoder_input_ids"]
+tensor([[59513,   577,  5891,     2,  3184,    16,  2542,     5,  1710,     0,
+         59513, 59513, 59513, 59513, 59513, 59513],
+        [59513,  1211,     3,    49,  9409,  1211,     3, 29140,   817,  3124,
+           817,   550,  7032,  5821,  7907, 12649]])
+```
+
+以下是数据集中第一个和第二个元素的标签：
+
+```python
+for i in range(1, 3):
+    print(tokenized_datasets["train"][i]["labels"])
+[577, 5891, 2, 3184, 16, 2542, 5, 1710, 0]
+[1211, 3, 49, 9409, 1211, 3, 29140, 817, 3124, 817, 550, 7032, 5821, 7907, 12649, 0]
+```
+
+我们会将其传递给 .接下来，让我们看一下指标。`data_collator``Seq2SeqTrainer`
 
 
 
