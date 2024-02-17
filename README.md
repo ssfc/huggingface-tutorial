@@ -3476,7 +3476,7 @@ DatasetDict({
     })
 })
 
-我们有 210,173 对句子，但在一个单一的拆分中，因此我们需要创建自己的验证集。正如我们[在第 5 章](https://huggingface.co/course/chapter5)中看到的，a 有一种方法可以帮助我们。我们将提供可重复性的种子：`Dataset``train_test_split()`
+我们有 210,173 对句子，但在一个单一的拆分中，因此我们需要创建自己的验证集。正如我们[在第 5 章](https://huggingface.co/course/chapter5)中看到的，a `Dataset`有一种 `train_test_split()` 方法可以帮助我们。我们将提供可重复性的种子：
 
 ```
 split_datasets = raw_datasets["train"].train_test_split(train_size=0.9, seed=20)
