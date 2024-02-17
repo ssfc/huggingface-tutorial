@@ -3402,3 +3402,41 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 。。。。。。。。。
 
+## 7.3 Fine-tuning a masked language model
+
+对于许多涉及 Transformer 模型的 NLP 应用程序，您只需从 Hugging Face Hub 中获取一个预训练模型，然后直接根据手头任务的数据对其进行微调。如果用于预训练的语料库与用于微调的语料库没有太大区别，迁移学习通常会产生良好的结果。
+
+但是，在某些情况下，您需要先对数据上的语言模型进行微调，然后再训练特定于任务的头部。例如，如果您的数据集包含法律合同或科学文章，则像 BERT 这样的普通 Transformer 模型通常会将语料库中特定于领域的单词视为稀有标记，并且最终的性能可能不尽如人意。通过对域内数据的语言模型进行微调，您可以提高许多下游任务的性能，这意味着您通常只需执行此步骤一次！
+
+这种在域内数据上微调预训练语言模型的过程通常称为*域适应*。它于 2018 年由 ULMFiT 推广，[ULMFiT](https://arxiv.org/abs/1801.06146) 是最早使迁移学习真正适用于 NLP 的神经架构（基于 LSTM）之一。下图显示了使用 ULMFiT 进行域适应的示例;在本节中，我们将做类似的事情，但使用 Transformer 而不是 LSTM！
+
+![ULMFiT.](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter7/ulmfit.svg)
+
+在本节结束时，你将在 Hub 上有一个[掩码语言](https://huggingface.co/huggingface-course/distilbert-base-uncased-finetuned-imdb?text=This+is+a+great+[MASK].)模型，该模型可以自动完成句子，如下所示：
+
+
+
+让我们开始吧！
+
+。。。。。。。。。
+
+。。。。。。。。。
+
+。。。。。。。。。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
