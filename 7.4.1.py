@@ -49,5 +49,11 @@ def preprocess_function(examples):
     return model_inputs
 
 
+tokenized_datasets = split_datasets.map(
+    preprocess_function,
+    batched=True,
+    remove_columns=split_datasets["train"].column_names,
+)
+
 
 
