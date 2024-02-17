@@ -3449,7 +3449,7 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 要从头开始微调或训练翻译模型，我们需要一个适合该任务的数据集。如前所述，我们将在本节中使用 [KDE4 数据集](https://huggingface.co/datasets/kde4)，但您可以非常轻松地调整代码以使用您自己的数据，只要您有要翻译的两种语言的句子对。Refer back to [Chapter 5](https://huggingface.co/course/chapter5) if you need a reminder of how to load your custom data in a `Dataset`. 
 
-### KDE4 数据集
+#### KDE4 数据集
 
 像往常一样，我们使用以下函数下载数据集：`load_dataset()`
 
@@ -3465,15 +3465,16 @@ raw_datasets = load_dataset("kde4", lang1="en", lang2="fr")
 
 让我们看一下数据集：
 
+```python
+print(raw_datasets)
 ```
-raw_datasets
+
 DatasetDict({
     train: Dataset({
         features: ['id', 'translation'],
         num_rows: 210173
     })
 })
-```
 
 我们有 210,173 对句子，但在一个单一的拆分中，因此我们需要创建自己的验证集。正如我们[在第 5 章](https://huggingface.co/course/chapter5)中看到的，a 有一种方法可以帮助我们。我们将提供可重复性的种子：`Dataset``train_test_split()`
 
