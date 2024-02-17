@@ -3573,8 +3573,9 @@ fr_sentence = split_datasets["train"][1]["translation"]["fr"]
 
 inputs = tokenizer(en_sentence, text_target=fr_sentence)
 inputs
-{'input_ids': [47591, 12, 9842, 19634, 9, 0], 'attention_mask': [1, 1, 1, 1, 1, 1], 'labels': [577, 5891, 2, 3184, 16, 2542, 5, 1710, 0]}
 ```
+
+{'input_ids': [47591, 12, 9842, 19634, 9, 0], 'attention_mask': [1, 1, 1, 1, 1, 1], 'labels': [577, 5891, 2, 3184, 16, 2542, 5, 1710, 0]}
 
 正如我们所看到的，输出包含与英语句子关联的输入 ID，而与法语句子关联的 ID 存储在字段中。如果您忘记指示您正在标记标签，它们将由输入标记器进行标记化，在 Marian 模型的情况下，这根本不会顺利进行：`labels`
 
