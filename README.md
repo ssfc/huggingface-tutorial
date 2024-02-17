@@ -3738,7 +3738,7 @@ metric.compute(predictions=predictions, references=references)
  'sys_len': 12,
  'ref_len': 13}
 
-这得到了 46.75 的 BLEU 分数，这是相当不错的——作为参考，“[注意力是你所需要的一切”论文](https://arxiv.org/pdf/1706.03762.pdf)中的原始 Transformer 模型在英语和法语之间的类似翻译任务中获得了 41.8 的 BLEU 分数！（有关各个指标的更多信息，如 和 ，请参阅 [SacreBLEU 存储库](https://github.com/mjpost/sacrebleu/blob/078c440168c6adc89ba75fe6d63f0d922d42bcfe/sacrebleu/metrics/bleu.py#L74)。另一方面，如果我们尝试翻译模型中经常出现的两种糟糕的预测类型（大量重复或太短），我们将得到相当糟糕的 BLEU 分数：`counts``bp`
+这得到了 46.75 的 BLEU 分数，这是相当不错的——作为参考，“[注意力是你所需要的一切”论文](https://arxiv.org/pdf/1706.03762.pdf)中的原始 Transformer 模型在英语和法语之间的类似翻译任务中获得了 41.8 的 BLEU 分数！（有关各个指标的更多信息，如 `counts` 和 `bp` ，请参阅 [SacreBLEU 存储库](https://github.com/mjpost/sacrebleu/blob/078c440168c6adc89ba75fe6d63f0d922d42bcfe/sacrebleu/metrics/bleu.py#L74)。另一方面，如果我们尝试翻译模型中经常出现的两种糟糕的预测类型（大量重复或太短），我们将得到相当糟糕的 BLEU 分数：
 
 ```python
 predictions = ["This This This This"]
