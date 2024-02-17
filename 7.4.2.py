@@ -58,6 +58,21 @@ references = [
 
 print(metric.compute(predictions=predictions, references=references))
 
+predictions = ["This This This This"]
+references = [
+    [
+        "This plugin allows you to automatically translate web pages between several languages."
+    ]
+]
+print(metric.compute(predictions=predictions, references=references))
+
+predictions = ["This plugin"]
+references = [
+    [
+        "This plugin allows you to automatically translate web pages between several languages."
+    ]
+]
+print(metric.compute(predictions=predictions, references=references))
 
 
 
