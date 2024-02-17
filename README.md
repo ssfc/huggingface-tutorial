@@ -3627,7 +3627,7 @@ tokenized_datasets = split_datasets.map(
 
 `Trainer`使用 的实际代码将与以前相同，只是有一个小改动：我们在这里使用 [`Seq2SeqTrainer`](https://huggingface.co/transformers/main_classes/trainer.html#seq2seqtrainer)，它是`Trainer`的子类，它将允许我们正确处理评估，使用 `generate()` 方法来预测输入的输出。当我们谈论指标计算时，我们将更详细地探讨这一点。
 
-首先，我们需要一个实际的模型来微调。我们将使用通常的 API：`AutoModel`
+首先，我们需要一个实际的模型来微调。我们将使用通常的 `AutoModel` API：
 
 ```python
 from transformers import AutoModelForSeq2SeqLM
