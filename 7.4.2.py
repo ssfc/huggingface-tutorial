@@ -40,6 +40,7 @@ batch = data_collator([tokenized_datasets["train"][i] for i in range(1, 3)])
 print(batch.keys())
 print(batch["labels"])
 
-
+for i in range(1, 3):
+    print(tokenized_datasets["train"][i]["labels"])
 
 
