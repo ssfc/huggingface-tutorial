@@ -36,9 +36,9 @@ tokenized_datasets = split_datasets.map(
 
 
 batch = data_collator([tokenized_datasets["train"][i] for i in range(1, 3)])
+# print(batch)
 print(batch.keys())
-
-
+print(batch["labels"])
 
 
 
