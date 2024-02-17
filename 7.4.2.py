@@ -2,6 +2,7 @@ from datasets import load_dataset
 from transformers import AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer
 from transformers import DataCollatorForSeq2Seq
+import evaluate
 
 
 model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
@@ -43,7 +44,6 @@ print(batch["labels"])
 for i in range(1, 3):
     print(tokenized_datasets["train"][i]["labels"])
 
-import evaluate
 
 metric = evaluate.load("sacrebleu")
 
