@@ -3826,7 +3826,7 @@ huggingface-cli login
 
 完成此操作后，我们可以定义我们的 `Seq2SeqTrainingArguments`. 与 `Trainer` 一样，我们使用包含更多字段的`TrainingArguments` 的子类：
 
-```
+```python
 from transformers import Seq2SeqTrainingArguments
 
 args = Seq2SeqTrainingArguments(
@@ -3858,7 +3858,7 @@ args = Seq2SeqTrainingArguments(
 
 最后，我们只需将所有内容传递给：`Seq2SeqTrainer`
 
-```
+```python
 from transformers import Seq2SeqTrainer
 
 trainer = Seq2SeqTrainer(
@@ -3874,7 +3874,7 @@ trainer = Seq2SeqTrainer(
 
 在训练之前，我们将首先查看模型获得的分数，以仔细检查我们的微调是否使事情变得更糟。此命令将花费一些时间，因此您可以在执行时喝杯咖啡：
 
-```
+```python
 trainer.evaluate(max_length=max_length)
 {'eval_loss': 1.6964408159255981,
  'eval_bleu': 39.26865061007616,
@@ -3887,7 +3887,7 @@ trainer.evaluate(max_length=max_length)
 
 接下来是培训，这也需要一些时间：
 
-```
+```python
 trainer.train()
 ```
 
@@ -3895,7 +3895,7 @@ trainer.train()
 
 训练完成后，我们再次评估我们的模型——希望我们能看到 BLEU 分数有所改善！
 
-```
+```python
 trainer.evaluate(max_length=max_length)
 {'eval_loss': 0.8558505773544312,
  'eval_bleu': 52.94161337775576,
@@ -3909,7 +3909,7 @@ trainer.evaluate(max_length=max_length)
 
 最后，我们使用该方法来确保我们上传了模型的最新版本。此外，还起草了包含所有评估结果的模型卡并上传。此模型卡包含元数据，可帮助模型中心为推理演示选择小组件。通常，不需要说什么，因为它可以从模型类中推断出正确的小部件，但在这种情况下，同一个模型类可以用于各种序列到序列的问题，因此我们将其指定为转换模型：`push_to_hub()``Trainer`
 
-```
+```python
 trainer.push_to_hub(tags="translation", commit_message="Training complete")
 ```
 
