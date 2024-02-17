@@ -3496,7 +3496,7 @@ DatasetDict({
 
 (Comment:  由于这个dataset没有专门的test-set和validation-set, 只有一个大大的train, 因此需要从train中分离一部分出来作为test)
 
-我们可以将密钥重命名为这样：`"test"``"validation"`
+我们可以将`"test"`密钥重命名为`"validation"`：
 
 ```
 split_datasets["validation"] = split_datasets.pop("test")
