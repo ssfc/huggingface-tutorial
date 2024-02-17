@@ -3694,5 +3694,109 @@ for i in range(1, 3):
 
 #### Metrics
 
+添加到其超类的功能是在评估或预测期间使用该方法的能力。在训练期间，模型将使用带有注意力掩码的模型，以确保它不会在尝试预测的令牌之后使用标记，以加快训练速度。在推理过程中，我们将无法使用这些标签，因为我们没有标签，因此最好使用相同的设置来评估我们的模型。`Seq2SeqTrainer``Trainer``generate()``decoder_input_ids`
 
+正如我们在第 [1 章](https://huggingface.co/course/chapter1/6)中看到的，解码器通过逐个预测令牌来执行推理——这是通过该方法在《变形金刚》中🤗幕后实现的。如果我们设置 ，将允许我们使用该方法进行评估。`generate()``Seq2SeqTrainer``predict_with_generate=True`
+
+用于翻译的传统指标是 [BLEU 分数](https://en.wikipedia.org/wiki/BLEU)，在 [2002](https://aclanthology.org/P02-1040.pdf) 年 Kishore Papineni 等人的一篇文章中引入。BLEU 分数评估翻译与其标签的接近程度。它不衡量模型生成输出的可理解性或语法正确性，而是使用统计规则来确保生成输出中的所有单词也出现在目标中。此外，还有一些规则会惩罚相同单词的重复，如果它们在目标中也没有重复（以避免模型输出句子，如 ）和输出比目标中的句子短的句子（以避免模型输出句子，如 ）。`"the the the the the"``"the"`
+
+BLEU的一个弱点是它期望文本已经被标记化，这使得很难比较使用不同标记器的模型之间的分数。因此，目前对翻译模型进行基准测试的最常用指标是 [SacreBLEU](https://github.com/mjpost/sacrebleu)，它通过标准化标记化步骤来解决这个弱点（和其他弱点）。要使用此指标，我们首先需要安装 SacreBLEU 库：
+
+```shell
+!pip install sacrebleu
+```
+
+然后，我们可以像[在第 3 章](https://huggingface.co/course/chapter3)中所做的那样加载它：`evaluate.load()`
+
+```python
+import evaluate
+
+metric = evaluate.load("sacrebleu")
+```
+
+此指标将文本作为输入和目标。它被设计为接受几个可接受的目标，因为同一个句子通常有多个可接受的翻译——我们使用的数据集只提供一个，但在 NLP 中，找到给出多个句子作为标签的数据集并不少见。因此，预测应该是句子列表，但参考文献应该是句子列表。
+
+让我们尝试一个例子：
+
+```python
+predictions = [
+    "This plugin lets you translate web pages between several languages automatically."
+]
+references = [
+    [
+        "This plugin allows you to automatically translate web pages between several languages."
+    ]
+]
+metric.compute(predictions=predictions, references=references)
+{'score': 46.750469682990165,
+ 'counts': [11, 6, 4, 3],
+ 'totals': [12, 11, 10, 9],
+ 'precisions': [91.67, 54.54, 40.0, 33.33],
+ 'bp': 0.9200444146293233,
+ 'sys_len': 12,
+ 'ref_len': 13}
+```
+
+这得到了 46.75 的 BLEU 分数，这是相当不错的——作为参考，“[注意力是你所需要的一切”论文](https://arxiv.org/pdf/1706.03762.pdf)中的原始 Transformer 模型在英语和法语之间的类似翻译任务中获得了 41.8 的 BLEU 分数！（有关各个指标的更多信息，如 和 ，请参阅 [SacreBLEU 存储库](https://github.com/mjpost/sacrebleu/blob/078c440168c6adc89ba75fe6d63f0d922d42bcfe/sacrebleu/metrics/bleu.py#L74)。另一方面，如果我们尝试翻译模型中经常出现的两种糟糕的预测类型（大量重复或太短），我们将得到相当糟糕的 BLEU 分数：`counts``bp`
+
+```python
+predictions = ["This This This This"]
+references = [
+    [
+        "This plugin allows you to automatically translate web pages between several languages."
+    ]
+]
+metric.compute(predictions=predictions, references=references)
+{'score': 1.683602693167689,
+ 'counts': [1, 0, 0, 0],
+ 'totals': [4, 3, 2, 1],
+ 'precisions': [25.0, 16.67, 12.5, 12.5],
+ 'bp': 0.10539922456186433,
+ 'sys_len': 4,
+ 'ref_len': 13}
+predictions = ["This plugin"]
+references = [
+    [
+        "This plugin allows you to automatically translate web pages between several languages."
+    ]
+]
+metric.compute(predictions=predictions, references=references)
+{'score': 0.0,
+ 'counts': [2, 1, 0, 0],
+ 'totals': [2, 1, 0, 0],
+ 'precisions': [100.0, 100.0, 0.0, 0.0],
+ 'bp': 0.004086771438464067,
+ 'sys_len': 2,
+ 'ref_len': 13}
+```
+
+分数可以从 0 到 100，越高越好。
+
+为了从模型输出获取指标可以使用的文本，我们将使用该方法。我们只需要清理标签中的所有 s（分词器会自动对填充令牌执行相同的操作）：`tokenizer.batch_decode()``-100`
+
+```python
+import numpy as np
+
+
+def compute_metrics(eval_preds):
+    preds, labels = eval_preds
+    # In case the model returns more than the prediction logits
+    if isinstance(preds, tuple):
+        preds = preds[0]
+
+    decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
+
+    # Replace -100s in the labels as we can't decode them
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+    # Some simple post-processing
+    decoded_preds = [pred.strip() for pred in decoded_preds]
+    decoded_labels = [[label.strip()] for label in decoded_labels]
+
+    result = metric.compute(predictions=decoded_preds, references=decoded_labels)
+    return {"bleu": result["score"]}
+```
+
+现在已经完成了，我们准备微调我们的模型了！
 
