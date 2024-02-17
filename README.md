@@ -3443,7 +3443,102 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 与前面的部分一样，你可以找到我们将使用以下代码训练并上传到 Hub 的实际模型，并[在此处](https://huggingface.co/huggingface-course/marian-finetuned-kde4-en-to-fr?text=This+plugin+allows+you+to+automatically+translate+web+pages+between+several+languages.)仔细检查其预测。
 
+### 7.4.1 Preparing the data
 
+要从头开始微调或训练翻译模型，我们需要一个适合该任务的数据集。如前所述，我们将在本节中使用 [KDE4 数据集](https://huggingface.co/datasets/kde4)，但您可以非常轻松地调整代码以使用您自己的数据，只要您有要翻译的两种语言的句子对。如果您需要提醒如何在 .`Dataset`
+
+### KDE4 数据集
+
+像往常一样，我们使用以下函数下载数据集：`load_dataset()`
+
+```
+from datasets import load_dataset
+
+raw_datasets = load_dataset("kde4", lang1="en", lang2="fr")
+```
+
+如果要使用不同的语言对，可以通过它们的代码来指定它们。该数据集共有 92 种语言可供选择;您可以通过展开[其数据集卡](https://huggingface.co/datasets/kde4)上的语言标签来查看它们。
+
+![可用于 KDE4 数据集的语言。](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter7/language_tags.png)
+
+让我们看一下数据集：
+
+```
+raw_datasets
+DatasetDict({
+    train: Dataset({
+        features: ['id', 'translation'],
+        num_rows: 210173
+    })
+})
+```
+
+我们有 210,173 对句子，但在一个单一的拆分中，因此我们需要创建自己的验证集。正如我们[在第 5 章](https://huggingface.co/course/chapter5)中看到的，a 有一种方法可以帮助我们。我们将提供可重复性的种子：`Dataset``train_test_split()`
+
+```
+split_datasets = raw_datasets["train"].train_test_split(train_size=0.9, seed=20)
+split_datasets
+DatasetDict({
+    train: Dataset({
+        features: ['id', 'translation'],
+        num_rows: 189155
+    })
+    test: Dataset({
+        features: ['id', 'translation'],
+        num_rows: 21018
+    })
+})
+```
+
+我们可以将密钥重命名为这样：`"test"``"validation"`
+
+```
+split_datasets["validation"] = split_datasets.pop("test")
+```
+
+现在让我们看一下数据集的一个元素：
+
+```
+split_datasets["train"][1]["translation"]
+{'en': 'Default to expanded threads',
+ 'fr': 'Par défaut, développer les fils de discussion'}
+```
+
+我们得到一本字典，里面有我们要求的两种语言的两个句子。这个充满计算机科学技术术语的数据集的一个特点是，它们都完全翻译成法语。然而，法国工程师在交谈时会留下大多数计算机科学特定的单词。例如，在这里，“线程”一词很可能出现在法语句子中，尤其是在技术对话中;但在这个数据集中，它已被翻译成更正确的“fils de discussion”。我们使用的预训练模型已经在更大的法语和英语句子语料库上进行了预训练，它采用了更简单的选择，即保持单词原样：
+
+```
+from transformers import pipeline
+
+model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
+translator = pipeline("translation", model=model_checkpoint)
+translator("Default to expanded threads")
+[{'translation_text': 'Par défaut pour les threads élargis'}]
+```
+
+这种行为的另一个例子可以在“plugin”这个词中看到，它不是正式的法语单词，但大多数母语人士都会理解并且懒得翻译。 在 KDE4 数据集中，这个词被翻译成法语，翻译成更官方的“module d'extension”：
+
+```
+split_datasets["train"][172]["translation"]
+{'en': 'Unable to import %1 using the OFX importer plugin. This file is not the correct format.',
+ 'fr': "Impossible d'importer %1 en utilisant le module d'extension d'importation OFX. Ce fichier n'a pas un format correct."}
+```
+
+然而，我们的预训练模型坚持使用紧凑而熟悉的英语单词：
+
+```
+translator(
+    "Unable to import %1 using the OFX importer plugin. This file is not the correct format."
+)
+[{'translation_text': "Impossible d'importer %1 en utilisant le plugin d'importateur OFX. Ce fichier n'est pas le bon format."}]
+```
+
+看看我们微调的模型是否能抓住数据集的这些特殊性，这将是一件有趣的事情（剧透警告：它会的）。
+
+[视频]
+
+✏️ **该你了！**法语中经常使用的另一个英语单词是“电子邮件”。在训练数据集中查找使用此词的第一个样本。它是如何翻译的？预训练模型如何翻译相同的英语句子？
+
+### 处理数据
 
 
 
