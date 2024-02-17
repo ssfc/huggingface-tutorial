@@ -3698,7 +3698,7 @@ for i in range(1, 3):
 
 正如我们在第 [1 章](https://huggingface.co/course/chapter1/6)中看到的，解码器通过逐个预测令牌来执行推理——这是通过 `generate()` 方法在《变形金刚》中🤗幕后实现的。如果我们设置 `predict_with_generate=True`，将允许我们使用 `Seq2SeqTrainer` 方法进行评估。
 
-用于翻译的传统指标是 [BLEU 分数](https://en.wikipedia.org/wiki/BLEU)，在 [2002](https://aclanthology.org/P02-1040.pdf) 年 Kishore Papineni 等人的一篇文章中引入。BLEU 分数评估翻译与其标签的接近程度。它不衡量模型生成输出的可理解性或语法正确性，而是使用统计规则来确保生成输出中的所有单词也出现在目标中。此外，还有一些规则会惩罚相同单词的重复`"the the the the the"`，如果它们在目标中也没有重复（以避免模型输出句子，如 ）和输出比目标中的句子短的句子（以避免模型输出句子，如 ）。`"the"`
+用于翻译的传统指标是 [BLEU 分数](https://en.wikipedia.org/wiki/BLEU)，在 [2002](https://aclanthology.org/P02-1040.pdf) 年 Kishore Papineni 等人的一篇文章中引入。BLEU 分数评估翻译与其标签的接近程度。它不衡量模型生成输出的可理解性或语法正确性，而是使用统计规则来确保生成输出中的所有单词也出现在目标中。此外，还有一些规则会惩罚相同单词的重复，如果它们在目标中也没有重复（以避免模型输出句子，如 `"the the the the the"`）和输出比目标中的句子短的句子（以避免模型输出句子，如 `"the"`）。
 
 BLEU的一个弱点是它期望文本已经被标记化，这使得很难比较使用不同标记器的模型之间的分数。因此，目前对翻译模型进行基准测试的最常用指标是 [SacreBLEU](https://github.com/mjpost/sacrebleu)，它通过标准化标记化步骤来解决这个弱点（和其他弱点）。要使用此指标，我们首先需要安装 SacreBLEU 库：
 
