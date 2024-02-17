@@ -3390,6 +3390,7 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 为此，您需要利用您在第 3 章中学到的有关 API 和 🤗 Accelerate 库、🤗第 [5](https://huggingface.co/course/chapter5) 章中的 Datasets 库以及🤗[第 6 章](https://huggingface.co/course/chapter6)中的 Tokenizers 库的所有知识。我们还将把结果上传到模型中心，就像我们在第 4 章中所做的那样，所以这一[章](https://huggingface.co/course/chapter4)真的是所有东西汇集在一起的章节！`Trainer`
 
-每个部分都可以独立阅读，并将向您展示如何使用 `Trainer` API 或您自己的训练循环（使用 🤗 Accelerate）训练模型。随意跳过任何一个部分，专注于你最感兴趣的部分：API 非常适合微调或训练你的模型，而不必担心幕后发生了什么，而训练循环将让你更轻松地自定义任何你想要的部分。`Trainer``Accelerate`
+每个部分都可以独立阅读，并将向您展示如何使用 `Trainer` API 或您自己的训练循环（使用 🤗 Accelerate）训练模型。随意跳过任何一个部分，专注于你最感兴趣的部分：`Trainer` API 非常适合微调或训练你的模型，而不必担心幕后发生了什么，而`Accelerate`训练循环将让你更轻松地自定义任何你想要的部分。
 
 如果你按顺序阅读这些部分，你会注意到它们有相当多的代码和散文的共同点。重复是有意为之的，目的是让你潜入（或稍后再回来）任何你感兴趣的任务，并找到一个完整的工作示例。
+
