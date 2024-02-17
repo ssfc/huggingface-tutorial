@@ -3525,11 +3525,12 @@ translator("Default to expanded threads")
 
 这种行为的另一个例子可以在“plugin”这个词中看到，它不是正式的法语单词，但大多数母语人士都会理解并且懒得翻译。 在 KDE4 数据集中，这个词被翻译成法语，翻译成更官方的“module d'extension”：
 
-```
+```python
 split_datasets["train"][172]["translation"]
+```
+
 {'en': 'Unable to import %1 using the OFX importer plugin. This file is not the correct format.',
  'fr': "Impossible d'importer %1 en utilisant le module d'extension d'importation OFX. Ce fichier n'a pas un format correct."}
-```
 
 然而，我们的预训练模型坚持使用紧凑而熟悉的英语单词：
 
