@@ -3625,7 +3625,17 @@ tokenized_datasets = split_datasets.map(
 
 ### 7.4.2 Fine-tuning the model with the Trainer API
 
+`Trainer`使用 的实际代码将与以前相同，只是有一个小改动：我们在这里使用 [`Seq2SeqTrainer`](https://huggingface.co/transformers/main_classes/trainer.html#seq2seqtrainer)，它是`Trainer`的子类，它将允许我们正确处理评估，使用 `generate()` 方法来预测输入的输出。当我们谈论指标计算时，我们将更详细地探讨这一点。
 
+首先，我们需要一个实际的模型来微调。我们将使用通常的 API：`AutoModel`
+
+```python
+from transformers import AutoModelForSeq2SeqLM
+
+model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
+```
+
+请注意，这次我们使用的是在翻译任务上训练的模型，并且实际上已经可以使用，因此没有关于缺少权重或新初始化的权重的警告。
 
 
 
