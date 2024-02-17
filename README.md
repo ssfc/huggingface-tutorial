@@ -3498,7 +3498,7 @@ DatasetDict({
 
 我们可以将`"test"`密钥重命名为`"validation"`：
 
-```
+```python
 split_datasets["validation"] = split_datasets.pop("test")
 ```
 
