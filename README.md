@@ -3694,7 +3694,7 @@ for i in range(1, 3):
 
 #### Metrics
 
-`Seq2SeqTrainer` 添加到其超类 `Trainer` 的功能是在评估或预测期间使用该方法的能力。在训练期间，模型将使用带有注意力掩码的模型，以确保它不会在尝试预测的令牌之后使用标记，以加快训练速度。在推理过程中，我们将无法使用这些标签，因为我们没有标签，因此最好使用相同的设置来评估我们的模型。`generate()``decoder_input_ids`
+`Seq2SeqTrainer` 添加到其超类 `Trainer` 的功能是在评估或预测期间使用 `generate()` 方法的能力。在训练期间，模型将使用带有注意力掩码的 `decoder_input_ids` 模型，以确保它不会在尝试预测的令牌之后使用标记，以加快训练速度。在推理过程中，我们将无法使用这些标签，因为我们没有标签，因此最好使用相同的设置来评估我们的模型。
 
 正如我们在第 [1 章](https://huggingface.co/course/chapter1/6)中看到的，解码器通过逐个预测令牌来执行推理——这是通过该方法在《变形金刚》中🤗幕后实现的。如果我们设置 ，将允许我们使用该方法进行评估。`generate()``Seq2SeqTrainer``predict_with_generate=True`
 
