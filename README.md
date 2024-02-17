@@ -3447,13 +3447,13 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 ### 7.4.1 Preparing the data
 
-要从头开始微调或训练翻译模型，我们需要一个适合该任务的数据集。如前所述，我们将在本节中使用 [KDE4 数据集](https://huggingface.co/datasets/kde4)，但您可以非常轻松地调整代码以使用您自己的数据，只要您有要翻译的两种语言的句子对。如果您需要提醒如何在 .`Dataset`
+要从头开始微调或训练翻译模型，我们需要一个适合该任务的数据集。如前所述，我们将在本节中使用 [KDE4 数据集](https://huggingface.co/datasets/kde4)，但您可以非常轻松地调整代码以使用您自己的数据，只要您有要翻译的两种语言的句子对。Refer back to [Chapter 5](https://huggingface.co/course/chapter5) if you need a reminder of how to load your custom data in a `Dataset`. 
 
 ### KDE4 数据集
 
 像往常一样，我们使用以下函数下载数据集：`load_dataset()`
 
-```
+```python
 from datasets import load_dataset
 
 raw_datasets = load_dataset("kde4", lang1="en", lang2="fr")
