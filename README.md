@@ -3504,22 +3504,24 @@ split_datasets["validation"] = split_datasets.pop("test")
 
 现在让我们看一下数据集的一个元素：
 
-```
+```python
 split_datasets["train"][1]["translation"]
+```
+
 {'en': 'Default to expanded threads',
  'fr': 'Par défaut, développer les fils de discussion'}
-```
 
 我们得到一本字典，里面有我们要求的两种语言的两个句子。这个充满计算机科学技术术语的数据集的一个特点是，它们都完全翻译成法语。然而，法国工程师在交谈时会留下大多数计算机科学特定的单词。例如，在这里，“线程”一词很可能出现在法语句子中，尤其是在技术对话中;但在这个数据集中，它已被翻译成更正确的“fils de discussion”。我们使用的预训练模型已经在更大的法语和英语句子语料库上进行了预训练，它采用了更简单的选择，即保持单词原样：
 
-```
+```python
 from transformers import pipeline
 
 model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
 translator = pipeline("translation", model=model_checkpoint)
 translator("Default to expanded threads")
-[{'translation_text': 'Par défaut pour les threads élargis'}]
 ```
+
+[{'translation_text': 'Par défaut pour les threads élargis'}]
 
 这种行为的另一个例子可以在“plugin”这个词中看到，它不是正式的法语单词，但大多数母语人士都会理解并且懒得翻译。 在 KDE4 数据集中，这个词被翻译成法语，翻译成更官方的“module d'extension”：
 

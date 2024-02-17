@@ -9,5 +9,8 @@ print(split_datasets)
 
 split_datasets["validation"] = split_datasets.pop("test")
 
+print(split_datasets["train"][1]["translation"])
+
+
 
 
