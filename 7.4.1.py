@@ -1,5 +1,4 @@
 from datasets import load_dataset
-from transformers import pipeline
 
 
 raw_datasets = load_dataset("kde4", lang1="en", lang2="fr")
@@ -13,8 +12,24 @@ split_datasets["validation"] = split_datasets.pop("test")
 print(split_datasets["train"][1]["translation"])
 
 
+from transformers import pipeline
+
+
 model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
 translator = pipeline("translation", model=model_checkpoint)
 result = translator("Default to expanded threads")
 print(result)
+
+
+from transformers import AutoTokenizer
+
+
+model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, return_tensors="pt")
+
+en_sentence = split_datasets["train"][1]["translation"]["en"]
+fr_sentence = split_datasets["train"][1]["translation"]["fr"]
+
+inputs = tokenizer(en_sentence, text_target=fr_sentence)
+print(inputs)
 
