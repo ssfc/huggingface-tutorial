@@ -3778,7 +3778,7 @@ print(metric.compute(predictions=predictions, references=references))
 
 分数可以从 0 到 100，越高越好。
 
-为了从模型输出获取指标可以使用的文本，我们将使用该方法。我们只需要清理标签中的所有 s（分词器会自动对填充令牌执行相同的操作）：`tokenizer.batch_decode()``-100`
+为了从模型输出获取指标可以使用的文本，我们将使用`tokenizer.batch_decode()`方法。我们只需要清理标签中的所有 `-100`（分词器会自动对填充令牌执行相同的操作）：
 
 ```python
 import numpy as np
