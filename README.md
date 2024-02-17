@@ -3563,7 +3563,7 @@ You can also replace the `model_checkpoint` with any other model you prefer from
 
 💡 如果您使用的是多语言分词器，例如 mBART、mBART-50 或 M2M100，则需要通过设置 `tokenizer.src_lang` 和 `tokenizer.tgt_lang` 来设置输入和目标的语言代码。
 
-我们的数据准备非常简单。只有一件事要记住;您需要确保分词器以输出语言（此处为法语）处理目标。您可以通过将目标传递给分词器方法的参数来执行此操作。`text_targets``__call__`
+我们的数据准备非常简单。只有一件事要记住: 您需要确保分词器以输出语言（此处为法语）处理目标。您可以通过将目标传递给分词器 `__call__` 方法的 `text_targets` 参数来执行此操作。
 
 为了了解这是如何工作的，让我们处理训练集中每种语言的一个示例：
 
