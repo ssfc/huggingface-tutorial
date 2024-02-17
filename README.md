@@ -3451,7 +3451,7 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 #### KDE4 数据集
 
-像往常一样，我们使用以下函数下载数据集：`load_dataset()`
+像往常一样，我们使用`load_dataset()`函数下载数据集：
 
 ```python
 from datasets import load_dataset
