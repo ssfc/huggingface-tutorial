@@ -3658,7 +3658,7 @@ print(batch.keys())
 
 dict_keys(['attention_mask', 'input_ids', 'labels', 'decoder_input_ids'])
 
-我们可以检查我们的标签是否已填充到批次的最大长度，使用：`-100`
+我们可以检查我们的标签是否已填充到批次的最大长度，使用 `-100`：
 
 ```python
 batch["labels"]
