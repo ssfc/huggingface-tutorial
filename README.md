@@ -3414,7 +3414,7 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 在本节结束时，你将在 Hub 上有一个[掩码语言](https://huggingface.co/huggingface-course/distilbert-base-uncased-finetuned-imdb?text=This+is+a+great+[MASK].)模型，该模型可以自动完成句子，如下所示：
 
-
+[网页API]
 
 让我们开始吧！
 
@@ -3426,7 +3426,22 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 ## 7.4 Translation
 
+现在让我们深入了解翻译。这是另一个序列到序列的任务，这意味着这是一个可以表述为从一个序列[到另一个序列](https://huggingface.co/course/chapter1/7)的问题。从这个意义上说，这个问题非常接近[于总结](https://huggingface.co/course/chapter7/6)，你可以将我们在这里看到的内容调整为其他序列到序列的问题，例如：
 
+- 风格转移：创建一个模型，将以某种风格编写的文本*翻译*成另一种**风格**（例如，正式到休闲或莎士比亚英语到现代英语）
+- 生成**式问答**：创建一个模型，该模型在给定上下文中生成问题的答案
+
+<iframe class="w-full xl:w-4/6 h-80" src="https://www.youtube-nocookie.com/embed/1JvfrvZgi6c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" style="box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235); --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; display: block; vertical-align: middle; height: 20rem; width: 597.333px; margin-top: 2.5rem; margin-bottom: 2.5rem; overflow: hidden; border-radius: 0.5rem; max-width: 100%; color: rgb(75, 85, 99); font-family: &quot;Source Sans Pro&quot;, ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16.8px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;"></iframe>
+
+如果你有足够大的两种（或更多）语言的文本语料库，你可以从头开始训练一个新的翻译模型，就像我们在[因果语言建模](https://huggingface.co/course/chapter7/6)一节中所做的那样。但是，微调现有的翻译模型会更快，无论是像 mT5 或 mBART 这样的多语言模型，您希望微调到特定的语言对，还是专门用于从一种语言到另一种语言的翻译模型，您希望根据您的特定语料库进行微调。
+
+在本节中，我们将在 [KDE4 数据集](https://huggingface.co/datasets/kde4)上微调一个经过预训练的 Marian 模型，以便从英语翻译成法语（因为很多 Hugging Face 员工会说这两种语言），该数据集是 [KDE 应用程序](https://apps.kde.org/)的本地化文件数据集。我们将使用的模型已经在从 [Opus](https://opus.nlpl.eu/) 数据集中获取的大量法语和英语文本语料库上进行了预训练，该语料库实际上包含 KDE4 数据集。但是，即使我们使用的预训练模型在预训练期间看到了这些数据，我们也会看到，在微调后，我们可以得到更好的版本。
+
+一旦我们完成，我们将有一个模型能够进行这样的预测：
+
+[网页API]
+
+与前面的部分一样，你可以找到我们将使用以下代码训练并上传到 Hub 的实际模型，并[在此处](https://huggingface.co/huggingface-course/marian-finetuned-kde4-en-to-fr?text=This+plugin+allows+you+to+automatically+translate+web+pages+between+several+languages.)仔细检查其预测。
 
 
 
