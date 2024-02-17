@@ -33,3 +33,12 @@ fr_sentence = split_datasets["train"][1]["translation"]["fr"]
 inputs = tokenizer(en_sentence, text_target=fr_sentence)
 print(inputs)
 
+wrong_targets = tokenizer(fr_sentence)
+print(tokenizer.convert_ids_to_tokens(wrong_targets["input_ids"]))
+print(tokenizer.convert_ids_to_tokens(inputs["labels"]))
+
+
+
+
+
+

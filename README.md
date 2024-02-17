@@ -3583,13 +3583,14 @@ print(inputs)
 wrong_targets = tokenizer(fr_sentence)
 print(tokenizer.convert_ids_to_tokens(wrong_targets["input_ids"]))
 print(tokenizer.convert_ids_to_tokens(inputs["labels"]))
+```
+
 ['▁Par', '▁dé', 'f', 'aut', ',', '▁dé', 've', 'lop', 'per', '▁les', '▁fil', 's', '▁de', '▁discussion', '</s>']
 ['▁Par', '▁défaut', ',', '▁développer', '▁les', '▁fils', '▁de', '▁discussion', '</s>']
-```
 
 正如我们所看到的，使用英语分词器来预处理法语句子会产生更多的标记，因为分词器不知道任何法语单词（除了那些也出现在英语中的单词，如“讨论”）。
 
-由于是带有我们常用键（输入 ID、注意力掩码等）的字典，因此最后一步是定义我们将应用于数据集的预处理函数：`inputs`
+由于 `inputs` 是带有我们常用键（输入 ID、注意力掩码等）的字典，因此最后一步是定义我们将应用于数据集的预处理函数：
 
 ```python
 max_length = 128
