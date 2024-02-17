@@ -3800,3 +3800,31 @@ def compute_metrics(eval_preds):
 
 现在已经完成了，我们准备微调我们的模型了！
 
+### Q: 除了AutoModelForCausalLM, AutoModelForMaskedLM, AutoModelForSequenceClassification，AutoModelForSeq2SeqLM，还有哪些常见的？
+
+`transformers`库提供了一系列的模型类，以满足不同类型的任务。以下是一些常用的模型类：
+
+1. `AutoModel`: 这是一个通用的类，其中不包含任何特定任务的头部结构。只返回最后层的激活（无论是否汇总）。
+
+2. `AutoModelForPreTraining`:这个可以用于所有预训练任务（就像预训练模型在预训练过程中一样）。
+
+3. `AutoModelForQuestionAnswering`: 这个主要用于问题回答任务。
+
+4. `AutoModelForTokenClassification`: 这个用于分词任务，例如命名实体识别(NER)。
+
+5. `AutoModelForMultipleChoice`: 这个用于多项选择任务。
+
+6. `AutoModelForNextSentencePrediction`: 用于预测下一句话。
+
+7. `AutoModelWithLMHead` (已废弃): 这个类被划分为 `AutoModelForCausalLM`, `AutoModelForMaskedLM`，和 `AutoModelForSeq2SeqLM`。
+
+8. `AutoModelForTranslation`: 用于翻译任务。
+
+9. `AutoModelForTextClassification`: 用于文本分类任务。
+
+10. `AutoModelForStructuredPrediction`: 用于结构化预测任务。
+
+这只是最常见的一些，还有很多其他模型类用于更具体或更有针对性的任务。关于更多信息，可以阅读 Hugging Face 文档的相应部分。
+
+
+
