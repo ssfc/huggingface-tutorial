@@ -3653,9 +3653,10 @@ data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
 
 ```python
 batch = data_collator([tokenized_datasets["train"][i] for i in range(1, 3)])
-batch.keys()
-dict_keys(['attention_mask', 'input_ids', 'labels', 'decoder_input_ids'])
+print(batch.keys())
 ```
+
+dict_keys(['attention_mask', 'input_ids', 'labels', 'decoder_input_ids'])
 
 我们可以检查我们的标签是否已填充到批次的最大长度，使用：`-100`
 

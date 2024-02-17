@@ -1,3 +1,4 @@
+from datasets import load_dataset
 from transformers import AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer
 from transformers import DataCollatorForSeq2Seq
@@ -9,6 +10,33 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, return_tensors="pt")
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
+max_length = 128
+
+
+def preprocess_function(examples):
+    inputs = [ex["en"] for ex in examples["translation"]]
+    targets = [ex["fr"] for ex in examples["translation"]]
+    model_inputs = tokenizer(
+        inputs, text_target=targets, max_length=max_length, truncation=True
+    )
+    return model_inputs
+
+
+raw_datasets = load_dataset("kde4", lang1="en", lang2="fr")
+print(raw_datasets)
+
+split_datasets = raw_datasets["train"].train_test_split(train_size=0.9, seed=20)
+
+
+tokenized_datasets = split_datasets.map(
+    preprocess_function,
+    batched=True,
+    remove_columns=split_datasets["train"].column_names,
+)
+
+
+batch = data_collator([tokenized_datasets["train"][i] for i in range(1, 3)])
+print(batch.keys())
 
 
 
