@@ -3747,7 +3747,9 @@ references = [
         "This plugin allows you to automatically translate web pages between several languages."
     ]
 ]
-metric.compute(predictions=predictions, references=references)
+print(metric.compute(predictions=predictions, references=references))
+```
+
 {'score': 1.683602693167689,
  'counts': [1, 0, 0, 0],
  'totals': [4, 3, 2, 1],
@@ -3755,6 +3757,8 @@ metric.compute(predictions=predictions, references=references)
  'bp': 0.10539922456186433,
  'sys_len': 4,
  'ref_len': 13}
+
+```python
 predictions = ["This plugin"]
 references = [
     [
