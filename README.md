@@ -3765,7 +3765,9 @@ references = [
         "This plugin allows you to automatically translate web pages between several languages."
     ]
 ]
-metric.compute(predictions=predictions, references=references)
+print(metric.compute(predictions=predictions, references=references))
+```
+
 {'score': 0.0,
  'counts': [2, 1, 0, 0],
  'totals': [2, 1, 0, 0],
@@ -3773,7 +3775,6 @@ metric.compute(predictions=predictions, references=references)
  'bp': 0.004086771438464067,
  'sys_len': 2,
  'ref_len': 13}
-```
 
 分数可以从 0 到 100，越高越好。
 
