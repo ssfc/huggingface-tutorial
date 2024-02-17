@@ -37,7 +37,16 @@ wrong_targets = tokenizer(fr_sentence)
 print(tokenizer.convert_ids_to_tokens(wrong_targets["input_ids"]))
 print(tokenizer.convert_ids_to_tokens(inputs["labels"]))
 
+max_length = 128
 
+
+def preprocess_function(examples):
+    inputs = [ex["en"] for ex in examples["translation"]]
+    targets = [ex["fr"] for ex in examples["translation"]]
+    model_inputs = tokenizer(
+        inputs, text_target=targets, max_length=max_length, truncation=True
+    )
+    return model_inputs
 
 
 
