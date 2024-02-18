@@ -125,13 +125,14 @@ trainer = Seq2SeqTrainer(
 )
 
 # 训练前分数
-print(trainer.evaluate(max_length=max_length))
+print("score before train:", trainer.evaluate(max_length=max_length))
+# score before train: {'eval_loss': 1.6964517831802368, 'eval_bleu': 39.17232664444521, 'eval_runtime': 358.3067, 'eval_samples_per_second': 58.659, 'eval_steps_per_second': 0.918}
 
 trainer.train()
 
 # 训练后分数
-print(trainer.evaluate(max_length=max_length))
-
+print("score after train:", trainer.evaluate(max_length=max_length))
+# score after train: {'eval_loss': 0.8559961318969727, 'eval_bleu': 52.83080930043425, 'eval_runtime': 350.4657, 'eval_samples_per_second': 59.972, 'eval_steps_per_second': 0.939, 'epoch': 3.0}
 
 
 
