@@ -96,6 +96,7 @@ def compute_metrics(eval_preds):
     decoded_labels = [[label.strip()] for label in decoded_labels]
 
     result = metric.compute(predictions=decoded_preds, references=decoded_labels)
+    
     return {"bleu": result["score"]}
 
 
