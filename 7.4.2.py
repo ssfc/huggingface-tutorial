@@ -102,11 +102,11 @@ def compute_metrics(eval_preds):
 
 
 args = Seq2SeqTrainingArguments(
-    f"marian-finetuned-kde4-en-to-fr",
+    f"marian-finetuned-kde4-en-to-fr",  # output_dir
     evaluation_strategy="no",
-    save_strategy="epoch",
+    save_strategy="epoch",  # 每个epoch保存一次模型。
     learning_rate=2e-5,
-    per_device_train_batch_size=32,
+    per_device_train_batch_size=32,  # 每个设备的训练批次大小
     per_device_eval_batch_size=64,
     weight_decay=0.01,
     save_total_limit=3,
