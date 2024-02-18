@@ -1,7 +1,8 @@
 from datasets import load_dataset
-from transformers import AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer
 from transformers import DataCollatorForSeq2Seq
+from transformers import Seq2SeqTrainingArguments
+from transformers import AutoModelForSeq2SeqLM
 import evaluate
 
 
@@ -95,5 +96,23 @@ def compute_metrics(eval_preds):
 
     result = metric.compute(predictions=decoded_preds, references=decoded_labels)
     return {"bleu": result["score"]}
+
+
+args = Seq2SeqTrainingArguments(
+    f"marian-finetuned-kde4-en-to-fr",
+    evaluation_strategy="no",
+    save_strategy="epoch",
+    learning_rate=2e-5,
+    per_device_train_batch_size=32,
+    per_device_eval_batch_size=64,
+    weight_decay=0.01,
+    save_total_limit=3,
+    num_train_epochs=3,
+    predict_with_generate=True,
+    fp16=True,
+    push_to_hub=True,
+)
+
+
 
 
