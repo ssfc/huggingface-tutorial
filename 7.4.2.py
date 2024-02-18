@@ -22,9 +22,8 @@ max_length = 128
 def preprocess_function(examples):
     inputs = [ex["en"] for ex in examples["translation"]]
     targets = [ex["fr"] for ex in examples["translation"]]
-    model_inputs = tokenizer(
-        inputs, text_target=targets, max_length=max_length, truncation=True
-    )
+    model_inputs = tokenizer(inputs, text_target=targets, max_length=max_length, truncation=True)
+
     return model_inputs
 
 
@@ -110,9 +109,9 @@ args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=64,  # 每个设备的评估批次大小
     weight_decay=0.01,  # 权重衰减（L2正则化）参数，用于控制模型的过拟合程度
     save_total_limit=3,  # 保存模型文件的总数限制
-    num_train_epochs=3,
-    predict_with_generate=True,
-    fp16=True,
+    num_train_epochs=3,  # 训练的总轮数
+    predict_with_generate=True,  # 是否使用生成模式进行预测
+    fp16=True,  # 是否使用混合精度训练
     push_to_hub=False,
 )
 
