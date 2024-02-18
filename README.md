@@ -3949,5 +3949,5 @@ trainer.push_to_hub(tags="translation", commit_message="Training complete")
 
 这只是最常见的一些，还有很多其他模型类用于更具体或更有针对性的任务。关于更多信息，可以阅读 Hugging Face 文档的相应部分。
 
-
+### 7.4.3 A custom training loop
 
