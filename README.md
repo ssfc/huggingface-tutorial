@@ -3917,9 +3917,7 @@ trainer.push_to_hub(tags="translation", commit_message="Training complete")
 
 如果要检查它，此命令将返回它刚刚执行的提交的 URL：
 
-```
 'https://huggingface.co/sgugger/marian-finetuned-kde4-en-to-fr/commit/3601d621e3baae2bc63d3311452535f8f58f6ef3'
-```
 
 在此阶段，您可以使用模型中心上的推理小组件来测试模型并与您的朋友共享。您已成功在翻译任务中微调模型 — 恭喜您！
 
