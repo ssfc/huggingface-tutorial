@@ -3951,3 +3951,173 @@ trainer.push_to_hub(tags="translation", commit_message="Training complete")
 
 ### 7.4.3 A custom training loop
 
+现在让我们看一下完整的训练循环，以便您可以轻松自定义所需的零件。它看起来很像我们在第 [2 节](https://huggingface.co/course/chapter7/2)和[第 3 章](https://huggingface.co/course/chapter3/4)中所做的。
+
+#### 为培训做好一切准备
+
+您现在已经多次看到所有这些内容，因此我们将很快完成代码。首先，我们将用`DataLoader`构建数据集，将数据集设置为`"torch"`格式，以便我们得到 PyTorch 张量：
+
+```python
+from torch.utils.data import DataLoader
+
+tokenized_datasets.set_format("torch")
+train_dataloader = DataLoader(
+    tokenized_datasets["train"],
+    shuffle=True,
+    collate_fn=data_collator,
+    batch_size=8,
+)
+eval_dataloader = DataLoader(
+    tokenized_datasets["validation"], collate_fn=data_collator, batch_size=8
+)
+```
+
+接下来，我们重新实例化模型，以确保我们不是从之前开始继续微调，而是再次从预训练模型开始：
+
+```python
+model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
+```
+
+然后我们需要一个优化器：
+
+```python
+from transformers import AdamW
+
+optimizer = AdamW(model.parameters(), lr=2e-5)
+```
+
+一旦我们拥有所有这些对象，我们就可以将它们发送到方法中。请记住，如果要在 Colab 笔记本中对 TPU 进行训练，则需要将所有这些代码移动到训练函数中，并且该函数不应执行任何实例化 .`accelerator.prepare()``Accelerator`
+
+```python
+from accelerate import Accelerator
+
+accelerator = Accelerator()
+model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
+    model, optimizer, train_dataloader, eval_dataloader
+)
+```
+
+现在我们已经发送了 ，我们可以使用它的长度来计算训练步骤的数量。请记住，我们应该始终在准备数据加载器后执行此操作，因为该方法将更改 .我们使用从学习率到 0 的经典线性时间表：`train_dataloader``accelerator.prepare()``DataLoader`
+
+```python
+from transformers import get_scheduler
+
+num_train_epochs = 3
+num_update_steps_per_epoch = len(train_dataloader)
+num_training_steps = num_train_epochs * num_update_steps_per_epoch
+
+lr_scheduler = get_scheduler(
+    "linear",
+    optimizer=optimizer,
+    num_warmup_steps=0,
+    num_training_steps=num_training_steps,
+)
+```
+
+最后，要将我们的模型推送到中心，我们需要在工作文件夹中创建一个对象。如果您尚未登录，请先登录 Hugging Face Hub。我们将根据我们想要为模型提供的模型 ID 确定存储库名称（请随意将 替换为您自己的选择;它只需要包含您的用户名，这就是函数的作用）：`Repository``repo_name``get_full_repo_name()`
+
+```python
+from huggingface_hub import Repository, get_full_repo_name
+
+model_name = "marian-finetuned-kde4-en-to-fr-accelerate"
+repo_name = get_full_repo_name(model_name)
+repo_name
+'sgugger/marian-finetuned-kde4-en-to-fr-accelerate'
+```
+
+然后，我们可以将该存储库克隆到本地文件夹中。如果它已经存在，则此本地文件夹应该是我们正在使用的存储库的克隆：
+
+```python
+output_dir = "marian-finetuned-kde4-en-to-fr-accelerate"
+repo = Repository(output_dir, clone_from=repo_name)
+```
+
+现在，我们可以通过调用该方法上传我们保存的任何内容。这将有助于我们在每个纪元结束时上传中间模型。`output_dir``repo.push_to_hub()`
+
+#### 训练循环
+
+现在，我们已准备好编写完整的训练循环。为了简化其评估部分，我们定义了这个函数，它接受预测和标签，并将它们转换为对象期望的字符串列表：`postprocess()``metric`
+
+```python
+def postprocess(predictions, labels):
+    predictions = predictions.cpu().numpy()
+    labels = labels.cpu().numpy()
+
+    decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+
+    # Replace -100 in the labels as we can't decode them.
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+    # Some simple post-processing
+    decoded_preds = [pred.strip() for pred in decoded_preds]
+    decoded_labels = [[label.strip()] for label in decoded_labels]
+    return decoded_preds, decoded_labels
+```
+
+训练循环看起来很像[第 2 节](https://huggingface.co/course/chapter7/2)和[第 3 章](https://huggingface.co/course/chapter3)中的循环，但在评估部分有一些不同——所以让我们专注于这一点！
+
+首先要注意的是，我们使用该方法来计算预测，但这是基础模型上的方法，而不是在方法中创建的包装模型 🤗 Accelerate。这就是为什么我们先解开模型，然后调用此方法。`generate()``prepare()`
+
+第二件事是，与[令牌分类](https://huggingface.co/course/chapter7/2)一样，两个进程可能已将输入和标签填充为不同的形状，因此我们在调用该方法之前使用使预测和标签具有相同的形状。如果我们不这样做，评估要么出错，要么永远挂起。`accelerator.pad_across_processes()``gather()`
+
+```python
+from tqdm.auto import tqdm
+import torch
+
+progress_bar = tqdm(range(num_training_steps))
+
+for epoch in range(num_train_epochs):
+    # Training
+    model.train()
+    for batch in train_dataloader:
+        outputs = model(**batch)
+        loss = outputs.loss
+        accelerator.backward(loss)
+
+        optimizer.step()
+        lr_scheduler.step()
+        optimizer.zero_grad()
+        progress_bar.update(1)
+
+    # Evaluation
+    model.eval()
+    for batch in tqdm(eval_dataloader):
+        with torch.no_grad():
+            generated_tokens = accelerator.unwrap_model(model).generate(
+                batch["input_ids"],
+                attention_mask=batch["attention_mask"],
+                max_length=128,
+            )
+        labels = batch["labels"]
+
+        # Necessary to pad predictions and labels for being gathered
+        generated_tokens = accelerator.pad_across_processes(
+            generated_tokens, dim=1, pad_index=tokenizer.pad_token_id
+        )
+        labels = accelerator.pad_across_processes(labels, dim=1, pad_index=-100)
+
+        predictions_gathered = accelerator.gather(generated_tokens)
+        labels_gathered = accelerator.gather(labels)
+
+        decoded_preds, decoded_labels = postprocess(predictions_gathered, labels_gathered)
+        metric.add_batch(predictions=decoded_preds, references=decoded_labels)
+
+    results = metric.compute()
+    print(f"epoch {epoch}, BLEU score: {results['score']:.2f}")
+
+    # Save and upload
+    accelerator.wait_for_everyone()
+    unwrapped_model = accelerator.unwrap_model(model)
+    unwrapped_model.save_pretrained(output_dir, save_function=accelerator.save)
+    if accelerator.is_main_process:
+        tokenizer.save_pretrained(output_dir)
+        repo.push_to_hub(
+            commit_message=f"Training in progress epoch {epoch}", blocking=False
+        )
+epoch 0, BLEU score: 53.47
+epoch 1, BLEU score: 54.24
+epoch 2, BLEU score: 54.44
+```
+
+完成此操作后，您应该有一个模型，其结果与使用 .您可以在 [*huggingface-course/marian-finetuned-kde4-en-to-fr-accelerate*](https://huggingface.co/huggingface-course/marian-finetuned-kde4-en-to-fr-accelerate) 中查看我们使用此代码训练的那个。如果你想测试对训练循环的任何调整，你可以通过编辑上面显示的代码直接实现它们！`Seq2SeqTrainer`
