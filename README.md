@@ -3848,9 +3848,9 @@ args = Seq2SeqTrainingArguments(
 除了通常的超参数（如学习率、纪元数、批量大小和一些权重衰减）之外，与我们在前面的部分中看到的相比，这里有一些变化：
 
 - 我们没有设置任何定期评估，因为评估需要一段时间;我们只会在训练前和训练后评估一次模型。
-- 我们设置 ，这加快了现代 GPU 的训练速度。`fp16=True`
-- 如上所述，我们设置 。`predict_with_generate=True`
-- 我们用于在每个纪元结束时将模型上传到 Hub。`push_to_hub=True`
+- 我们设置 `fp16=True` ，这加快了现代 GPU 的训练速度。
+- 如上所述，我们设置 `predict_with_generate=True`。
+- 我们用 `push_to_hub=True` 在每个纪元结束时将模型上传到 Hub。
 
 请注意，您可以使用参数指定要推送到的存储库的全名（特别是，您必须使用此参数推送到组织）。例如，当我们将模型推送到 [`huggingface-course` 组织](https://huggingface.co/huggingface-course)时，我们添加了 .默认情况下，使用的存储库将位于您的命名空间中，并以您设置的输出目录命名，因此在我们的例子中，它将是（这是我们在本节开头链接到的模型）。`hub_model_id``hub_model_id="huggingface-course/marian-finetuned-kde4-en-to-fr"``Seq2SeqTrainingArguments``"sgugger/marian-finetuned-kde4-en-to-fr"`
 
