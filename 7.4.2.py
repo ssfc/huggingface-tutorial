@@ -3,8 +3,9 @@ from transformers import AutoTokenizer
 from transformers import DataCollatorForSeq2Seq
 from transformers import Seq2SeqTrainingArguments
 from transformers import AutoModelForSeq2SeqLM
+from transformers import Seq2SeqTrainer
 import evaluate
-# 需要Seq2Swq的DataCollator, TrainingArguments, AutoModel. 
+# 需要Seq2Swq的DataCollator, TrainingArguments, AutoModel, Trainer
 
 model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, return_tensors="pt")
@@ -113,6 +114,14 @@ args = Seq2SeqTrainingArguments(
     push_to_hub=True,
 )
 
-
+trainer = Seq2SeqTrainer(
+    model,
+    args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["validation"],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
+)
 
 

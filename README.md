@@ -3876,12 +3876,13 @@ trainer = Seq2SeqTrainer(
 
 ```python
 trainer.evaluate(max_length=max_length)
+```
+
 {'eval_loss': 1.6964408159255981,
  'eval_bleu': 39.26865061007616,
  'eval_runtime': 965.8884,
  'eval_samples_per_second': 21.76,
  'eval_steps_per_second': 0.341}
-```
 
 39 分的 BLEU 分数还不错，这反映了我们的模型已经擅长将英语句子翻译成法语句子的事实。
 
