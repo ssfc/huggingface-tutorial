@@ -4,7 +4,10 @@ from transformers import DataCollatorForSeq2Seq
 from transformers import Seq2SeqTrainingArguments
 from transformers import AutoModelForSeq2SeqLM
 from transformers import Seq2SeqTrainer
+
 import evaluate
+import numpy as np
+
 # 需要Seq2Swq的DataCollator, TrainingArguments, AutoModel, Trainer
 
 model_checkpoint = "Helsinki-NLP/opus-mt-en-fr"
@@ -37,7 +40,9 @@ tokenized_datasets = split_datasets.map(
     remove_columns=split_datasets["train"].column_names,
 )
 
+metric = evaluate.load("sacrebleu")
 
+'''
 batch = data_collator([tokenized_datasets["train"][i] for i in range(1, 3)])
 # print(batch)
 print(batch.keys())
@@ -45,9 +50,6 @@ print(batch["labels"])
 
 for i in range(1, 3):
     print(tokenized_datasets["train"][i]["labels"])
-
-
-metric = evaluate.load("sacrebleu")
 
 predictions = [
     "This plugin lets you translate web pages between several languages automatically."
@@ -75,8 +77,7 @@ references = [
     ]
 ]
 print(metric.compute(predictions=predictions, references=references))
-
-import numpy as np
+'''
 
 
 def compute_metrics(eval_preds):
