@@ -126,6 +126,7 @@ trainer = Seq2SeqTrainer(
     compute_metrics=compute_metrics,
 )
 
+# 在此之前还有一个进度条，不知道是干啥的
 # 训练前分数
 print("score before train:", trainer.evaluate(max_length=max_length))
 # score before train: {'eval_loss': 1.6964517831802368, 'eval_bleu': 39.17232664444521, 'eval_runtime': 358.3067, 'eval_samples_per_second': 58.659, 'eval_steps_per_second': 0.918}
