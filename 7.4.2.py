@@ -13,10 +13,10 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, return_tensors="pt")
 model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)  # 之前还看到过AutoModelForCausalLM, AutoModelForMaskedLM, AutoModelForSequenceClassification
 
 data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
+max_length = 128
 
 
 def preprocess_function(examples):
-    max_length = 128
     inputs = [ex["en"] for ex in examples["translation"]]
     targets = [ex["fr"] for ex in examples["translation"]]
     model_inputs = tokenizer(
@@ -29,7 +29,7 @@ raw_datasets = load_dataset("kde4", lang1="en", lang2="fr")
 print(raw_datasets)
 
 split_datasets = raw_datasets["train"].train_test_split(train_size=0.9, seed=20)
-
+split_datasets["validation"] = split_datasets.pop("test")
 
 tokenized_datasets = split_datasets.map(
     preprocess_function,
@@ -111,7 +111,7 @@ args = Seq2SeqTrainingArguments(
     num_train_epochs=3,
     predict_with_generate=True,
     fp16=True,
-    push_to_hub=True,
+    push_to_hub=False,
 )
 
 trainer = Seq2SeqTrainer(
@@ -123,5 +123,15 @@ trainer = Seq2SeqTrainer(
     tokenizer=tokenizer,
     compute_metrics=compute_metrics,
 )
+
+# 训练前分数
+print(trainer.evaluate(max_length=max_length))
+
+trainer.train()
+
+# 训练后分数
+print(trainer.evaluate(max_length=max_length))
+
+
 
 

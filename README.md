@@ -3875,7 +3875,7 @@ trainer = Seq2SeqTrainer(
 在训练之前，我们将首先查看模型获得的分数，以仔细检查我们的微调是否使事情变得更糟。此命令将花费一些时间，因此您可以在执行时喝杯咖啡：
 
 ```python
-trainer.evaluate(max_length=max_length)
+print(trainer.evaluate(max_length=max_length))
 ```
 
 {'eval_loss': 1.6964408159255981,
@@ -3897,18 +3897,19 @@ trainer.train()
 训练完成后，我们再次评估我们的模型——希望我们能看到 BLEU 分数有所改善！
 
 ```python
-trainer.evaluate(max_length=max_length)
+print(trainer.evaluate(max_length=max_length))
+```
+
 {'eval_loss': 0.8558505773544312,
  'eval_bleu': 52.94161337775576,
  'eval_runtime': 714.2576,
  'eval_samples_per_second': 29.426,
  'eval_steps_per_second': 0.461,
  'epoch': 3.0}
-```
 
 这是将近 14 个百分点的改进，这很棒。
 
-最后，我们使用该方法来确保我们上传了模型的最新版本。此外，还起草了包含所有评估结果的模型卡并上传。此模型卡包含元数据，可帮助模型中心为推理演示选择小组件。通常，不需要说什么，因为它可以从模型类中推断出正确的小部件，但在这种情况下，同一个模型类可以用于各种序列到序列的问题，因此我们将其指定为转换模型：`push_to_hub()``Trainer`
+最后，我们使用 `push_to_hub()` 方法来确保我们上传了模型的最新版本。此外，`Trainer` 还起草了包含所有评估结果的模型卡并上传。此模型卡包含元数据，可帮助模型中心为推理演示选择小组件。通常，不需要说什么，因为它可以从模型类中推断出正确的小部件，但在这种情况下，同一个模型类可以用于各种序列到序列的问题，因此我们将其指定为转换模型：
 
 ```python
 trainer.push_to_hub(tags="translation", commit_message="Training complete")
