@@ -3854,7 +3854,7 @@ args = Seq2SeqTrainingArguments(
 
 请注意，您可以使用 `hub_model_id` 参数指定要推送到的存储库的全名（特别是，您必须使用此参数推送到组织）。例如，当我们将模型推送到 [`huggingface-course` 组织](https://huggingface.co/huggingface-course)时，我们把 `hub_model_id="huggingface-course/marian-finetuned-kde4-en-to-fr"` 添加到`Seq2SeqTrainingArguments` . 默认情况下，使用的存储库将位于您的命名空间中，并以您设置的输出目录命名，因此在我们的例子中，它将是 `"sgugger/marian-finetuned-kde4-en-to-fr"`（这是我们在本节开头链接到的模型）。
 
-💡 如果您使用的输出目录已存在，则它必须是要推送到的存储库的本地克隆。如果不是，则在定义 your 时会出现错误，并且需要设置新名称。`Seq2SeqTrainer`
+💡 如果您使用的输出目录已存在，则它必须是要推送到的存储库的本地克隆。如果不是，则在定义 `Seq2SeqTrainer` 时会出现错误，并且需要设置新名称。
 
 最后，我们只需将所有内容传递给：`Seq2SeqTrainer`
 
