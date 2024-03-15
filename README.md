@@ -4722,6 +4722,123 @@ trainer.push_to_hub(commit_message="Training complete", tags="summarization")
 
 使用 🤗 Accelerate 微调我们的模型与我们[在第 3 章](https://huggingface.co/course/chapter3)中遇到的文本分类示例非常相似。主要区别在于需要在训练期间明确生成我们的摘要，并定义我们如何计算 ROUGE 分数（回想一下，我们负责生成）。让我们来看看如何在 Accelerate 中🤗实现这两个要求！`Seq2SeqTrainer`
 
+#### Preparing everything for training
+
+我们需要做的第一件事是为每个拆分创建一个。由于 PyTorch 数据加载器需要批量张量，因此我们需要在数据集中将格式设置为：`DataLoader``"torch"`
+
+```python
+tokenized_datasets.set_format("torch")
+```
+
+现在我们已经有了仅由张量组成的数据集，接下来要做的就是再次实例化。为此，我们需要提供模型的新版本，因此让我们再次从缓存中加载它：`DataCollatorForSeq2Seq`
+
+```python
+model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
+```
+
+然后，我们可以实例化数据整理器，并使用它来定义我们的数据加载器：
+
+```python
+from torch.utils.data import DataLoader
+
+batch_size = 8
+train_dataloader = DataLoader(
+    tokenized_datasets["train"],
+    shuffle=True,
+    collate_fn=data_collator,
+    batch_size=batch_size,
+)
+eval_dataloader = DataLoader(
+    tokenized_datasets["validation"], collate_fn=data_collator, batch_size=batch_size
+)
+```
+
+接下来要做的是定义我们要使用的优化器。与其他示例一样，我们将使用 ，它适用于大多数问题：`AdamW`
+
+```python
+from torch.optim import AdamW
+
+optimizer = AdamW(model.parameters(), lr=2e-5)
+```
+
+最后，我们将模型、优化器和数据加载器提供给该方法：`accelerator.prepare()`
+
+```python
+from accelerate import Accelerator
+
+accelerator = Accelerator()
+model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
+    model, optimizer, train_dataloader, eval_dataloader
+)
+```
+
+🚨 如果您在 TPU 上进行训练，则需要将上述所有代码移动到专用的训练函数中。有关详细信息，请参阅[第 3 章](https://huggingface.co/course/chapter3)。
+
+现在我们已经准备好了对象，还有三件事要做：
+
+- 定义学习率计划。
+- 实现对摘要进行后处理以进行评估的功能。
+- 在 Hub 上创建一个存储库，我们可以将模型推送到该存储库。
+
+对于学习速率计划，我们将使用前面部分中的标准线性计划：
+
+```python
+from transformers import get_scheduler
+
+num_train_epochs = 10
+num_update_steps_per_epoch = len(train_dataloader)
+num_training_steps = num_train_epochs * num_update_steps_per_epoch
+
+lr_scheduler = get_scheduler(
+    "linear",
+    optimizer=optimizer,
+    num_warmup_steps=0,
+    num_training_steps=num_training_steps,
+)
+```
+
+对于后处理，我们需要一个函数，将生成的摘要拆分为用换行符分隔的句子。这是 ROUGE 指标期望的格式，我们可以通过以下代码片段来实现这一点：
+
+```python
+def postprocess_text(preds, labels):
+    preds = [pred.strip() for pred in preds]
+    labels = [label.strip() for label in labels]
+
+    # ROUGE expects a newline after each sentence
+    preds = ["\n".join(nltk.sent_tokenize(pred)) for pred in preds]
+    labels = ["\n".join(nltk.sent_tokenize(label)) for label in labels]
+
+    return preds, labels
+```
+
+如果您还记得我们是如何定义 .`compute_metrics()``Seq2SeqTrainer`
+
+最后，我们需要在 Hugging Face Hub 上创建一个模型存储库。为此，我们可以使用适当标题🤗的 Hub 库。我们只需要为我们的存储库定义一个名称，并且该库具有将存储库 ID 与用户配置文件组合在一起的实用函数：
+
+```python
+from huggingface_hub import get_full_repo_name
+
+model_name = "test-bert-finetuned-squad-accelerate"
+repo_name = get_full_repo_name(model_name)
+repo_name
+'lewtun/mt5-finetuned-amazon-en-es-accelerate'
+```
+
+现在，我们可以使用此存储库名称将本地版本克隆到将存储训练工件的结果目录：
+
+```python
+from huggingface_hub import Repository
+
+output_dir = "results-mt5-finetuned-squad-accelerate"
+repo = Repository(output_dir, clone_from=repo_name)
+```
+
+这将允许我们通过在训练期间调用该方法将工件推送回中心！现在让我们通过写出训练循环来结束我们的分析。`repo.push_to_hub()`
+
+
+
+
+
 
 
 
