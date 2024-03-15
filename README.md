@@ -5134,16 +5134,16 @@ config = AutoConfig.from_pretrained(
 )
 ```
 
-通过该配置，我们可以加载一个新模型。请注意，这是我们第一次不使用该函数，因为我们实际上是在自己初始化一个模型：`from_pretrained()`
+通过该配置，我们可以加载一个新模型。请注意，这是我们第一次不使用 `from_pretrained()` 函数，因为我们实际上是在自己初始化一个模型：
 
-```
+```python
 model = GPT2LMHeadModel(config)
 model_size = sum(t.numel() for t in model.parameters())
 print(f"GPT-2 size: {model_size/1000**2:.1f}M parameters")
 GPT-2 size: 124.2M parameters
 ```
 
-我们的模型有 124M 个参数，我们必须调整这些参数。在开始训练之前，我们需要设置一个数据整理器来负责创建批处理。我们可以使用专为语言建模而设计的整理器（顾名思义）。除了堆叠和填充批处理外，它还负责创建语言模型标签——在因果语言建模中，输入也用作标签（只是移动了一个元素），并且此数据整理器在训练期间动态创建它们，因此我们不需要复制 .`DataCollatorForLanguageModeling``input_ids`
+我们的模型有 124M 个参数，我们必须调整这些参数。在开始训练之前，我们需要设置一个数据整理器来负责创建批处理。我们可以使用专为语言建模而设计的 `DataCollatorForLanguageModeling` 整理器（顾名思义）。除了堆叠和填充批处理外，它还负责创建语言模型标签——在因果语言建模中，输入也用作标签（只是移动了一个元素），并且此数据整理器在训练期间动态创建它们，因此我们不需要复制 `input_ids` .
 
 请注意，它支持掩码语言建模 （MLM） 和因果语言建模 （CLM）。默认情况下，它为 MLM 准备数据，但我们可以通过设置参数来切换到 CLM：`DataCollatorForLanguageModeling``mlm=False`
 
