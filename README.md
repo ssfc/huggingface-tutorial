@@ -5116,7 +5116,7 @@ import warnings
 from .murmurhash import murm
 LICENSE: bsd-3-clause'''
 
-我们可以看到该字段包含我们希望模型训练的代码。现在我们有了一个数据集，我们需要准备文本，使它们采用适合预训练的格式。`content`
+我们可以看到 `content` 字段包含我们希望模型训练的代码。现在我们有了一个数据集，我们需要准备文本，使它们采用适合预训练的格式。
 
 
 
