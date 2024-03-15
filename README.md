@@ -4275,7 +4275,7 @@ Name: product_category, dtype: int64
 
 英语数据集中最受欢迎的产品是关于家居用品、服装和无线电子产品的。不过，为了坚持亚马逊的主题，让我们专注于总结书评——毕竟，这就是公司成立的基础！我们可以看到两个符合要求的产品类别（ 和 ），因此让我们仅针对这些产品过滤两种语言的数据集。正如我们在第 [5 章](https://huggingface.co/course/chapter5)中看到的，该函数允许我们非常有效地对数据集进行切片，因此我们可以定义一个简单的函数来执行此操作：`book``digital_ebook_purchase``Dataset.filter()`
 
-```
+```python
 def filter_books(example):
     return (
         example["product_category"] == "book"
@@ -4291,10 +4291,12 @@ english_dataset.reset_format()
 
 然后，我们可以应用过滤功能，作为健全性检查，让我们检查一个评论样本，看看它们是否确实是关于书籍的：
 
-```
+```python
 spanish_books = spanish_dataset.filter(filter_books)
 english_books = english_dataset.filter(filter_books)
 show_samples(english_books)
+```
+
 '>> Title: I\'m dissapointed.'
 '>> Review: I guess I had higher expectations for this book from the reviews. I really thought I\'d at least like it. The plot idea was great. I loved Ash but, it just didnt go anywhere. Most of the book was about their radio show and talking to callers. I wanted the author to dig deeper so we could really get to know the characters. All we know about Grace is that she is attractive looking, Latino and is kind of a brat. I\'m dissapointed.'
 
@@ -4303,7 +4305,6 @@ show_samples(english_books)
 
 '>> Title: Helpful'
 '>> Review: Nearly all the tips useful and. I consider myself an intermediate to advanced user of OneNote. I would highly recommend.'
-```
 
 好的，我们可以看到这些评论并不是严格意义上的书籍，可能指的是日历和电子应用程序（如 OneNote）之类的东西。尽管如此，该领域似乎更适合训练摘要模型。在我们研究适合此任务的各种模型之前，我们还有最后一点数据准备工作要做：将英语和西班牙语评论合并为一个对象。🤗 数据集提供了一个方便的函数，顾名思义，它将两个对象堆叠在一起。因此，为了创建我们的双语数据集，我们将遍历每个拆分，连接该拆分的数据集，并对结果进行打牌，以确保我们的模型不会过度拟合到单一语言：`DatasetDict``concatenate_datasets()``Dataset`
 
