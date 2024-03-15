@@ -4434,14 +4434,14 @@ tokenized_datasets = books_dataset.map(preprocess_function, batched=True)
 
 与我们在本课程中介绍的大多数其他任务相比，衡量摘要或翻译等文本生成任务的性能并不那么简单。例如，给定像“我喜欢阅读《饥饿游戏》”这样的评论，有多个有效的摘要，例如“我喜欢《饥饿游戏》”或“《饥饿游戏》是一本很棒的书”。显然，在生成的摘要和标签之间应用某种精确匹配并不是一个好的解决方案——即使是人类在这样的指标下也会表现不佳，因为我们都有自己的写作风格。
 
-总结一下，最常用的指标之一是 [ROUGE 分数](https://en.wikipedia.org/wiki/ROUGE_(metric))（Recall-Oriented Understudy for Gisting Evaluation 的缩写）。该指标背后的基本思想是将生成的摘要与通常由人类创建的一组参考摘要进行比较。为了更准确地说，假设我们想比较以下两个摘要：
+总结一下，最常用的指标之一是 [ROUGE 分数](https://en.wikipedia.org/wiki/ROUGE_(metric))（Recall-Oriented Understudy for Gisting Evaluation 的缩写）。该指标背后的基本思想是**将生成的摘要与通常由人类创建的一组参考摘要进行比较**。为了更准确地说，假设我们想比较以下两个摘要：
 
 ```python
 generated_summary = "I absolutely loved reading the Hunger Games"
 reference_summary = "I loved reading the Hunger Games"
 ```
 
-比较它们的一种方法是计算重叠单词的数量，在这种情况下为 6。然而，这有点粗糙，所以ROUGE是基于计算重叠的*精确度*和*召回*率分数。
+比较它们的一种方法是**计算重叠单词的数量**，在这种情况下为 6。然而，这有点粗糙，所以ROUGE是基于计算重叠的*精确度*和*召回*率分数。
 
 🙋 如果这是您第一次听说精确度和召回率，请不要担心——我们将一起通过一些明确的例子来说明一切。这些指标通常在分类任务中遇到，因此，如果您想了解如何在该上下文中定义精确率和召回率，我们建议您查看[指南](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)。`scikit-learn`
 
