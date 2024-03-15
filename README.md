@@ -3952,6 +3952,10 @@ trainer.push_to_hub(tags="translation", commit_message="Training complete")
 
 这只是最常见的一些，还有很多其他模型类用于更具体或更有针对性的任务。关于更多信息，可以阅读 Hugging Face 文档的相应部分。
 
+### Q: AutoModelForCausalLM是干啥的？
+
+`AutoModelForCausalLM` 是 Hugging Face Transformers 库中的一个类，用于自动加载适合特定任务的预训练模型。在语言模型任务中，它用于加载适合生成式语言建模任务（如文本生成）的预训练模型。该类根据提供的模型名称自动选择适合的预训练模型，使得用户可以方便地在不同的语言模型上进行实验和应用。
+
 ### 7.4.3 A custom training loop
 
 现在让我们看一下完整的训练循环，以便您可以轻松自定义所需的零件。它看起来很像我们在第 [2 节](https://huggingface.co/course/chapter7/2)和[第 3 章](https://huggingface.co/course/chapter3/4)中所做的。
@@ -4179,4 +4183,12 @@ print(translator(
 域适配的另一个很好的例子！
 
 ✏️ **该你了！**模型在带有您之前确定的单词“电子邮件”的样本上返回什么？
+
+## 7.5 Summarization
+
+在本节中，我们将了解如何使用 Transformer 模型将长文档压缩为摘要，这项任务称为*文本摘要*。这是最具挑战性的 NLP 任务之一，因为它需要一系列能力，例如理解长篇文章和生成连贯的文本来捕捉文档中的主要主题。但是，如果做得好，文本摘要是一个强大的工具，可以通过减轻领域专家详细阅读长文档的负担来加快各种业务流程。
+
+虽然在[Hugging Face Hub](https://huggingface.co/models?pipeline_tag=summarization&sort=downloads)上已经存在各种用于总结的微调模型，但几乎所有这些模型都只适用于英文文档。因此，为了在本节中增加一个转折点，我们将训练一个英语和西班牙语的双语模型。在本节结束时，你将拥有一个模型，该[模型](https://huggingface.co/huggingface-course/mt5-small-finetuned-amazon-en-es)可以总结客户评论，如下所示：
+
+正如我们将看到的，这些摘要是简洁的，因为它们是从客户在产品评论中提供的标题中学到的。让我们首先为这项任务建立一个合适的双语语料库。
 
