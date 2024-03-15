@@ -4994,7 +4994,126 @@ print_summary(0)
 
 这实际上是在展示使用本节中所示的代码训练并上传到 Hub 的模型。你可以[在这里](https://huggingface.co/huggingface-course/codeparrot-ds?text=plt.imshow()找到它。请注意，由于在文本生成中发生了一些随机化，因此您可能会得到略有不同的结果。
 
+### 7.6.1 Gathering the data
 
+Python 代码可以从 GitHub 等代码存储库中大量获得，我们可以使用它通过抓取每个 Python 存储库来创建数据集。这是[《变形金刚》教科书](https://learning.oreilly.com/library/view/natural-language-processing/9781098136789/)中采用的预训练大型 GPT-2 模型的方法。使用一个大约180 GB的GitHub转储，其中包含大约2000万个Python文件，作者建立了一个数据集，然后在[Hugging Face Hub](https://huggingface.co/datasets/transformersbook/codeparrot)上共享。`codeparrot`
+
+然而，在完整的语料库上进行训练既耗时又耗费计算，我们只需要与 Python 数据科学堆栈相关的数据集子集。因此，让我们首先筛选包含此堆栈中任何库的所有文件的数据集。由于数据集的大小，我们希望避免下载它;相反，我们将使用流式处理功能来动态过滤它。为了帮助我们使用前面提到的库筛选代码示例，我们将使用以下函数：`codeparrot`
+
+```python
+def any_keyword_in_string(string, keywords):
+    for keyword in keywords:
+        if keyword in string:
+            return True
+    return False
+```
+
+让我们在两个示例中对其进行测试：
+
+```python
+filters = ["pandas", "sklearn", "matplotlib", "seaborn"]
+example_1 = "import numpy as np"
+example_2 = "import pandas as pd"
+
+print(
+    any_keyword_in_string(example_1, filters), any_keyword_in_string(example_2, filters)
+)
+```
+
+False True
+
+我们可以使用它来创建一个函数，该函数将流式传输数据集并过滤我们想要的元素：
+
+```python
+from collections import defaultdict
+from tqdm import tqdm
+from datasets import Dataset
+
+
+def filter_streaming_dataset(dataset, filters):
+    filtered_dict = defaultdict(list)
+    total = 0
+    for sample in tqdm(iter(dataset)):
+        total += 1
+        if any_keyword_in_string(sample["content"], filters):
+            for k, v in sample.items():
+                filtered_dict[k].append(v)
+    print(f"{len(filtered_dict['content'])/total:.2%} of data after filtering.")
+    return Dataset.from_dict(filtered_dict)
+```
+
+然后我们可以简单地将这个函数应用于流数据集：
+
+```python
+# This cell will take a very long time to execute, so you should skip it and go to
+# the next one!
+from datasets import load_dataset
+
+split = "train"  # "valid"
+filters = ["pandas", "sklearn", "matplotlib", "seaborn"]
+
+data = load_dataset(f"transformersbook/codeparrot-{split}", split=split, streaming=True)
+filtered_data = filter_streaming_dataset(data, filters)
+3.26% of data after filtering.
+```
+
+这给我们留下了大约 3% 的原始数据集，这仍然相当可观——生成的数据集为 6 GB，由 600,000 个 Python 脚本组成！
+
+过滤整个数据集可能需要 2-3 小时，具体取决于您的机器和带宽。如果您不想自己经历这个漫长的过程，我们在 Hub 上提供过滤后的数据集供您下载：
+
+```python
+from datasets import load_dataset, DatasetDict
+
+ds_train = load_dataset("huggingface-course/codeparrot-ds-train", split="train")
+ds_valid = load_dataset("huggingface-course/codeparrot-ds-valid", split="validation")
+
+raw_datasets = DatasetDict(
+    {
+        "train": ds_train,  # .shuffle().select(range(50000)),
+        "valid": ds_valid,  # .shuffle().select(range(500))
+    }
+)
+
+print(raw_datasets)
+```
+
+DatasetDict({
+    train: Dataset({
+        features: ['repo_name', 'path', 'copies', 'size', 'content', 'license'],
+        num_rows: 606720
+    })
+    valid: Dataset({
+        features: ['repo_name', 'path', 'copies', 'size', 'content', 'license'],
+        num_rows: 3322
+    })
+})
+
+预训练语言模型需要一段时间。我们建议您首先通过取消注释上面的两行来对数据样本运行训练循环，并确保训练成功完成并存储模型。没有什么比训练运行在最后一步失败更令人沮丧的了，因为您忘记创建文件夹或因为训练循环结束时有拼写错误！
+
+让我们看一下数据集中的一个示例。我们只显示每个字段的前 200 个字符：
+
+```
+for key in raw_datasets["train"][0]:
+    print(f"{key.upper()}: {raw_datasets['train'][0][key][:200]}")
+'REPO_NAME: kmike/scikit-learn'
+'PATH: sklearn/utils/__init__.py'
+'COPIES: 3'
+'SIZE: 10094'
+'''CONTENT: """
+The :mod:`sklearn.utils` module includes various utilites.
+"""
+
+from collections import Sequence
+
+import numpy as np
+from scipy.sparse import issparse
+import warnings
+
+from .murmurhash import murm
+LICENSE: bsd-3-clause'''
+```
+
+我们可以看到该字段包含我们希望模型训练的代码。现在我们有了一个数据集，我们需要准备文本，使它们采用适合预训练的格式。`content`
 
 
 
