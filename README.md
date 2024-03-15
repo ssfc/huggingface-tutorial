@@ -4151,5 +4151,32 @@ epoch 2, BLEU score: 54.44
 
 因此，'1.08s/it' 表示模型在处理每个批次（iteration）所需的平均时间为 1.08 秒。这是评估计算效率和预估总训练时间的一个重要指标。
 
+### 7.4.4 Using the fine-tuned model
 
+我们已经向您展示了如何将我们在模型中心上微调的模型与推理小组件一起使用。要在 `pipeline` 中本地使用它 (Comment: 原来微调后的模型可以通过pipeline在本地使用)，我们只需要指定正确的模型标识符：
+
+```python
+from transformers import pipeline
+
+# Replace this with your own checkpoint
+model_checkpoint = "huggingface-course/marian-finetuned-kde4-en-to-fr"
+translator = pipeline("translation", model=model_checkpoint)
+print(translator("Default to expanded threads"))
+```
+
+[{'translation_text': 'Par défaut, développer les fils de discussion'}]
+
+正如预期的那样，我们的预训练模型将其知识调整为我们微调的语料库，并且现在不再单独使用英语单词“threads”，而是将其翻译成法语官方版本。“插件”也是如此：
+
+```python
+print(translator(
+    "Unable to import %1 using the OFX importer plugin. This file is not the correct format."
+))
+```
+
+[{'translation_text': "Impossible d'importer %1 en utilisant le module externe d'importation OFX. Ce fichier n'est pas le bon format."}]
+
+域适配的另一个很好的例子！
+
+✏️ **该你了！**模型在带有您之前确定的单词“电子邮件”的样本上返回什么？
 
