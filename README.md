@@ -4429,3 +4429,64 @@ tokenized_datasets = books_dataset.map(preprocess_function, batched=True)
 现在语料库已经过预处理，让我们来看看一些通常用于汇总的指标。正如我们将看到的，在衡量机器生成文本的质量方面，没有灵丹妙药。
 
 💡 您可能已经注意到，我们在上面的函数中使用了。这将以 1,000 个（默认值）为批次对示例进行编码，并允许您利用 Transformer 中🤗快速分词器的多线程功能。在可能的情况下，尝试使用以充分利用您的预处理！`batched=True``Dataset.map()``batched=True`
+
+### 7.5.4 Metrics for text summarization
+
+与我们在本课程中介绍的大多数其他任务相比，衡量摘要或翻译等文本生成任务的性能并不那么简单。例如，给定像“我喜欢阅读《饥饿游戏》”这样的评论，有多个有效的摘要，例如“我喜欢《饥饿游戏》”或“《饥饿游戏》是一本很棒的书”。显然，在生成的摘要和标签之间应用某种精确匹配并不是一个好的解决方案——即使是人类在这样的指标下也会表现不佳，因为我们都有自己的写作风格。
+
+总结一下，最常用的指标之一是 [ROUGE 分数](https://en.wikipedia.org/wiki/ROUGE_(metric))（Recall-Oriented Understudy for Gisting Evaluation 的缩写）。该指标背后的基本思想是将生成的摘要与通常由人类创建的一组参考摘要进行比较。为了更准确地说，假设我们想比较以下两个摘要：
+
+```python
+generated_summary = "I absolutely loved reading the Hunger Games"
+reference_summary = "I loved reading the Hunger Games"
+```
+
+比较它们的一种方法是计算重叠单词的数量，在这种情况下为 6。然而，这有点粗糙，所以ROUGE是基于计算重叠的*精确度*和*召回*率分数。
+
+🙋 如果这是您第一次听说精确度和召回率，请不要担心——我们将一起通过一些明确的例子来说明一切。这些指标通常在分类任务中遇到，因此，如果您想了解如何在该上下文中定义精确率和召回率，我们建议您查看[指南](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)。`scikit-learn`
+
+对于 ROUGE，召回率衡量生成的参考摘要捕获了多少参考摘要。如果我们只是比较单词，召回率可以根据以下公式计算：Rec一个ll=Number of overl一个pp我ng wordsTot一个l number of words 我n reference summ一个ry召回=参考文献摘要中的总字数重叠字数
+
+对于我们上面的简单示例，这个公式给出了 6/6 = 1 的完美召回;即，参考摘要中的所有单词均由模型生成。这听起来可能很棒，但想象一下，如果我们生成的摘要是“我真的很喜欢整夜阅读饥饿游戏”。这也可以完美地回忆起来，但可以说是一个更糟糕的总结，因为它很冗长。为了处理这些情况，我们还计算了精度，在ROUGE上下文中，该精度衡量生成的摘要中有多少是相关的：Prec我s我on=Number of overl一个pp我ng wordsTot一个l number of words 我n gener一个ted summ一个ry精度=生成的摘要中的总字数重叠字数
+
+将其应用于我们的详细摘要，得出的精度为 6/10 = 0.6，这比我们较短的摘要获得的 6/7 = 0.86 的精度要差得多。在实践中，通常同时计算精确率和召回率，然后报告 F1 分数（精确率和召回率的调和平均值）。我们可以通过首先安装软件包在 Datasets 中🤗轻松完成此操作：`rouge_score`
+
+```shell
+!pip install rouge_score
+```
+
+然后加载 ROUGE 指标，如下所示：
+
+```python
+import evaluate
+
+rouge_score = evaluate.load("rouge")
+```
+
+然后，我们可以使用该函数一次计算所有指标：`rouge_score.compute()`
+
+```python
+scores = rouge_score.compute(
+    predictions=[generated_summary], references=[reference_summary]
+)
+print(scores)
+```
+
+{'rouge1': AggregateScore(low=Score(precision=0.86, recall=1.0, fmeasure=0.92), mid=Score(precision=0.86, recall=1.0, fmeasure=0.92), high=Score(precision=0.86, recall=1.0, fmeasure=0.92)),
+ 'rouge2': AggregateScore(low=Score(precision=0.67, recall=0.8, fmeasure=0.73), mid=Score(precision=0.67, recall=0.8, fmeasure=0.73), high=Score(precision=0.67, recall=0.8, fmeasure=0.73)),
+ 'rougeL': AggregateScore(low=Score(precision=0.86, recall=1.0, fmeasure=0.92), mid=Score(precision=0.86, recall=1.0, fmeasure=0.92), high=Score(precision=0.86, recall=1.0, fmeasure=0.92)),
+ 'rougeLsum': AggregateScore(low=Score(precision=0.86, recall=1.0, fmeasure=0.92), mid=Score(precision=0.86, recall=1.0, fmeasure=0.92), high=Score(precision=0.86, recall=1.0, fmeasure=0.92))}
+
+哇，输出中有很多信息——这是什么意思？首先，🤗数据集实际上计算精确率、召回率和 F1 分数的置信区间;这些是您可以在此处看到的 、 和 属性。此外，在比较生成的摘要和参考摘要时，🤗数据集会根据不同类型的文本粒度计算各种 ROUGE 分数。变体是单字母的重叠——这只是一种说单词重叠的奇特方式，正是我们上面讨论的指标。为了验证这一点，让我们提取分数的值：`low``mid``high``rouge1``mid`
+
+```python
+print(scores["rouge1"].mid)
+```
+
+Score(precision=0.86, recall=1.0, fmeasure=0.92)
+
+太好了，精确度和召回率数字匹配！那么其他的ROUGE分数呢？ 测量二元组之间的重叠（想想单词对的重叠），同时通过在生成的和参考摘要中查找最长的公共子字符串来测量最长的匹配单词序列。中的“总和”是指该指标是在整个摘要上计算的，而计算为单个句子的平均值。`rouge2``rougeL``rougeLsum``rougeLsum``rougeL`
+
+✏️ **试试看！**创建您自己的生成和参考摘要示例，并查看生成的 ROUGE 分数是否与基于精确率和召回率公式的手动计算一致。为了获得奖励，将文本拆分为二元组，并比较指标的精确度和召回率。`rouge2`
+
+我们将使用这些 ROUGE 分数来跟踪我们模型的性能，但在这样做之前，让我们做一些每个优秀的 NLP 从业者都应该做的事情：创建一个强大而简单的基线！
