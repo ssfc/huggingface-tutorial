@@ -2,7 +2,7 @@ from datasets import load_dataset
 from transformers import AutoTokenizer
 from transformers import DataCollatorForSeq2Seq
 from transformers import Seq2SeqTrainingArguments
-from transformers import AutoModelForSeq2SeqLM
+from transformers import AutoModelForSeq2SeqLM # 之前还看到过AutoModelForCausalLM, AutoModelForMaskedLM, AutoModelForSequenceClassification
 from transformers import Seq2SeqTrainer
 
 import evaluate
