@@ -5172,7 +5172,7 @@ labels shape: torch.Size([5, 128])
 
 现在，我们已经做好了实际训练模型的所有准备工作——毕竟这还不算什么工作！在开始训练之前，我们应该登录 Hugging Face。如果您在笔记本中工作，则可以使用以下实用程序函数执行此操作：
 
-```
+```python
 from huggingface_hub import notebook_login
 
 notebook_login()
@@ -5182,13 +5182,13 @@ notebook_login()
 
 如果您不在笔记本中工作，只需在终端中键入以下行：
 
-```
+```shell
 huggingface-cli login
 ```
 
 剩下要做的就是配置训练参数并启动 .我们将使用余弦学习速率计划，并进行一些预热，有效批处理大小为 256 （ * ）。当单个批处理无法放入内存时，使用梯度累积，并通过多次向前/向后传递以增量方式建立梯度。当我们使用 🤗 Accelerate 创建训练循环时，我们将看到这一点。`Trainer``per_device_train_batch_size``gradient_accumulation_steps`
 
-```
+```python
 from transformers import Trainer, TrainingArguments
 
 args = TrainingArguments(
@@ -5219,9 +5219,9 @@ trainer = Trainer(
 )
 ```
 
-现在我们可以开始并等待训练完成。根据您是在完整训练集还是训练集的子集上运行它，这将分别需要 20 小时或 2 小时，所以请喝几杯咖啡和一本好书来阅读！`Trainer`
+现在我们可以开始 `Trainer` 并等待训练完成。根据您是在完整训练集还是训练集的子集上运行它，这将分别需要 20 小时或 2 小时，所以请喝几杯咖啡和一本好书来阅读！
 
-```
+```python
 trainer.train()
 ```
 
