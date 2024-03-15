@@ -4400,7 +4400,7 @@ tokenizer.convert_ids_to_tokens(inputs.input_ids)
 
 为了标记我们的语料库，我们必须处理与摘要相关的微妙之处：因为我们的标签也是文本，所以它们可能会超过模型的最大上下文大小。这意味着我们需要对评论及其标题应用截断，以确保我们不会将过长的输入传递到我们的模型中。Transformers 中的🤗分词器提供了一个漂亮的参数，允许您将标签与输入并行标记化。以下是如何处理 mT5 的输入和目标的示例：`text_target`
 
-```
+```python
 max_input_length = 512
 max_target_length = 30
 
@@ -4422,7 +4422,7 @@ def preprocess_function(examples):
 
 有了 ，那么使用我们在本课程中广泛使用的便捷函数对整个语料库进行标记就很简单了：`preprocess_function()``Dataset.map()`
 
-```
+```python
 tokenized_datasets = books_dataset.map(preprocess_function, batched=True)
 ```
 
