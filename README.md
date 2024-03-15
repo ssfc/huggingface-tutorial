@@ -4835,9 +4835,153 @@ repo = Repository(output_dir, clone_from=repo_name)
 
 这将允许我们通过在训练期间调用该方法将工件推送回中心！现在让我们通过写出训练循环来结束我们的分析。`repo.push_to_hub()`
 
+#### Training loop
 
+用于总结的训练循环与我们遇到的其他🤗加速示例非常相似，大致分为四个主要步骤：
 
+1. 通过遍历每个 epoch 的所有示例来训练模型。`train_dataloader`
+2. 在每个纪元结束时生成模型摘要，方法是首先生成标记，然后将它们（和参考摘要）解码为文本。
+3. 使用我们之前看到的相同技术计算 ROUGE 分数。
+4. 保存检查点并将所有内容推送到中心。在这里，我们依赖于对象的漂亮参数，以便我们可以*异步*地推送每个纪元的检查点。这使我们能够继续训练，而不必等待与 GB 大小的模型相关的有点慢的上传！`blocking=False``Repository`
 
+可以在以下代码块中看到这些步骤：
+
+```python
+from tqdm.auto import tqdm
+import torch
+import numpy as np
+
+progress_bar = tqdm(range(num_training_steps))
+
+for epoch in range(num_train_epochs):
+    # Training
+    model.train()
+    for step, batch in enumerate(train_dataloader):
+        outputs = model(**batch)
+        loss = outputs.loss
+        accelerator.backward(loss)
+
+        optimizer.step()
+        lr_scheduler.step()
+        optimizer.zero_grad()
+        progress_bar.update(1)
+
+    # Evaluation
+    model.eval()
+    for step, batch in enumerate(eval_dataloader):
+        with torch.no_grad():
+            generated_tokens = accelerator.unwrap_model(model).generate(
+                batch["input_ids"],
+                attention_mask=batch["attention_mask"],
+            )
+
+            generated_tokens = accelerator.pad_across_processes(
+                generated_tokens, dim=1, pad_index=tokenizer.pad_token_id
+            )
+            labels = batch["labels"]
+
+            # If we did not pad to max length, we need to pad the labels too
+            labels = accelerator.pad_across_processes(
+                batch["labels"], dim=1, pad_index=tokenizer.pad_token_id
+            )
+
+            generated_tokens = accelerator.gather(generated_tokens).cpu().numpy()
+            labels = accelerator.gather(labels).cpu().numpy()
+
+            # Replace -100 in the labels as we can't decode them
+            labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+            if isinstance(generated_tokens, tuple):
+                generated_tokens = generated_tokens[0]
+            decoded_preds = tokenizer.batch_decode(
+                generated_tokens, skip_special_tokens=True
+            )
+            decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+            decoded_preds, decoded_labels = postprocess_text(
+                decoded_preds, decoded_labels
+            )
+
+            rouge_score.add_batch(predictions=decoded_preds, references=decoded_labels)
+
+    # Compute metrics
+    result = rouge_score.compute()
+    # Extract the median ROUGE scores
+    result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
+    result = {k: round(v, 4) for k, v in result.items()}
+    print(f"Epoch {epoch}:", result)
+
+    # Save and upload
+    accelerator.wait_for_everyone()
+    unwrapped_model = accelerator.unwrap_model(model)
+    unwrapped_model.save_pretrained(output_dir, save_function=accelerator.save)
+    if accelerator.is_main_process:
+        tokenizer.save_pretrained(output_dir)
+        repo.push_to_hub(
+            commit_message=f"Training in progress epoch {epoch}", blocking=False
+        )
+Epoch 0: {'rouge1': 5.6351, 'rouge2': 1.1625, 'rougeL': 5.4866, 'rougeLsum': 5.5005}
+Epoch 1: {'rouge1': 9.8646, 'rouge2': 3.4106, 'rougeL': 9.9439, 'rougeLsum': 9.9306}
+Epoch 2: {'rouge1': 11.0872, 'rouge2': 3.3273, 'rougeL': 11.0508, 'rougeLsum': 10.9468}
+Epoch 3: {'rouge1': 11.8587, 'rouge2': 4.8167, 'rougeL': 11.7986, 'rougeLsum': 11.7518}
+Epoch 4: {'rouge1': 12.9842, 'rouge2': 5.5887, 'rougeL': 12.7546, 'rougeLsum': 12.7029}
+Epoch 5: {'rouge1': 13.4628, 'rouge2': 6.4598, 'rougeL': 13.312, 'rougeLsum': 13.2913}
+Epoch 6: {'rouge1': 12.9131, 'rouge2': 5.8914, 'rougeL': 12.6896, 'rougeLsum': 12.5701}
+Epoch 7: {'rouge1': 13.3079, 'rouge2': 6.2994, 'rougeL': 13.1536, 'rougeLsum': 13.1194}
+Epoch 8: {'rouge1': 13.96, 'rouge2': 6.5998, 'rougeL': 13.9123, 'rougeLsum': 13.7744}
+Epoch 9: {'rouge1': 14.1192, 'rouge2': 7.0059, 'rougeL': 14.1172, 'rougeLsum': 13.9509}
+```
+
+就是这样！运行此操作后，您将获得一个模型和结果，这些模型和结果与我们使用 .`Trainer`
+
+### 7.5.7 Using your fine-tuned model
+
+将模型推送到 Hub 后，您可以通过推理小部件或对象来使用它，如下所示：`pipeline`
+
+```python
+from transformers import pipeline
+
+hub_model_id = "huggingface-course/mt5-small-finetuned-amazon-en-es"
+summarizer = pipeline("summarization", model=hub_model_id)
+```
+
+我们可以将测试集（模型尚未看到的）中的一些示例提供给我们的管道，以了解摘要的质量。首先，让我们实现一个简单的函数，将评论、标题和生成的摘要一起显示：
+
+```python
+def print_summary(idx):
+    review = books_dataset["test"][idx]["review_body"]
+    title = books_dataset["test"][idx]["review_title"]
+    summary = summarizer(books_dataset["test"][idx]["review_body"])[0]["summary_text"]
+    print(f"'>>> Review: {review}'")
+    print(f"\n'>>> Title: {title}'")
+    print(f"\n'>>> Summary: {summary}'")
+```
+
+让我们看一下我们得到的一个英语示例：
+
+```python
+print_summary(100)
+```
+
+'>>> Review: Nothing special at all about this product... the book is too small and stiff and hard to write in. The huge sticker on the back doesn’t come off and looks super tacky. I would not purchase this again. I could have just bought a journal from the dollar store and it would be basically the same thing. It’s also really expensive for what it is.'
+
+'>>> Title: Not impressed at all... buy something else'
+
+'>>> Summary: Nothing special at all about this product'
+
+这还不错！我们可以看到，我们的模型实际上已经能够通过用新词来增强评论的部分内容来执行*抽象*总结。也许我们模型最酷的方面是它是双语的，因此我们还可以生成西班牙语评论的摘要：
+
+```
+print_summary(0)
+'>>> Review: Es una trilogia que se hace muy facil de leer. Me ha gustado, no me esperaba el final para nada'
+
+'>>> Title: Buena literatura para adolescentes'
+
+'>>> Summary: Muy facil de leer'
+```
+
+摘要翻译成英文的“非常容易阅读”，在这种情况下，我们可以看到它是直接从评论中提取的。尽管如此，这显示了 mT5 模型的多功能性，并让您体验了处理多语言语料库的感觉！
+
+接下来，我们将把注意力转向一个稍微复杂的任务：从头开始训练语言模型。
 
 
 
