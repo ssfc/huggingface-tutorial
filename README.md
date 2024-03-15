@@ -4998,7 +4998,9 @@ print_summary(0)
 
 Python 代码可以从 GitHub 等代码存储库中大量获得，我们可以使用它通过抓取每个 Python 存储库来创建数据集。这是[《变形金刚》教科书](https://learning.oreilly.com/library/view/natural-language-processing/9781098136789/)中采用的预训练大型 GPT-2 模型的方法。使用一个大约180 GB的GitHub转储，其中包含大约2000万个Python文件称为`codeparrot`，作者建立了一个数据集，然后在[Hugging Face Hub](https://huggingface.co/datasets/transformersbook/codeparrot)上共享。
 
-然而，在完整的语料库上进行训练既耗时又耗费计算，我们只需要与 Python 数据科学堆栈相关的数据集子集。因此，让我们首先筛选包含此堆栈中任何库的所有文件的数据集。由于数据集的大小，我们希望避免下载它;相反，我们将使用流式处理功能来动态过滤它。为了帮助我们使用前面提到的库筛选代码示例，我们将使用以下函数：`codeparrot`
+（Comment 1: 这个文件太大了，吾人先在colab上测试一番，再考虑要不要下载到本地。=> 卧槽，这个速度是真慢呀）
+
+然而，在完整的语料库上进行训练既耗时又耗费计算，我们只需要与 Python 数据科学堆栈相关的数据集子集。因此，让我们首先筛选 `codeparrot` 包含此堆栈中任何库的所有文件的数据集。由于数据集的大小，我们希望避免下载它;相反，我们将使用流式处理功能来动态过滤它。为了帮助我们使用前面提到的库筛选代码示例，我们将使用以下函数：
 
 ```python
 def any_keyword_in_string(string, keywords):
