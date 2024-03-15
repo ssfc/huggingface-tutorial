@@ -5147,7 +5147,7 @@ GPT-2 size: 124.2M parameters
 
 请注意，`DataCollatorForLanguageModeling` 支持掩码语言建模 （MLM） 和因果语言建模 （CLM）。默认情况下，它为 MLM 准备数据，但我们可以通过设置 `mlm=False` 参数来切换到 CLM：
 
-```
+```python
 from transformers import DataCollatorForLanguageModeling
 
 tokenizer.pad_token = tokenizer.eos_token
@@ -5156,14 +5156,15 @@ data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
 让我们看一个例子：
 
-```
+```python
 out = data_collator([tokenized_datasets["train"][i] for i in range(5)])
 for key in out:
     print(f"{key} shape: {out[key].shape}")
+```
+
 input_ids shape: torch.Size([5, 128])
 attention_mask shape: torch.Size([5, 128])
 labels shape: torch.Size([5, 128])
-```
 
 我们可以看到，这些示例已经堆叠在一起，并且所有张量都具有相同的形状。
 
