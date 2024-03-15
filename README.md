@@ -4192,3 +4192,30 @@ print(translator(
 
 正如我们将看到的，这些摘要是简洁的，因为它们是从客户在产品评论中提供的标题中学到的。让我们首先为这项任务建立一个合适的双语语料库。
 
+### 7.5.1 Preparing a multilingual corpus
+
+我们将使用[多语言亚马逊评论语料库](https://huggingface.co/datasets/amazon_reviews_multi)来创建我们的双语摘要器。该语料库包含六种语言的亚马逊商品评论，通常用于对多语言分类器进行基准测试。但是，由于每篇评论都附有一个简短的标题，因此我们可以将这些标题用作模型学习的目标摘要！首先，让我们从 Hugging Face Hub 下载英语和西班牙语子集：
+
+```python
+from datasets import load_dataset
+
+spanish_dataset = load_dataset("amazon_reviews_multi", "es")
+english_dataset = load_dataset("amazon_reviews_multi", "en")
+print(english_dataset)
+```
+
+DatasetDict({
+    train: Dataset({
+        features: ['review_id', 'product_id', 'reviewer_id', 'stars', 'review_body', 'review_title', 'language', 'product_category'],
+        num_rows: 200000
+    })
+    validation: Dataset({
+        features: ['review_id', 'product_id', 'reviewer_id', 'stars', 'review_body', 'review_title', 'language', 'product_category'],
+        num_rows: 5000
+    })
+    test: Dataset({
+        features: ['review_id', 'product_id', 'reviewer_id', 'stars', 'review_body', 'review_title', 'language', 'product_category'],
+        num_rows: 5000
+    })
+})
+
