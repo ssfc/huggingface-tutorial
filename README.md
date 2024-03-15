@@ -4365,3 +4365,67 @@ books_dataset = books_dataset.filter(lambda x: len(x["review_title"].split()) > 
 mT5 不使用前缀，但与 T5 一样具有多功能性，并具有多语言的优势。现在我们已经选择了一个模型，让我们看一下如何准备训练数据。
 
 ✏️ **试试看！**完成本节后，通过使用相同的技术微调 mT5 与 mBART 相比如何。为了获得奖励积分，您还可以尝试仅对英文评论进行微调 T5。由于 T5 具有特殊的前缀提示，因此您需要在下面的预处理步骤中将 prepend 到输入示例之前。`summarize:`
+
+### 7.5.3 Preprocessing the data
+
+我们的下一个任务是对我们的评论及其标题进行标记和编码。像往常一样，我们首先加载与预训练模型检查点关联的分词器。我们将用作检查点，以便我们可以在合理的时间内对模型进行微调：`mt5-small`
+
+```python
+from transformers import AutoTokenizer
+
+model_checkpoint = "google/mt5-small"
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+```
+
+💡 在 NLP 项目的早期阶段，一个好的做法是在一小块数据样本上训练一类“小”模型。这使您可以更快地调试和迭代端到端工作流。一旦您对结果充满信心，您始终可以通过简单地更改模型检查点来扩展模型！
+
+让我们在一个小例子中测试 mT5 分词器：
+
+```python
+inputs = tokenizer("I loved reading the Hunger Games!")
+print(inputs)
+```
+
+{'input_ids': [336, 259, 28387, 11807, 287, 62893, 295, 12507, 1], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1]}
+
+在这里，我们可以看到熟悉的，以及我们在第 [3 章](https://huggingface.co/course/chapter3)的第一次微调实验中遇到的。让我们用分词器的函数解码这些输入 ID，看看我们正在处理哪种分词器：`input_ids``attention_mask``convert_ids_to_tokens()`
+
+```python
+tokenizer.convert_ids_to_tokens(inputs.input_ids)
+```
+
+['▁I', '▁', 'loved', '▁reading', '▁the', '▁Hung', 'er', '▁Games', '</s>']
+
+特殊的 Unicode 字符和序列末尾标记表明我们正在处理 SentencePiece 标记器，它基于[第 6 章](https://huggingface.co/course/chapter6)中讨论的 Unigram 分割算法。Unigram 对于多语言语料库特别有用，因为它允许 SentencePiece 与口音、标点符号以及许多语言（如日语）没有空格字符这一事实无关。`▁``</s>`
+
+为了标记我们的语料库，我们必须处理与摘要相关的微妙之处：因为我们的标签也是文本，所以它们可能会超过模型的最大上下文大小。这意味着我们需要对评论及其标题应用截断，以确保我们不会将过长的输入传递到我们的模型中。Transformers 中的🤗分词器提供了一个漂亮的参数，允许您将标签与输入并行标记化。以下是如何处理 mT5 的输入和目标的示例：`text_target`
+
+```
+max_input_length = 512
+max_target_length = 30
+
+
+def preprocess_function(examples):
+    model_inputs = tokenizer(
+        examples["review_body"],
+        max_length=max_input_length,
+        truncation=True,
+    )
+    labels = tokenizer(
+        examples["review_title"], max_length=max_target_length, truncation=True
+    )
+    model_inputs["labels"] = labels["input_ids"]
+    return model_inputs
+```
+
+让我们通过此代码来了解正在发生的事情。我们做的第一件事是定义 和 的值，它设置了我们的评论和标题可以有多长的上限。由于评价正文通常比标题大得多，因此我们相应地调整了这些值。`max_input_length``max_target_length`
+
+有了 ，那么使用我们在本课程中广泛使用的便捷函数对整个语料库进行标记就很简单了：`preprocess_function()``Dataset.map()`
+
+```
+tokenized_datasets = books_dataset.map(preprocess_function, batched=True)
+```
+
+现在语料库已经过预处理，让我们来看看一些通常用于汇总的指标。正如我们将看到的，在衡量机器生成文本的质量方面，没有灵丹妙药。
+
+💡 您可能已经注意到，我们在上面的函数中使用了。这将以 1,000 个（默认值）为批次对示例进行编码，并允许您利用 Transformer 中🤗快速分词器的多线程功能。在可能的情况下，尝试使用以充分利用您的预处理！`batched=True``Dataset.map()``batched=True`
