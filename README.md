@@ -4219,3 +4219,125 @@ DatasetDict({
     })
 })
 
+如您所见，对于每种语言，拆分有 200,000 条评论，每个拆分有 5,000 条评论。我们感兴趣的评论信息包含在 和 列中。让我们看几个例子，通过创建一个简单的函数，该函数使用我们[在第 5 章](https://huggingface.co/course/chapter5)中学到的技术从训练集中随机抽取样本：`train``validation``test``review_body``review_title`
+
+```python
+def show_samples(dataset, num_samples=3, seed=42):
+    sample = dataset["train"].shuffle(seed=seed).select(range(num_samples))
+    for example in sample:
+        print(f"\n'>> Title: {example['review_title']}'")
+        print(f"'>> Review: {example['review_body']}'")
+
+
+show_samples(english_dataset)
+```
+
+'>> Title: Worked in front position, not rear'
+'>> Review: 3 stars because these are not rear brakes as stated in the item description. At least the mount adapter only worked on the front fork of the bike that I got it for.'
+
+'>> Title: meh'
+'>> Review: Does it’s job and it’s gorgeous but mine is falling apart, I had to basically put it together again with hot glue'
+
+'>> Title: Can\'t beat these for the money'
+'>> Review: Bought this for handling miscellaneous aircraft parts and hanger "stuff" that I needed to organize; it really fit the bill. The unit arrived quickly, was well packaged and arrived intact (always a good sign). There are five wall mounts-- three on the top and two on the bottom. I wanted to mount it on the wall, so all I had to do was to remove the top two layers of plastic drawers, as well as the bottom corner drawers, place it when I wanted and mark it; I then used some of the new plastic screw in wall anchors (the 50 pound variety) and it easily mounted to the wall. Some have remarked that they wanted dividers for the drawers, and that they made those. Good idea. My application was that I needed something that I can see the contents at about eye level, so I wanted the fuller-sized drawers. I also like that these are the new plastic that doesn\'t get brittle and split like my older plastic drawers did. I like the all-plastic construction. It\'s heavy duty enough to hold metal parts, but being made of plastic it\'s not as heavy as a metal frame, so you can easily mount it to the wall and still load it up with heavy stuff, or light stuff. No problem there. For the money, you can\'t beat it. Best one of these I\'ve bought to date-- and I\'ve been using some version of these for over forty years.'
+
+✏️ **试试看！**更改命令中的随机种子以浏览语料库中的其他评论。如果您是讲西班牙语的人，请查看其中的一些评论，看看标题是否也是合理的摘要。`Dataset.shuffle()``spanish_dataset`
+
+这个样本显示了人们通常在网上找到的评论的多样性，从正面到负面（以及介于两者之间的一切！虽然带有“meh”标题的示例信息量不大，但其他标题看起来像是对评论本身的体面总结。在所有 400,000 条评论上训练摘要模型在单个 GPU 上花费的时间太长，因此我们将专注于为单个产品领域生成摘要。为了了解我们可以选择哪些域，让我们转换为 a 并计算每个产品类别的评论数量：`english_dataset``pandas.DataFrame`
+
+```
+english_dataset.set_format("pandas")
+english_df = english_dataset["train"][:]
+# Show counts for top 20 products
+english_df["product_category"].value_counts()[:20]
+home                      17679
+apparel                   15951
+wireless                  15717
+other                     13418
+beauty                    12091
+drugstore                 11730
+kitchen                   10382
+toy                        8745
+sports                     8277
+automotive                 7506
+lawn_and_garden            7327
+home_improvement           7136
+pet_products               7082
+digital_ebook_purchase     6749
+pc                         6401
+electronics                6186
+office_product             5521
+shoes                      5197
+grocery                    4730
+book                       3756
+Name: product_category, dtype: int64
+```
+
+英语数据集中最受欢迎的产品是关于家居用品、服装和无线电子产品的。不过，为了坚持亚马逊的主题，让我们专注于总结书评——毕竟，这就是公司成立的基础！我们可以看到两个符合要求的产品类别（ 和 ），因此让我们仅针对这些产品过滤两种语言的数据集。正如我们在第 [5 章](https://huggingface.co/course/chapter5)中看到的，该函数允许我们非常有效地对数据集进行切片，因此我们可以定义一个简单的函数来执行此操作：`book``digital_ebook_purchase``Dataset.filter()`
+
+```
+def filter_books(example):
+    return (
+        example["product_category"] == "book"
+        or example["product_category"] == "digital_ebook_purchase"
+    )
+```
+
+现在，当我们将此函数应用于 和 时，结果将只包含涉及书籍类别的那些行。在应用过滤器之前，让我们将 的格式从 切换回 ：`english_dataset``spanish_dataset``english_dataset``"pandas"``"arrow"`
+
+```
+english_dataset.reset_format()
+```
+
+然后，我们可以应用过滤功能，作为健全性检查，让我们检查一个评论样本，看看它们是否确实是关于书籍的：
+
+```
+spanish_books = spanish_dataset.filter(filter_books)
+english_books = english_dataset.filter(filter_books)
+show_samples(english_books)
+'>> Title: I\'m dissapointed.'
+'>> Review: I guess I had higher expectations for this book from the reviews. I really thought I\'d at least like it. The plot idea was great. I loved Ash but, it just didnt go anywhere. Most of the book was about their radio show and talking to callers. I wanted the author to dig deeper so we could really get to know the characters. All we know about Grace is that she is attractive looking, Latino and is kind of a brat. I\'m dissapointed.'
+
+'>> Title: Good art, good price, poor design'
+'>> Review: I had gotten the DC Vintage calendar the past two years, but it was on backorder forever this year and I saw they had shrunk the dimensions for no good reason. This one has good art choices but the design has the fold going through the picture, so it\'s less aesthetically pleasing, especially if you want to keep a picture to hang. For the price, a good calendar'
+
+'>> Title: Helpful'
+'>> Review: Nearly all the tips useful and. I consider myself an intermediate to advanced user of OneNote. I would highly recommend.'
+```
+
+好的，我们可以看到这些评论并不是严格意义上的书籍，可能指的是日历和电子应用程序（如 OneNote）之类的东西。尽管如此，该领域似乎更适合训练摘要模型。在我们研究适合此任务的各种模型之前，我们还有最后一点数据准备工作要做：将英语和西班牙语评论合并为一个对象。🤗 数据集提供了一个方便的函数，顾名思义，它将两个对象堆叠在一起。因此，为了创建我们的双语数据集，我们将遍历每个拆分，连接该拆分的数据集，并对结果进行打牌，以确保我们的模型不会过度拟合到单一语言：`DatasetDict``concatenate_datasets()``Dataset`
+
+```
+from datasets import concatenate_datasets, DatasetDict
+
+books_dataset = DatasetDict()
+
+for split in english_books.keys():
+    books_dataset[split] = concatenate_datasets(
+        [english_books[split], spanish_books[split]]
+    )
+    books_dataset[split] = books_dataset[split].shuffle(seed=42)
+
+# Peek at a few examples
+show_samples(books_dataset)
+'>> Title: Easy to follow!!!!'
+'>> Review: I loved The dash diet weight loss Solution. Never hungry. I would recommend this diet. Also the menus are well rounded. Try it. Has lots of the information need thanks.'
+
+'>> Title: PARCIALMENTE DAÑADO'
+'>> Review: Me llegó el día que tocaba, junto a otros libros que pedí, pero la caja llegó en mal estado lo cual dañó las esquinas de los libros porque venían sin protección (forro).'
+
+'>> Title: no lo he podido descargar'
+'>> Review: igual que el anterior'
+```
+
+这当然看起来像是英语和西班牙语评论的混合体！现在我们有了一个训练语料库，最后要检查的是评论中的单词分布及其标题。这对于摘要任务尤为重要，因为数据中的简短参考摘要可能会使模型偏向于在生成的摘要中仅输出一个或两个单词。下图显示了单词分布，我们可以看到标题严重偏向于只有 1-2 个单词：
+
+![Word count distributions for the review titles and texts.](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter7/review-lengths.svg)
+
+为了解决这个问题，我们将过滤掉标题非常短的示例，以便我们的模型可以生成更有趣的摘要。由于我们正在处理英语和西班牙语文本，因此我们可以使用粗略的启发式方法将标题拆分为空格，然后使用我们可靠的方法，如下所示：`Dataset.filter()`
+
+```
+books_dataset = books_dataset.filter(lambda x: len(x["review_title"].split()) > 2)
+```
+
+现在我们已经准备好了语料库，让我们来看看一些可能的 Transformer 模型，人们可以对其进行微调！
