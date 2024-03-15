@@ -4342,3 +4342,26 @@ books_dataset = books_dataset.filter(lambda x: len(x["review_title"].split()) > 
 ```
 
 现在我们已经准备好了语料库，让我们来看看一些可能的 Transformer 模型，人们可以对其进行微调！
+
+### 7.5.2 Models for text summarization
+
+如果你仔细想想，**文本摘要是一种类似于机器翻译的任务：我们有一个像评论一样的文本正文，我们想把它“翻译”成一个较短的版本，以捕捉输入的显着特征** （Comment:  没错，吾人也是这么想的。而且吾人认为PCF也类似于这样的任务，因此说不定可以采用类似的架构）。因此，大多数用于汇总的 Transformer 模型都采用了我们[在第 1 章](https://huggingface.co/course/chapter1)中首次遇到的编码器-解码器架构，尽管也有一些例外，例如 GPT 系列模型，它们也可用于在小样本设置中进行汇总。下表列出了一些常用的预训练模型，可以对这些模型进行微调以进行汇总。
+
+| 变压器型号                                                   | 描述                                                         | 多种语言？ |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---------- |
+| [GPT-2的](https://huggingface.co/gpt2-xl)                    | 虽然被训练为自动回归语言模型，但您可以通过附加“TL;DR“在输入文本的末尾。 | ❌          |
+| [飞马座](https://huggingface.co/google/pegasus-large)        | 使用预训练目标来预测多句子文本中的屏蔽句子。这个预训练目标比普通的语言建模更接近于总结，并且在流行的基准测试中得分很高。 | ❌          |
+| [T5系列](https://huggingface.co/t5-base)                     | 通用的 Transformer 架构，可在文本转文本框架中制定所有任务;例如，用于总结文档的模型的输入格式为 。`summarize: ARTICLE` | ❌          |
+| [mT5型](https://huggingface.co/google/mt5-base)              | T5 的多语言版本，在多语言 Common Crawl 语料库 （mC4） 上进行预训练，涵盖 101 种语言。 | ✅          |
+| [巴特](https://huggingface.co/facebook/bart-base)            | 一种新颖的 Transformer 架构，具有编码器和解码器堆栈，经过训练以重建损坏的输入，结合了 BERT 和 GPT-2 的预训练方案。 | ❌          |
+| [mBART-50型](https://huggingface.co/facebook/mbart-large-50) | BART 的多语言版本，预训练了 50 种语言。                      | ✅          |
+
+从这张表中可以看出，大多数用于总结的 Transformer 模型（实际上大多数 NLP 任务）都是单语的。如果您的任务是使用英语或德语等“高资源”语言，那就太好了，但对于世界各地使用的数千种其他语言来说就不那么重要了。幸运的是，有一类多语言的 Transformer 模型，如 mT5 和 mBART，可以派上用场。这些模型是使用语言建模进行预训练的，但有一个转折点：它们不是在一种语言的语料库上进行训练，而是同时在 50 多种语言的文本上进行联合训练！
+
+我们将重点介绍 mT5，这是一个基于 T5 的有趣架构，在文本转文本框架中进行了预训练。在 T5 中，每个 NLP 任务都是根据提示前缀来表述的，例如，该前缀使模型使生成的文本适应提示。如下图所示，这使得 T5 非常通用，因为您可以使用单个模型解决许多任务！`summarize:`
+
+![Different tasks performed by the T5 architecture.](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter7/t5.svg)
+
+mT5 不使用前缀，但与 T5 一样具有多功能性，并具有多语言的优势。现在我们已经选择了一个模型，让我们看一下如何准备训练数据。
+
+✏️ **试试看！**完成本节后，通过使用相同的技术微调 mT5 与 mBART 相比如何。为了获得奖励积分，您还可以尝试仅对英文评论进行微调 T5。由于 T5 具有特殊的前缀提示，因此您需要在下面的预处理步骤中将 prepend 到输入示例之前。`summarize:`
