@@ -5118,7 +5118,121 @@ LICENSE: bsd-3-clause'''
 
 我们可以看到 `content` 字段包含我们希望模型训练的代码。现在我们有了一个数据集，我们需要准备文本，使它们采用适合预训练的格式。
 
+### 7.6.2 Preparing the dataset
 
+我们的第一步是全新初始化一个 GPT-2 模型。我们将为我们的模型使用与小型 GPT-2 模型相同的配置，因此我们加载预训练的配置，确保分词器大小与模型词汇大小匹配，并传递 and（序列的开始和结束）令牌 ID：`bos``eos`
+
+```python
+from transformers import AutoTokenizer, GPT2LMHeadModel, AutoConfig
+
+config = AutoConfig.from_pretrained(
+    "gpt2",
+    vocab_size=len(tokenizer),
+    n_ctx=context_length,
+    bos_token_id=tokenizer.bos_token_id,
+    eos_token_id=tokenizer.eos_token_id,
+)
+```
+
+通过该配置，我们可以加载一个新模型。请注意，这是我们第一次不使用该函数，因为我们实际上是在自己初始化一个模型：`from_pretrained()`
+
+```
+model = GPT2LMHeadModel(config)
+model_size = sum(t.numel() for t in model.parameters())
+print(f"GPT-2 size: {model_size/1000**2:.1f}M parameters")
+GPT-2 size: 124.2M parameters
+```
+
+我们的模型有 124M 个参数，我们必须调整这些参数。在开始训练之前，我们需要设置一个数据整理器来负责创建批处理。我们可以使用专为语言建模而设计的整理器（顾名思义）。除了堆叠和填充批处理外，它还负责创建语言模型标签——在因果语言建模中，输入也用作标签（只是移动了一个元素），并且此数据整理器在训练期间动态创建它们，因此我们不需要复制 .`DataCollatorForLanguageModeling``input_ids`
+
+请注意，它支持掩码语言建模 （MLM） 和因果语言建模 （CLM）。默认情况下，它为 MLM 准备数据，但我们可以通过设置参数来切换到 CLM：`DataCollatorForLanguageModeling``mlm=False`
+
+```
+from transformers import DataCollatorForLanguageModeling
+
+tokenizer.pad_token = tokenizer.eos_token
+data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
+```
+
+让我们看一个例子：
+
+```
+out = data_collator([tokenized_datasets["train"][i] for i in range(5)])
+for key in out:
+    print(f"{key} shape: {out[key].shape}")
+input_ids shape: torch.Size([5, 128])
+attention_mask shape: torch.Size([5, 128])
+labels shape: torch.Size([5, 128])
+```
+
+我们可以看到，这些示例已经堆叠在一起，并且所有张量都具有相同的形状。
+
+⚠️ 在模型内部移动输入和标签以使其对齐，因此数据整理器只需复制输入即可创建标签。
+
+现在，我们已经做好了实际训练模型的所有准备工作——毕竟这还不算什么工作！在开始训练之前，我们应该登录 Hugging Face。如果您在笔记本中工作，则可以使用以下实用程序函数执行此操作：
+
+```
+from huggingface_hub import notebook_login
+
+notebook_login()
+```
+
+这将显示一个小部件，您可以在其中输入您的 Hugging Face 登录凭据。
+
+如果您不在笔记本中工作，只需在终端中键入以下行：
+
+```
+huggingface-cli login
+```
+
+剩下要做的就是配置训练参数并启动 .我们将使用余弦学习速率计划，并进行一些预热，有效批处理大小为 256 （ * ）。当单个批处理无法放入内存时，使用梯度累积，并通过多次向前/向后传递以增量方式建立梯度。当我们使用 🤗 Accelerate 创建训练循环时，我们将看到这一点。`Trainer``per_device_train_batch_size``gradient_accumulation_steps`
+
+```
+from transformers import Trainer, TrainingArguments
+
+args = TrainingArguments(
+    output_dir="codeparrot-ds",
+    per_device_train_batch_size=32,
+    per_device_eval_batch_size=32,
+    evaluation_strategy="steps",
+    eval_steps=5_000,
+    logging_steps=5_000,
+    gradient_accumulation_steps=8,
+    num_train_epochs=1,
+    weight_decay=0.1,
+    warmup_steps=1_000,
+    lr_scheduler_type="cosine",
+    learning_rate=5e-4,
+    save_steps=5_000,
+    fp16=True,
+    push_to_hub=True,
+)
+
+trainer = Trainer(
+    model=model,
+    tokenizer=tokenizer,
+    args=args,
+    data_collator=data_collator,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["valid"],
+)
+```
+
+现在我们可以开始并等待训练完成。根据您是在完整训练集还是训练集的子集上运行它，这将分别需要 20 小时或 2 小时，所以请喝几杯咖啡和一本好书来阅读！`Trainer`
+
+```
+trainer.train()
+```
+
+训练完成后，我们可以将模型和分词器推送到 Hub：
+
+```
+trainer.push_to_hub()
+```
+
+✏️ **试试看！**除了从原始文本到训练 GPT-2 之外，我们只花了大约 30 行代码。用你自己的数据集试试看，看看你是否能得到好的结果！`TrainingArguments`
+
+💡 如果您有权访问具有多个 GPU 的计算机，请尝试在那里运行代码。自动管理多台机器，这可以大大加快训练速度。`Trainer`
 
 
 
