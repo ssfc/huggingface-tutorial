@@ -4545,3 +4545,174 @@ rouge_dict
 ```
 
 我们可以看到分数明显低于其他分数;这可能反映了一个事实，即综述标题通常很简洁，因此 lead-3 基线过于冗长。现在我们有了一个很好的基线，让我们把注意力转向微调 mT5！`rouge2`
+
+### 7.5.5 Fine-tuning mT5 with the Trainer API
+
+微调汇总模型与我们在本章中介绍的其他任务非常相似。我们需要做的第一件事是从检查点加载预训练的模型。由于汇总是一个序列到序列的任务，我们可以用类加载模型，该类将自动下载并缓存权重：`mt5-small``AutoModelForSeq2SeqLM`
+
+```python
+from transformers import AutoModelForSeq2SeqLM
+
+model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
+```
+
+💡 如果您想知道为什么在下游任务上看不到任何关于微调模型的警告，那是因为对于序列到序列任务，我们保留了网络的所有权重。将其与[第 3 章](https://huggingface.co/course/chapter3)中的文本分类模型进行比较，其中预训练模型的头部被随机初始化的网络替换。
+
+接下来我们需要做的是登录 Hugging Face Hub。如果在笔记本中运行此代码，可以使用以下实用工具函数执行此操作：
+
+```python
+from huggingface_hub import notebook_login
+
+notebook_login()
+```
+
+这将显示一个小部件，您可以在其中输入凭据。或者，您可以在终端中运行此命令并登录：
+
+```shell
+huggingface-cli login
+```
+
+我们需要生成摘要，以便在训练期间计算 ROUGE 分数。幸运的是，🤗变形金刚提供了可以自动为我们做到这一点的专用类和类！为了了解其工作原理，让我们首先为实验定义超参数和其他参数：`Seq2SeqTrainingArguments``Seq2SeqTrainer`
+
+```python
+from transformers import Seq2SeqTrainingArguments
+
+batch_size = 8
+num_train_epochs = 8
+# Show the training loss with every epoch
+logging_steps = len(tokenized_datasets["train"]) // batch_size
+model_name = model_checkpoint.split("/")[-1]
+
+args = Seq2SeqTrainingArguments(
+    output_dir=f"{model_name}-finetuned-amazon-en-es",
+    evaluation_strategy="epoch",
+    learning_rate=5.6e-5,
+    per_device_train_batch_size=batch_size,
+    per_device_eval_batch_size=batch_size,
+    weight_decay=0.01,
+    save_total_limit=3,
+    num_train_epochs=num_train_epochs,
+    predict_with_generate=True,
+    logging_steps=logging_steps,
+    push_to_hub=True,
+)
+```
+
+在这里，参数被设置为指示我们应该在评估期间生成摘要，以便我们可以计算每个时期的 ROUGE 分数。如[第 1 章](https://huggingface.co/course/chapter1)所述，解码器通过逐个预测令牌来执行推理，这是通过模型的方法实现的。设置告诉使用该方法进行评估。我们还调整了一些默认的超参数，如学习率、epoch 数和权重衰减，并且我们设置了在训练期间最多只保存 3 个检查点的选项——这是因为即使是 mT5 的“小”版本也会使用大约 1 GB 的硬盘空间，我们可以通过限制保存的副本数量来节省一些空间。`predict_with_generate``generate()``predict_with_generate=True``Seq2SeqTrainer``save_total_limit`
+
+该参数将允许我们在训练后将模型推送到 Hub;您可以在用户配置文件下找到该存储库，该存储库位于 定义的位置。请注意，您可以使用参数指定要推送到的存储库的名称（特别是，您必须使用此参数推送到组织）。例如，当我们将模型推送到 [`huggingface-course` 组织](https://huggingface.co/huggingface-course)时，我们添加了 .`push_to_hub=True``output_dir``hub_model_id``hub_model_id="huggingface-course/mt5-finetuned-amazon-en-es"``Seq2SeqTrainingArguments`
+
+接下来我们需要做的是为训练器提供一个函数，以便我们可以在训练期间评估我们的模型。对于摘要来说，这比简单地调用模型的预测要复杂一些，因为我们需要先将输出和标签*解码*为文本，然后才能计算 ROUGE 分数。以下函数正是这样做的，并且还利用函数 from 用换行符分隔摘要句子：`compute_metrics()``rouge_score.compute()``sent_tokenize()``nltk`
+
+```python
+import numpy as np
+
+
+def compute_metrics(eval_pred):
+    predictions, labels = eval_pred
+    # Decode generated summaries into text
+    decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+    # Replace -100 in the labels as we can't decode them
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    # Decode reference summaries into text
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+    # ROUGE expects a newline after each sentence
+    decoded_preds = ["\n".join(sent_tokenize(pred.strip())) for pred in decoded_preds]
+    decoded_labels = ["\n".join(sent_tokenize(label.strip())) for label in decoded_labels]
+    # Compute ROUGE scores
+    result = rouge_score.compute(
+        predictions=decoded_preds, references=decoded_labels, use_stemmer=True
+    )
+    # Extract the median scores
+    result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
+    return {k: round(v, 4) for k, v in result.items()}
+```
+
+接下来，我们需要为我们的序列到序列任务定义一个数据整理器。由于 mT5 是编码器-解码器转换器模型，因此准备批次的一个微妙之处在于，在解码过程中，我们需要将标签向右移动一个。这是为了确保解码器只看到以前的地面实况标签，而看不到当前或未来的地面实况标签，这对模型来说很容易记住。这类似于在[因果语言建模](https://huggingface.co/course/chapter7/6)等任务中将蒙面的自我注意力应用于输入的方式。
+
+幸运的是，🤗 Transformers 提供了一个整理器，可以动态地为我们填充输入和标签。要实例化此整理器，我们只需要提供 和 ：`DataCollatorForSeq2Seq``tokenizer``model`
+
+```python
+from transformers import DataCollatorForSeq2Seq
+
+data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
+```
+
+让我们看看这个整理器在输入一小批示例时会产生什么。首先，我们需要删除带有字符串的列，因为整理器不知道如何填充这些元素：
+
+```python
+tokenized_datasets = tokenized_datasets.remove_columns(
+    books_dataset["train"].column_names
+)
+```
+
+由于整理器需要一个 s 列表，其中每个 s 代表数据集中的单个示例，因此我们还需要在将数据传递给数据整理器之前将数据整理成预期的格式：`dict``dict`
+
+```python
+features = [tokenized_datasets["train"][i] for i in range(2)]
+data_collator(features)
+```
+
+{'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]), 'input_ids': tensor([[  1494,    259,   8622,    390,    259,    262,   2316,   3435,    955,
+            772,    281,    772,   1617,    263,    305,  14701,    260,   1385,
+           3031,    259,  24146,    332,   1037,    259,  43906,    305,    336,
+            260,      1,      0,      0,      0,      0,      0,      0],
+        [   259,  27531,  13483,    259,   7505,    260, 112240,  15192,    305,
+          53198,    276,    259,  74060,    263,    260,    459,  25640,    776,
+           2119,    336,    259,   2220,    259,  18896,    288,   4906,    288,
+           1037,   3931,    260,   7083, 101476,   1143,    260,      1]]), 'labels': tensor([[ 7483,   259,  2364, 15695,     1,  -100],
+        [  259, 27531, 13483,   259,  7505,     1]]), 'decoder_input_ids': tensor([[    0,  7483,   259,  2364, 15695,     1],
+        [    0,   259, 27531, 13483,   259,  7505]])}
+
+这里要注意的主要事情是，第一个示例比第二个示例长，因此第二个示例的 and 在右侧填充了一个标记（其 ID 是 ）。同样，我们可以看到 已经用 s 填充了，以确保填充标记被 loss 函数忽略。最后，我们可以看到一个新标签，它通过在第一个条目中插入一个标记来将标签向右移动。`input_ids``attention_mask``[PAD]``0``labels``-100``decoder_input_ids``[PAD]`
+
+我们终于拥有了训练所需的所有成分！现在，我们只需要使用标准参数实例化训练器：
+
+```
+from transformers import Seq2SeqTrainer
+
+trainer = Seq2SeqTrainer(
+    model,
+    args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["validation"],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
+)
+```
+
+并启动我们的培训运行：
+
+```
+trainer.train()
+```
+
+在训练期间，您应该会看到训练损失减少，ROUGE 分数随着每个时期的增加而增加。训练完成后，您可以通过运行以下命令查看最终的 ROUGE 分数：`Trainer.evaluate()`
+
+```
+trainer.evaluate()
+{'eval_loss': 3.028524398803711,
+ 'eval_rouge1': 16.9728,
+ 'eval_rouge2': 8.2969,
+ 'eval_rougeL': 16.8366,
+ 'eval_rougeLsum': 16.851,
+ 'eval_gen_len': 10.1597,
+ 'eval_runtime': 6.1054,
+ 'eval_samples_per_second': 38.982,
+ 'eval_steps_per_second': 4.914}
+```
+
+从分数中，我们可以看到我们的模型轻松超越了我们的 lead-3 基线——很好！最后要做的是将模型权重推送到中心，如下所示：
+
+```
+trainer.push_to_hub(commit_message="Training complete", tags="summarization")
+'https://huggingface.co/huggingface-course/mt5-finetuned-amazon-en-es/commit/aa0536b829b28e73e1e4b94b8a5aacec420d40e0'
+```
+
+这会将检查点和配置文件保存到 ，然后再将所有文件上传到 Hub。通过指定参数，我们还确保 Hub 上的小组件将用于摘要管道，而不是与 mT5 架构关联的默认文本生成（有关模型标记的详细信息，请参阅 [🤗 Hub 文档](https://huggingface.co/docs/hub/main#how-is-a-models-type-of-inference-api-and-widget-determined)）。输出是 Git 提交哈希的 URL，因此您可以轻松查看对模型存储库所做的更改！`output_dir``tags``trainer.push_to_hub()`
+
+在结束本节之前，让我们来看看如何使用 Accelerate 提供的🤗低级功能来微调 mT5。
