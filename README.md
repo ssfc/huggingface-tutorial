@@ -4984,7 +4984,7 @@ print_summary(0)
 
 接下来，我们将把注意力转向一个稍微复杂的任务：从头开始训练语言模型。
 
-
+## 7.6 Training a causal language model from scratch
 
 
 
