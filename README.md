@@ -4671,7 +4671,7 @@ data_collator(features)
 
 我们终于拥有了训练所需的所有成分！现在，我们只需要使用标准参数实例化训练器：
 
-```
+```python
 from transformers import Seq2SeqTrainer
 
 trainer = Seq2SeqTrainer(
@@ -4687,14 +4687,16 @@ trainer = Seq2SeqTrainer(
 
 并启动我们的培训运行：
 
-```
+```python
 trainer.train()
 ```
 
 在训练期间，您应该会看到训练损失减少，ROUGE 分数随着每个时期的增加而增加。训练完成后，您可以通过运行以下命令查看最终的 ROUGE 分数：`Trainer.evaluate()`
 
-```
+```python
 trainer.evaluate()
+```
+
 {'eval_loss': 3.028524398803711,
  'eval_rouge1': 16.9728,
  'eval_rouge2': 8.2969,
@@ -4704,7 +4706,6 @@ trainer.evaluate()
  'eval_runtime': 6.1054,
  'eval_samples_per_second': 38.982,
  'eval_steps_per_second': 4.914}
-```
 
 从分数中，我们可以看到我们的模型轻松超越了我们的 lead-3 基线——很好！最后要做的是将模型权重推送到中心，如下所示：
 
