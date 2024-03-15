@@ -5145,7 +5145,7 @@ GPT-2 size: 124.2M parameters
 
 我们的模型有 124M 个参数，我们必须调整这些参数。在开始训练之前，我们需要设置一个数据整理器来负责创建批处理。我们可以使用专为语言建模而设计的 `DataCollatorForLanguageModeling` 整理器（顾名思义）。除了堆叠和填充批处理外，它还负责创建语言模型标签——在因果语言建模中，输入也用作标签（只是移动了一个元素），并且此数据整理器在训练期间动态创建它们，因此我们不需要复制 `input_ids` .
 
-请注意，它支持掩码语言建模 （MLM） 和因果语言建模 （CLM）。默认情况下，它为 MLM 准备数据，但我们可以通过设置参数来切换到 CLM：`DataCollatorForLanguageModeling``mlm=False`
+请注意，`DataCollatorForLanguageModeling` 支持掩码语言建模 （MLM） 和因果语言建模 （CLM）。默认情况下，它为 MLM 准备数据，但我们可以通过设置 `mlm=False` 参数来切换到 CLM：
 
 ```
 from transformers import DataCollatorForLanguageModeling
