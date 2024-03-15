@@ -5092,9 +5092,11 @@ DatasetDict({
 
 让我们看一下数据集中的一个示例。我们只显示每个字段的前 200 个字符：
 
-```
+```python
 for key in raw_datasets["train"][0]:
     print(f"{key.upper()}: {raw_datasets['train'][0][key][:200]}")
+```
+
 'REPO_NAME: kmike/scikit-learn'
 'PATH: sklearn/utils/__init__.py'
 'COPIES: 3'
@@ -5111,7 +5113,6 @@ import warnings
 
 from .murmurhash import murm
 LICENSE: bsd-3-clause'''
-```
 
 我们可以看到该字段包含我们希望模型训练的代码。现在我们有了一个数据集，我们需要准备文本，使它们采用适合预训练的格式。`content`
 
