@@ -4970,14 +4970,15 @@ print_summary(100)
 
 这还不错！我们可以看到，我们的模型实际上已经能够通过用新词来增强评论的部分内容来执行*抽象*总结。也许我们模型最酷的方面是它是双语的，因此我们还可以生成西班牙语评论的摘要：
 
-```
+```python
 print_summary(0)
+```
+
 '>>> Review: Es una trilogia que se hace muy facil de leer. Me ha gustado, no me esperaba el final para nada'
 
 '>>> Title: Buena literatura para adolescentes'
 
 '>>> Summary: Muy facil de leer'
-```
 
 摘要翻译成英文的“非常容易阅读”，在这种情况下，我们可以看到它是直接从评论中提取的。尽管如此，这显示了 mT5 模型的多功能性，并让您体验了处理多语言语料库的感觉！
 
