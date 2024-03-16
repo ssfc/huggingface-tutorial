@@ -5472,7 +5472,7 @@ def keytoken_weighted_loss(inputs, logits, keytoken_ids, alpha=1.0):
 
 让我们从数据加载器开始。我们只需要将数据集的格式设置为 ，然后就可以将其传递给具有适当批量大小的 PyTorch：`"torch"``DataLoader`
 
-```
+```python
 from torch.utils.data.dataloader import DataLoader
 
 tokenized_dataset.set_format("torch")
@@ -5482,7 +5482,7 @@ eval_dataloader = DataLoader(tokenized_dataset["valid"], batch_size=32)
 
 接下来，我们对参数进行分组，以便优化器知道哪些参数将获得额外的权重衰减。通常，所有偏差和 LayerNorm 权重项都不受此限制;以下是我们执行此操作的方法：
 
-```
+```python
 weight_decay = 0.1
 
 
@@ -5501,7 +5501,7 @@ def get_grouped_params(model, no_decay=["bias", "LayerNorm.weight"]):
 
 由于我们希望在训练期间定期在验证集上评估模型，因此我们也为此编写一个函数。它只是通过评估数据加载器运行，并收集跨进程的所有损失：
 
-```
+```python
 def evaluate():
     model.eval()
     losses = []
@@ -5520,13 +5520,13 @@ def evaluate():
 
 有了这个功能，我们可以定期报告丢失和[困惑](https://huggingface.co/course/chapter7/3)。接下来，我们重新定义模型，以确保再次从头开始训练：`evaluate()`
 
-```
+```python
 model = GPT2LMHeadModel(config)
 ```
 
 然后，我们可以定义优化器，使用之前的函数来拆分权重衰减的参数：
 
-```
+```python
 from torch.optim import AdamW
 
 optimizer = AdamW(get_grouped_params(model), lr=5e-4)
@@ -5534,7 +5534,7 @@ optimizer = AdamW(get_grouped_params(model), lr=5e-4)
 
 现在，让我们准备模型、优化器和数据加载器，以便我们可以开始训练：
 
-```
+```python
 from accelerate import Accelerator
 
 accelerator = Accelerator(fp16=True)
@@ -5548,7 +5548,7 @@ model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
 
 现在我们已经发送了 ，我们可以使用它的长度来计算训练步骤的数量。请记住，我们应该始终在准备数据加载器后执行此操作，因为该方法会更改其长度。我们使用从学习率到 0 的经典线性时间表：`train_dataloader``accelerator.prepare()`
 
-```
+```python
 from transformers import get_scheduler
 
 num_train_epochs = 1
@@ -5565,7 +5565,7 @@ lr_scheduler = get_scheduler(
 
 最后，要将我们的模型推送到中心，我们需要在工作文件夹中创建一个对象。如果您尚未登录，请先登录 Hugging Face Hub。我们将根据我们想要为模型提供的模型 ID 确定存储库名称（请随意将 替换为您自己的选择;它只需要包含您的用户名，这就是函数的作用）：`Repository``repo_name``get_full_repo_name()`
 
-```
+```python
 from huggingface_hub import Repository, get_full_repo_name
 
 model_name = "codeparrot-ds-accelerate"
@@ -5576,7 +5576,7 @@ repo_name
 
 然后，我们可以将该存储库克隆到本地文件夹中。如果它已经存在，则此本地文件夹应该是我们正在使用的存储库的现有克隆：
 
-```
+```python
 output_dir = "codeparrot-ds-accelerate"
 repo = Repository(output_dir, clone_from=repo_name)
 ```
