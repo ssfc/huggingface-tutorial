@@ -5312,7 +5312,103 @@ trainer.push_to_hub()
 
 💡 如果您有权访问具有多个 GPU 的计算机，请尝试在那里运行代码。自动管理多台机器，这可以大大加快训练速度。`Trainer`
 
+### 7.6.4 Code generation with a pipeline
 
+现在是关键时刻：让我们看看经过训练的模型的实际效果如何！我们可以在日志中看到损失稳步下降，但为了测试模型，让我们看看它在某些提示上的效果如何。为此，我们将模型包装在文本生成中，如果有的话，我们会将其放在 GPU 上以进行快速生成：`pipeline`
+
+```python
+import torch
+from transformers import pipeline
+
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+pipe = pipeline(
+    "text-generation", model="huggingface-course/codeparrot-ds", device=device
+)
+```
+
+（Comment:  看来生成任务也可以指定CPU）
+
+让我们从创建散点图的简单任务开始：
+
+```python
+txt = """\
+# create some data
+x = np.random.randn(100)
+y = np.random.randn(100)
+
+# create scatter plot with x, y
+"""
+print(pipe(txt, num_return_sequences=1)[0]["generated_text"])
+# create some data
+x = np.random.randn(100)
+y = np.random.randn(100)
+
+# create scatter plot with x, y
+plt.scatter(x, y)
+
+# create scatter
+```
+
+结果看起来是正确的。它也适用于手术吗？让我们看看我们是否可以从两个数组创建一个：`pandas``DataFrame`
+
+```python
+txt = """\
+# create some data
+x = np.random.randn(100)
+y = np.random.randn(100)
+
+# create dataframe from x and y
+"""
+print(pipe(txt, num_return_sequences=1)[0]["generated_text"])
+# create some data
+x = np.random.randn(100)
+y = np.random.randn(100)
+
+# create dataframe from x and y
+df = pd.DataFrame({'x': x, 'y': y})
+df.insert(0,'x', x)
+for
+```
+
+很好，这是正确的答案——尽管它随后再次插入了列。由于生成的令牌数量有限，因此以下循环被切断。让我们看看我们是否可以做一些更复杂的事情，让模型帮助我们使用这个操作：`x``for``groupby`
+
+```python
+txt = """\
+# dataframe with profession, income and name
+df = pd.DataFrame({'profession': x, 'income':y, 'name': z})
+
+# calculate the mean income per profession
+"""
+print(pipe(txt, num_return_sequences=1)[0]["generated_text"])
+# dataframe with profession, income and name
+df = pd.DataFrame({'profession': x, 'income':y, 'name': z})
+
+# calculate the mean income per profession
+profession = df.groupby(['profession']).mean()
+
+# compute the
+```
+
+不错;这是正确的方法。最后，让我们看看我们是否也可以使用它来设置一个随机森林模型：`scikit-learn`
+
+```python
+txt = """
+# import random forest regressor from scikit-learn
+from sklearn.ensemble import RandomForestRegressor
+
+# fit random forest model with 300 estimators on X, y:
+"""
+print(pipe(txt, num_return_sequences=1)[0]["generated_text"])
+# import random forest regressor from scikit-learn
+from sklearn.ensemble import RandomForestRegressor
+
+# fit random forest model with 300 estimators on X, y:
+rf = RandomForestRegressor(n_estimators=300, random_state=random_state, max_depth=3)
+rf.fit(X, y)
+rf
+```
+
+从这几个例子来看，该模型似乎已经学习了 Python 数据科学堆栈的一些语法（当然，在将模型部署到现实世界中之前，我们需要对其进行更彻底的评估）。然而，有时它需要对模型训练进行更多定制，以实现给定用例所需的性能。例如，如果我们想动态更新批处理大小或有一个条件训练循环来即时跳过不良示例，该怎么办？一种选择是将 子类化并添加必要的更改，但有时从头开始编写训练循环会更简单。这就是 🤗 Accelerate 的用武之地。`Trainer`
 
 
 
