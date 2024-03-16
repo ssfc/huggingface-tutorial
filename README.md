@@ -5120,7 +5120,11 @@ LICENSE: bsd-3-clause'''
 
 ### 7.6.2 Preparing the dataset
 
-我们的第一步是全新初始化一个 GPT-2 模型。我们将为我们的模型使用与小型 GPT-2 模型相同的配置，因此我们加载预训练的配置，确保分词器大小与模型词汇大小匹配，并传递 and（序列的开始和结束）令牌 ID：`bos``eos`
+
+
+### 7.6.3 Initializing a new model
+
+我们的第一步是全新初始化一个 GPT-2 模型。我们将为我们的模型使用与小型 GPT-2 模型相同的配置，因此我们加载预训练的配置，确保分词器大小与模型词汇大小匹配，并传递 `bos` 和 `eos`（序列的开始和结束）令牌 ID：
 
 ```python
 from transformers import AutoTokenizer, GPT2LMHeadModel, AutoConfig
@@ -5133,6 +5137,8 @@ config = AutoConfig.from_pretrained(
     eos_token_id=tokenizer.eos_token_id,
 )
 ```
+
+（Comment:  看来即使是从头训练一个新模型，也可以直接用GPT2的分词器）
 
 通过该配置，我们可以加载一个新模型。请注意，这是我们第一次不使用 `from_pretrained()` 函数，因为我们实际上是在自己初始化一个模型：
 
@@ -5234,8 +5240,6 @@ trainer.push_to_hub()
 ✏️ **试试看！**除了从原始文本到训练 GPT-2 之外，我们只花了大约 30 行代码。用你自己的数据集试试看，看看你是否能得到好的结果！`TrainingArguments`
 
 💡 如果您有权访问具有多个 GPU 的计算机，请尝试在那里运行代码。自动管理多台机器，这可以大大加快训练速度。`Trainer`
-
-
 
 
 
