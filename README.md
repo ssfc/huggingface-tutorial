@@ -5120,7 +5120,78 @@ LICENSE: bsd-3-clause'''
 
 ### 7.6.2 Preparing the dataset
 
+第一步是标记数据，这样我们就可以用它来训练。由于我们的目标主要是自动完成短函数调用，因此我们可以保持上下文大小相对较小。这样做的好处是，我们可以更快地训练模型，并且需要的内存要少得多。如果应用程序必须具有更多上下文（例如，如果希望模型基于具有函数定义的文件编写单元测试），请确保增加该数字，但也要记住，这会占用更大的 GPU 内存。现在，让我们将上下文大小固定为 128 个令牌，而不是 GPT-2 或 GPT-3 中分别使用的 1,024 或 2,048 个令牌。
 
+大多数文档包含超过 128 个标记，因此只需将输入截断到最大长度即可消除我们数据集的很大一部分。相反，我们将使用该选项对整个输入进行标记化，并将其拆分为几个块，就像我们[在第 6 章](https://huggingface.co/course/chapter6/4)中所做的那样。我们还将使用该选项自动返回每个创建块的长度。通常，最后一个块会小于上下文大小，我们将删除这些块以避免填充问题;我们真的不需要它们，因为我们有大量的数据。`return_overflowing_tokens``return_length`
+
+![将大文本分成几块。](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter7/chunking_texts.svg)
+
+让我们通过查看前两个示例来确切地了解其工作原理：
+
+```python
+from transformers import AutoTokenizer
+
+context_length = 128
+tokenizer = AutoTokenizer.from_pretrained("huggingface-course/code-search-net-tokenizer")
+
+outputs = tokenizer(
+    raw_datasets["train"][:2]["content"],
+    truncation=True,
+    max_length=context_length,
+    return_overflowing_tokens=True,
+    return_length=True,
+)
+
+print(f"Input IDs length: {len(outputs['input_ids'])}")
+print(f"Input chunk lengths: {(outputs['length'])}")
+print(f"Chunk mapping: {outputs['overflow_to_sample_mapping']}")
+```
+
+Input IDs length: 34
+Input chunk lengths: [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 117, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 41]
+Chunk mapping: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+我们可以看到，从这两个示例中，我们总共得到了 34 个段。查看块长度，我们可以看到两个文档末尾的块都少于 128 个标记（分别为 117 个和 41 个）。这些只占我们总块的一小部分，因此我们可以安全地将它们扔掉。通过该字段，我们还可以重建哪些块属于哪些输入样本。`overflow_to_sample_mapping`
+
+通过此操作，我们在数据集中使用🤗了该函数的一个方便功能，即它不需要一对一的地图;正如我们在第 [3 节](https://huggingface.co/course/chapter7/3)中看到的，我们可以创建比输入批处理更多或更少的元素的批次。这在执行数据增强或数据筛选等更改元素数量的操作时非常有用。在我们的例子中，当将每个元素标记化为指定上下文大小的块时，我们从每个文档创建许多样本。我们只需要确保删除现有列，因为它们的大小冲突。如果我们想保留它们，我们可以适当地重复它们并在调用中返回它们：`Dataset.map()``Dataset.map()`
+
+```python
+def tokenize(element):
+    outputs = tokenizer(
+        element["content"],
+        truncation=True,
+        max_length=context_length,
+        return_overflowing_tokens=True,
+        return_length=True,
+    )
+    input_batch = []
+    for length, input_ids in zip(outputs["length"], outputs["input_ids"]):
+        if length == context_length:
+            input_batch.append(input_ids)
+    return {"input_ids": input_batch}
+
+
+tokenized_datasets = raw_datasets.map(
+    tokenize, batched=True, remove_columns=raw_datasets["train"].column_names
+)
+tokenized_datasets
+DatasetDict({
+    train: Dataset({
+        features: ['input_ids'],
+        num_rows: 16702061
+    })
+    valid: Dataset({
+        features: ['input_ids'],
+        num_rows: 93164
+    })
+})
+```
+
+我们现在有 1670 万个示例，每个示例有 128 个代币，总共相当于约 21 亿个代币。作为参考，OpenAI 的 GPT-3 和 Codex 模型分别在 300 亿个和 1000 亿个代币上进行训练，其中 Codex 模型是从 GPT-3 检查点初始化的。我们在本节中的目标不是与这些模型竞争，这些模型可以生成长而连贯的文本，而是创建一个缩小的版本，为数据科学家提供快速的自动完成功能。
+
+现在我们已经准备好了数据集，让我们设置模型！
+
+✏️ **试试看！**删除所有小于上下文大小的块在这里并不是一个大问题，因为我们使用的是小上下文窗口。随着上下文大小的增加（或者，如果您有一个短文档的语料库），被丢弃的块的比例也会增加。准备数据的更有效方法是将所有标记化样本联接到一个批处理中，中间有一个标记，然后对串联序列执行分块。作为练习，修改函数以利用该方法。请注意，您需要从分词器中设置和删除其他参数，以获取令牌 ID 的完整序列。`eos_token_id``tokenize()``truncation=False`
 
 ### 7.6.3 Initializing a new model
 
