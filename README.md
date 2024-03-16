@@ -5410,7 +5410,237 @@ rf
 
 从这几个例子来看，该模型似乎已经学习了 Python 数据科学堆栈的一些语法（当然，在将模型部署到现实世界中之前，我们需要对其进行更彻底的评估）。然而，有时它需要对模型训练进行更多定制，以实现给定用例所需的性能。例如，如果我们想动态更新批处理大小或有一个条件训练循环来即时跳过不良示例，该怎么办？一种选择是将 子类化并添加必要的更改，但有时从头开始编写训练循环会更简单。这就是 🤗 Accelerate 的用武之地。`Trainer`
 
+### 7.6.5 使用 Accelerate 进行🤗训练
 
+我们已经了解了如何使用 训练模型，这可以允许一些自定义。但是，有时我们想要完全控制训练循环，或者我们想进行一些奇特的更改。在这种情况下🤗，Accelerate 是一个不错的选择，在本节中，我们将介绍使用它来训练模型的步骤。为了让事情变得更有趣，我们还将在训练循环中添加一个转折。`Trainer`
+
+```python
+keytoken_ids = []
+for keyword in [
+    "plt",
+    "pd",
+    "sk",
+    "fit",
+    "predict",
+    " plt",
+    " pd",
+    " sk",
+    " fit",
+    " predict",
+    "testtest",
+]:
+    ids = tokenizer([keyword]).input_ids[0]
+    if len(ids) == 1:
+        keytoken_ids.append(ids[0])
+    else:
+        print(f"Keyword has not single token: {keyword}")
+```
+
+'Keyword has not single token: testtest'
+
+太好了，这似乎很好用！现在，我们可以编写一个自定义损失函数，该函数将输入序列、logit 和我们刚刚选择的密钥标记作为输入。首先，我们需要对齐对数和输入：向右移动一个的输入序列形成标签，因为下一个标记是当前标记的标签。我们可以通过从输入序列的第二个标记开始标签来实现这一点，因为模型无论如何都不会对第一个标记进行预测。然后我们切断最后一个 logit，因为我们没有遵循完整输入序列的令牌的标签。有了它，我们可以计算每个样本的损失，并计算每个样本中所有关键字的出现次数。最后，我们使用出现次数作为权重来计算所有样本的加权平均值。由于我们不想丢弃所有没有关键字的样本，因此我们在权重中添加 1：
+
+```
+from torch.nn import CrossEntropyLoss
+import torch
+
+
+def keytoken_weighted_loss(inputs, logits, keytoken_ids, alpha=1.0):
+    # Shift so that tokens < n predict n
+    shift_labels = inputs[..., 1:].contiguous()
+    shift_logits = logits[..., :-1, :].contiguous()
+    # Calculate per-token loss
+    loss_fct = CrossEntropyLoss(reduce=False)
+    loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
+    # Resize and average loss per sample
+    loss_per_sample = loss.view(shift_logits.size(0), shift_logits.size(1)).mean(axis=1)
+    # Calculate and scale weighting
+    weights = torch.stack([(inputs == kt).float() for kt in keytoken_ids]).sum(
+        axis=[0, 2]
+    )
+    weights = alpha * (1.0 + weights)
+    # Calculate weighted average
+    weighted_loss = (loss_per_sample * weights).mean()
+    return weighted_loss
+```
+
+在开始训练这个令人敬畏的新损失函数之前，我们需要准备一些东西：
+
+- 我们需要数据加载器来批量加载数据。
+- 我们需要设置权重衰减参数。
+- 我们时不时地想要计算，因此将评估代码包装在函数中是有意义的。
+
+让我们从数据加载器开始。我们只需要将数据集的格式设置为 ，然后就可以将其传递给具有适当批量大小的 PyTorch：`"torch"``DataLoader`
+
+```
+from torch.utils.data.dataloader import DataLoader
+
+tokenized_dataset.set_format("torch")
+train_dataloader = DataLoader(tokenized_dataset["train"], batch_size=32, shuffle=True)
+eval_dataloader = DataLoader(tokenized_dataset["valid"], batch_size=32)
+```
+
+接下来，我们对参数进行分组，以便优化器知道哪些参数将获得额外的权重衰减。通常，所有偏差和 LayerNorm 权重项都不受此限制;以下是我们执行此操作的方法：
+
+```
+weight_decay = 0.1
+
+
+def get_grouped_params(model, no_decay=["bias", "LayerNorm.weight"]):
+    params_with_wd, params_without_wd = [], []
+    for n, p in model.named_parameters():
+        if any(nd in n for nd in no_decay):
+            params_without_wd.append(p)
+        else:
+            params_with_wd.append(p)
+    return [
+        {"params": params_with_wd, "weight_decay": weight_decay},
+        {"params": params_without_wd, "weight_decay": 0.0},
+    ]
+```
+
+由于我们希望在训练期间定期在验证集上评估模型，因此我们也为此编写一个函数。它只是通过评估数据加载器运行，并收集跨进程的所有损失：
+
+```
+def evaluate():
+    model.eval()
+    losses = []
+    for step, batch in enumerate(eval_dataloader):
+        with torch.no_grad():
+            outputs = model(batch["input_ids"], labels=batch["input_ids"])
+
+        losses.append(accelerator.gather(outputs.loss))
+    loss = torch.mean(torch.cat(losses))
+    try:
+        perplexity = torch.exp(loss)
+    except OverflowError:
+        perplexity = float("inf")
+    return loss.item(), perplexity.item()
+```
+
+有了这个功能，我们可以定期报告丢失和[困惑](https://huggingface.co/course/chapter7/3)。接下来，我们重新定义模型，以确保再次从头开始训练：`evaluate()`
+
+```
+model = GPT2LMHeadModel(config)
+```
+
+然后，我们可以定义优化器，使用之前的函数来拆分权重衰减的参数：
+
+```
+from torch.optim import AdamW
+
+optimizer = AdamW(get_grouped_params(model), lr=5e-4)
+```
+
+现在，让我们准备模型、优化器和数据加载器，以便我们可以开始训练：
+
+```
+from accelerate import Accelerator
+
+accelerator = Accelerator(fp16=True)
+
+model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
+    model, optimizer, train_dataloader, eval_dataloader
+)
+```
+
+🚨 如果您在 TPU 上进行训练，则需要将从上面单元格开始的所有代码移动到专用的训练函数中。有关详细信息，请参阅[第 3 章](https://huggingface.co/course/chapter3)。
+
+现在我们已经发送了 ，我们可以使用它的长度来计算训练步骤的数量。请记住，我们应该始终在准备数据加载器后执行此操作，因为该方法会更改其长度。我们使用从学习率到 0 的经典线性时间表：`train_dataloader``accelerator.prepare()`
+
+```
+from transformers import get_scheduler
+
+num_train_epochs = 1
+num_update_steps_per_epoch = len(train_dataloader)
+num_training_steps = num_train_epochs * num_update_steps_per_epoch
+
+lr_scheduler = get_scheduler(
+    name="linear",
+    optimizer=optimizer,
+    num_warmup_steps=1_000,
+    num_training_steps=num_training_steps,
+)
+```
+
+最后，要将我们的模型推送到中心，我们需要在工作文件夹中创建一个对象。如果您尚未登录，请先登录 Hugging Face Hub。我们将根据我们想要为模型提供的模型 ID 确定存储库名称（请随意将 替换为您自己的选择;它只需要包含您的用户名，这就是函数的作用）：`Repository``repo_name``get_full_repo_name()`
+
+```
+from huggingface_hub import Repository, get_full_repo_name
+
+model_name = "codeparrot-ds-accelerate"
+repo_name = get_full_repo_name(model_name)
+repo_name
+'sgugger/codeparrot-ds-accelerate'
+```
+
+然后，我们可以将该存储库克隆到本地文件夹中。如果它已经存在，则此本地文件夹应该是我们正在使用的存储库的现有克隆：
+
+```
+output_dir = "codeparrot-ds-accelerate"
+repo = Repository(output_dir, clone_from=repo_name)
+```
+
+现在，我们可以通过调用该方法上传我们保存的任何内容。这将有助于我们在每个纪元结束时上传中间模型。`output_dir``repo.push_to_hub()`
+
+在训练之前，让我们运行一个快速测试，看看评估函数是否正常工作：
+
+```
+evaluate()
+(10.934126853942871, 56057.14453125)
+```
+
+这些是非常高的损失和困惑值，但这并不奇怪，因为我们还没有训练模型。这样一来，我们就准备好了编写训练脚本的核心部分：训练循环。在训练循环中，我们遍历数据加载器并将批处理传递给模型。有了logits，我们就可以评估我们的自定义损失函数。我们按梯度累积步骤的数量来缩放损失，以便在聚合更多步骤时不会产生更大的损失。在优化之前，我们还会裁剪渐变以获得更好的收敛效果。最后，每隔几个步骤，我们就会使用新函数评估评估集上的模型：`evaluate()`
+
+```
+from tqdm.notebook import tqdm
+
+gradient_accumulation_steps = 8
+eval_steps = 5_000
+
+model.train()
+completed_steps = 0
+for epoch in range(num_train_epochs):
+    for step, batch in tqdm(
+        enumerate(train_dataloader, start=1), total=num_training_steps
+    ):
+        logits = model(batch["input_ids"]).logits
+        loss = keytoken_weighted_loss(batch["input_ids"], logits, keytoken_ids)
+        if step % 100 == 0:
+            accelerator.print(
+                {
+                    "samples": step * samples_per_step,
+                    "steps": completed_steps,
+                    "loss/train": loss.item() * gradient_accumulation_steps,
+                }
+            )
+        loss = loss / gradient_accumulation_steps
+        accelerator.backward(loss)
+        if step % gradient_accumulation_steps == 0:
+            accelerator.clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            lr_scheduler.step()
+            optimizer.zero_grad()
+            completed_steps += 1
+        if (step % (eval_steps * gradient_accumulation_steps)) == 0:
+            eval_loss, perplexity = evaluate()
+            accelerator.print({"loss/eval": eval_loss, "perplexity": perplexity})
+            model.train()
+            accelerator.wait_for_everyone()
+            unwrapped_model = accelerator.unwrap_model(model)
+            unwrapped_model.save_pretrained(output_dir, save_function=accelerator.save)
+            if accelerator.is_main_process:
+                tokenizer.save_pretrained(output_dir)
+                repo.push_to_hub(
+                    commit_message=f"Training in progress step {step}", blocking=False
+                )
+```
+
+就是这样——您现在拥有了自己的因果语言模型（如 GPT-2）的自定义训练循环，您可以根据需要进一步自定义。
+
+✏️ **试试看！**您可以根据自己的用例创建自己的自定义损失函数，也可以在训练循环中添加另一个自定义步骤。
+
+✏️ **试试看！**在进行长时间的训练实验时，最好使用TensorBoard或Weights & Biases等工具记录重要指标。将适当的日志记录添加到训练循环中，以便您始终可以检查训练的进展情况。
 
 
 
