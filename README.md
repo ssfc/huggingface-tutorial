@@ -3005,7 +3005,7 @@ optimizer.step()
 
 F1 得分的计算方式是：
 
-\[ F1 = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} \]
+$ F1 = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} $
 
 其中，Precision 是正确预测为正类别的样本数与所有预测为正类别的样本数的比例，Recall 是正确预测为正类别的样本数与真实正类别的样本数的比例。
 
@@ -3033,7 +3033,7 @@ F1 得分的计算方式是：
 
 `from accelerate import Accelerator` 是在使用 Hugging Face Transformers 库中的 Accelerate 库，用于加速深度学习模型的训练和推理过程。
 
-Accelerate 是 Hugging Face 推出的一个用于加速深度学习训练的库，它可以自动处理 GPU 或多 GPU、TPU 等硬件加速，并且能够简化训练循环的编写。它为训练循环的加速提供了便捷的接口，同时支持混合精度训练（Mixed Precision Training）等加速技术。
+Accelerate 是 Hugging Face 推出的一个用于**加速深度学习训练的库**，它可以自动处理 GPU 或多 GPU、TPU 等硬件加速，并且能够简化训练循环的编写。它为训练循环的加速提供了便捷的接口，同时支持混合精度训练（Mixed Precision Training）等加速技术。
 
 通过使用 Accelerate，你可以更轻松地利用 GPU、TPU 等硬件来提高训练速度，并且无需手动编写许多硬件和训练循环相关的代码。
 
