@@ -380,7 +380,7 @@ https://huggingface.co/learn/nlp-course/chapter1/6?fw=pt
 
 Comment: 仅介绍，无代码。
 
-解码器模型仅使用转换器模型的解码器。在每个阶段，对于给定的单词，注意力层只能访问句子中位于其前面的单词。这些模型通常称为*自回归模型*。
+解码器模型仅使用转换器模型的解码器。在每个阶段，对于给定的单词，注意力层只能访问句子中位于其前面的单词。这些模型通常称为**自回归模型**。
 
 解码器模型的预训练通常围绕预测句子中的下一个单词。
 
@@ -390,6 +390,8 @@ CTRL
 GPT
 GPT-2
 Transformer XL
+
+comment:  完形填空是内插，自回归是外推。
 
 ## 1.7 Sequence-to-sequence models (Encoder-decoder models)
 
