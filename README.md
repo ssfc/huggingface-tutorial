@@ -641,6 +641,8 @@ print(inputs)
 
 输出本身是一个字典，包含两个键`input_ids`和 `attention_mask`. `input_ids`包含两行整数（每个句子一个），它们是每个句子中标记的唯一标识符。我们将在本章后面解释`attention_mask`是什么。
 
+comment:  PCF模型可以用分词器来预处理PCF生成的xml。
+
 ### 2.2.2 Going through the model
 
 我们可以像使用分词器一样下载预训练模型。🤗 Transformers 提供了一个`AutoModel`类，该类也有一个`from_pretrained()`方法：
