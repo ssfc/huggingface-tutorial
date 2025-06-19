@@ -3,14 +3,14 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="18a85175-8a73-4992-8bf0-9b7e41f52e15" name="1660s">
-        <fileTransfer rootFolder="/home/ssfc" accessType="SFTP" host="1.15.63.146" port="6000" sshConfigId="cc12d1f2-0b62-44bc-aec7-44c23c2d4800" sshConfig="ssfc@1.15.63.146:6000 key" keyPair="true">
+        <fileTransfer rootFolder="/home/ssfc" accessType="SFTP" sshConfigId="cc12d1f2-0b62-44bc-aec7-44c23c2d4800" sshConfig="ssfc@1.15.63.146:6000 key">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>
       <webServer id="fe0a5390-93e6-4939-8583-d4b2442c0777" name="4090">
-        <fileTransfer rootFolder="/home/ssfc" accessType="SFTP" host="1.15.63.146" port="4090" sshConfigId="6a201319-3bf3-4b6a-812f-15ed51f73e5c" sshConfig="ssfc@1.15.63.146:4090 key" keyPair="true">
+        <fileTransfer rootFolder="/home/ssfc" accessType="SFTP" host="39.104.16.40" port="443" sshConfigId="6a201319-3bf3-4b6a-812f-15ed51f73e5c" sshConfig="ssfc@39.104.16.40:443 key" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

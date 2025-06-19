@@ -143,7 +143,7 @@ lr_scheduler = get_scheduler(
     num_training_steps=num_training_steps,
 )
 
-progress_bar = tqdm(range(num_training_steps))
+progress_bar = tqdm(range(num_training_steps))  # 进度条
 
 model_accelerated.train()
 for epoch in range(num_epochs):

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="1.15.63.146" id="6a201319-3bf3-4b6a-812f-15ed51f73e5c" keyPath="C:\Users\take_\Dropbox\backup\.ssh\id_rsa_4090" port="4090" nameFormat="DESCRIPTIVE" username="ssfc" useOpenSSHConfig="true" />
+      <sshConfig host="39.104.16.40" id="6a201319-3bf3-4b6a-812f-15ed51f73e5c" keyPath="C:\Users\take_\Dropbox\backup\.ssh\id_rsa_4090" port="443" nameFormat="DESCRIPTIVE" username="ssfc" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>
