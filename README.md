@@ -1,6 +1,6 @@
 # Huggingface tutorial
 
-[简介 - 拥抱脸NLP课程 (huggingface.co)](https://huggingface.co/learn/nlp-course/chapter0/1?fw=pt)
+https://huggingface.co/learn/llm-course/chapter1/1
 
 吾人认为，要想把握huggingface tutorial, 要从两个维度着手：(1) 把握tutorial整体的各章结构；(2) 以句读的方式把握各章的代码，把重要内容翻译到markdown文档。(2024年1月7日)
 
