@@ -48,6 +48,7 @@ eval_dataloader = DataLoader(
 
 for batch in train_dataloader:
     break
+# `.items()` 是 Python 字典（Dictionary）对象的一个方法，用于获取字典中所有的键值对（键和对应的值）。
 print({k: v.shape for k, v in batch.items()})
 
 ##############################################################################################################
