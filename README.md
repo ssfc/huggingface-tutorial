@@ -237,7 +237,7 @@ Comment: 好多模型的推理API被关闭或者不支持免费节点，支持�
 
 Comment: 有意思的是，在hugging face官网上，bert对应的标签是fill-mask而不是text generation. 官网给出的推理API任务也是fill-mask. (2024年1月7日)
 
-### 1.3.6 fill-mask
+### 1.3.6 fill-mask 完形填空
 
 您将尝试的下一个管道是 `fill-mask`。这个任务的想法是填补给定文本中的空白：
 
