@@ -2877,7 +2877,7 @@ print(my_dict.items())
 
 ### Q: 解释optimizer.step()
 
-`optimizer.step()` 是在 PyTorch 中用于更新模型参数的方法。在深度学习中，优化算法通常通过调整模型的参数来最小化损失函数，从而提升模型性能。
+`optimizer.step()` 是在 PyTorch 中用于**更新模型参数**的方法。在深度学习中，优化算法通常通过调整模型的参数来最小化损失函数，从而提升模型性能。
 
 具体来说，解释 `optimizer.step()` 如下：
 
