@@ -946,6 +946,8 @@ BertConfig {
 
 虽然您还没有看到所有这些属性的作用，但您应该认识到其中的一些：`hidden_size`属性定义了矢量`hidden_states`的大小，`num_hidden_layers`定义了 Transformer 模型的层数。
 
+comment:  从中可以看出，BertModel还是比较大的。
+
 ### Q: huggingface中的BertConfig是什么？
 
 在 Hugging Face Transformers 库中，`BertConfig` 是用于配置 BERT 模型的类。BERT（Bidirectional Encoder Representations from Transformers）是一种流行的预训练模型，在自然语言处理（NLP）任务中取得了很好的效果。`BertConfig` 类用于定义和设置 BERT 模型的超参数和配置选项。
