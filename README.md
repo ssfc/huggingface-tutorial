@@ -3269,6 +3269,8 @@ The only thing you need to watch out for is that **the chosen checkpoint is suit
 
 # 5 THE 🤗 DATASETS LIBRARY
 
+comment:  PCF需要自己制作微调的数据集。
+
 ## 5.1 Introduction
 
 ## 5.2 What if my dataset isn't on the Hub?
@@ -3377,12 +3379,12 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 在第 [3 章](https://huggingface.co/course/chapter3)中，您了解了如何微调文本分类模型。在本章中，我们将处理以下常见的 NLP 任务：
 
-- 令牌分类 -- 无关
+- 令牌分类 -- PCF无关
 - 掩码语言建模（如 BERT）
-- 综述 -- 有关
-- 译本 -- 有关
-- 因果语言建模预训练（如 GPT-2）-- 可能有关
-- 问答 -- 有关
+- 综述 -- PCF有关
+- 译本 -- PCF有关
+- 因果语言建模预训练（如 GPT-2）-- PCF可能有关
+- 问答 -- PCF有关
 
 为此，您需要利用您在第 3 章中学到的有关 API 和 🤗 Accelerate 库、🤗第 [5](https://huggingface.co/course/chapter5) 章中的 Datasets 库以及🤗[第 6 章](https://huggingface.co/course/chapter6)中的 Tokenizers 库的所有知识。我们还将把结果上传到模型中心，就像我们在第 4 章中所做的那样，所以这一[章](https://huggingface.co/course/chapter4)真的是所有东西汇集在一起的章节！`Trainer`
 
