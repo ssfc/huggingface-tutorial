@@ -3394,11 +3394,11 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 ## 7.2 Token classification
 
-。。。。。。。。。
+命名实体识别 （NER）
 
-。。。。。。。。。
+词性标记 (POS)
 
-。。。。。。。。。
+分块
 
 ## 7.3 Fine-tuning a masked language model
 
