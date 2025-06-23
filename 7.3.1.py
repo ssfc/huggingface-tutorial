@@ -28,3 +28,7 @@ top_5_tokens = torch.topk(mask_token_logits, 5, dim=1).indices[0].tolist()
 for token in top_5_tokens:
     print(f"'>>> {text.replace(tokenizer.mask_token, tokenizer.decode([token]))}'")
 
+from datasets import load_dataset
+
+imdb_dataset = load_dataset("imdb")
+print(imdb_dataset)
