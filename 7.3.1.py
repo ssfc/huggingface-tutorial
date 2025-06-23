@@ -63,3 +63,9 @@ tokenized_samples = tokenized_datasets["train"][:3]
 for idx, sample in enumerate(tokenized_samples["input_ids"]):
     print(f"'>>> Review {idx} length: {len(sample)}'")
 
+concatenated_examples = {
+    k: sum(tokenized_samples[k], []) for k in tokenized_samples.keys()
+}
+total_length = len(concatenated_examples["input_ids"])
+print(f"'>>> Concatenated reviews length: {total_length}'")
+
