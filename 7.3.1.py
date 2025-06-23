@@ -69,3 +69,11 @@ concatenated_examples = {
 total_length = len(concatenated_examples["input_ids"])
 print(f"'>>> Concatenated reviews length: {total_length}'")
 
+chunks = {
+    k: [t[i : i + chunk_size] for i in range(0, total_length, chunk_size)]
+    for k, t in concatenated_examples.items()
+}
+
+for chunk in chunks["input_ids"]:
+    print(f"'>>> Chunk length: {len(chunk)}'")
+
