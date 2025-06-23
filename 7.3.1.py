@@ -53,3 +53,13 @@ tokenized_datasets = imdb_dataset.map(
 )
 print(tokenized_datasets)
 
+print(tokenizer.model_max_length)
+
+chunk_size = 128
+
+# Slicing produces a list of lists for each feature
+tokenized_samples = tokenized_datasets["train"][:3]
+
+for idx, sample in enumerate(tokenized_samples["input_ids"]):
+    print(f"'>>> Review {idx} length: {len(sample)}'")
+
