@@ -3402,6 +3402,8 @@ comment:  PCF是一个序列到序列的功能，因此可以据此挑选会用�
 
 分块
 
+comment:  和PCF没啥关系
+
 ## 7.3 Fine-tuning a masked language model
 
 对于许多涉及 Transformer 模型的 NLP 应用程序，您只需从 Hugging Face Hub 中获取一个预训练模型，然后直接根据手头任务的数据对其进行微调。如果用于预训练的语料库与用于微调的语料库没有太大区别，迁移学习通常会产生良好的结果。
