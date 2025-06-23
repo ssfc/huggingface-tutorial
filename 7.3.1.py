@@ -1,4 +1,7 @@
 from transformers import AutoModelForMaskedLM
+from transformers import AutoTokenizer
+import torch
+
 
 model_checkpoint = "distilbert-base-uncased"
 model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
@@ -9,11 +12,10 @@ print(f"'>>> BERT number of parameters: 110M'")
 
 text = "This is a great [MASK]."
 
-from transformers import AutoTokenizer
+
 
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
-import torch
 
 inputs = tokenizer(text, return_tensors="pt")
 token_logits = model(**inputs).logits
