@@ -3420,7 +3420,70 @@ comment:  和PCF没啥关系
 
 让我们开始吧！
 
-。。。。。。。。。
+### 7.3.1 Picking a pretrained model for masked language modeling
+
+首先，我们选择一个合适的预训练模型进行掩码语言建模。如以下屏幕截图所示，您可以通过在 [Hugging Face Hub](https://huggingface.co/models?pipeline_tag=fill-mask&sort=downloads) 上应用 “Fill-Mask” 过滤器来查找候选列表：
+
+![Hub 模型。](https://huggingface.co/datasets/huggingface-course/documentation-images/resolve/main/en/chapter7/mlm-models.png)
+
+尽管 BERT 和 RoBERTa 系列模型是下载次数最多的，但我们将使用一个名为 [DistilBERT](https://huggingface.co/distilbert-base-uncased) 的模型，该模型可以更快地训练，而下游性能几乎没有损失。该模型使用一种称为[*知识蒸馏的特殊*](https://en.wikipedia.org/wiki/Knowledge_distillation)技术进行训练，其中使用像 BERT 这样的大型“教师模型”来指导参数少得多的“学生模型”的训练。在本节中，对知识提炼细节的解释会让我们走得太远，但如果你有兴趣，你可以在 [*Natural Language Processing with Transformers*](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/)（俗称 Transformers 教科书）中阅读所有相关信息。
+
+让我们继续使用类下载 DistilBERT：`AutoModelForMaskedLM`
+
+```python
+from transformers import AutoModelForMaskedLM
+
+model_checkpoint = "distilbert-base-uncased"
+model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
+```
+
+我们可以通过调用该方法来查看这个模型有多少个参数：`num_parameters()`
+
+```python
+distilbert_num_parameters = model.num_parameters() / 1_000_000
+print(f"'>>> DistilBERT number of parameters: {round(distilbert_num_parameters)}M'")
+print(f"'>>> BERT number of parameters: 110M'")
+'>>> DistilBERT number of parameters: 67M'
+'>>> BERT number of parameters: 110M'
+```
+
+DistilBERT 拥有大约 6700 万个参数，比 BERT 基本模型小大约两倍，这大致相当于训练速度提高了两倍——很好！现在让我们看看这个模型预测的哪些类型的标记最有可能完成一小部分文本样本：
+
+```
+text = "This is a great [MASK]."
+```
+
+作为人类，我们可以想象代币的许多可能性，例如“day”、“ride”或“painting”。对于预训练模型，预测取决于训练模型的语料库，因为它会学习获取数据中存在的统计模式。与 BERT 一样，DistilBERT 在[英语 Wikipedia](https://huggingface.co/datasets/wikipedia) 和 [BookCorpus](https://huggingface.co/datasets/bookcorpus) 数据集上进行了预训练，因此我们希望预测能够反映这些领域。为了预测掩码，我们需要 DistilBERT 的分词器来生成模型的输入，所以让我们也从 Hub 下载它：`[MASK]``[MASK]`
+
+```python
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+```
+
+使用分词器和模型，我们现在可以将文本示例传递给模型，提取 logits，并打印出前 5 个候选者：
+
+```python
+import torch
+
+inputs = tokenizer(text, return_tensors="pt")
+token_logits = model(**inputs).logits
+# Find the location of [MASK] and extract its logits
+mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
+mask_token_logits = token_logits[0, mask_token_index, :]
+# Pick the [MASK] candidates with the highest logits
+top_5_tokens = torch.topk(mask_token_logits, 5, dim=1).indices[0].tolist()
+
+for token in top_5_tokens:
+    print(f"'>>> {text.replace(tokenizer.mask_token, tokenizer.decode([token]))}'")
+'>>> This is a great deal.'
+'>>> This is a great success.'
+'>>> This is a great adventure.'
+'>>> This is a great idea.'
+'>>> This is a great feat.'
+```
+
+从输出中我们可以看出，该模型的预测指的是日常用语，考虑到英文维基百科的基础，这也许不足为奇。让我们看看如何将这个领域更改为更小众的东西 — 高度两极分化的电影评论！
 
 。。。。。。。。。
 

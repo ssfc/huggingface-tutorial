@@ -96,3 +96,6 @@ def group_texts(examples):
 lm_datasets = tokenized_datasets.map(group_texts, batched=True)
 print(lm_datasets)
 
+tokenizer.decode(lm_datasets["train"][1]["input_ids"])
+
+
