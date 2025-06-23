@@ -204,3 +204,5 @@ trainer.train()
 eval_results = trainer.evaluate()
 print(f">>> Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
 
+# trainer.push_to_hub()
+
