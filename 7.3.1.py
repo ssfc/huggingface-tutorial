@@ -205,7 +205,7 @@ eval_results = trainer.evaluate()
 print(f">>> Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
 
 # trainer.push_to_hub()
-
+'''
 def insert_random_mask(batch):
     features = [dict(zip(batch, t)) for t in zip(*batch.values())]
     masked_inputs = data_collator(features)
@@ -324,7 +324,7 @@ for epoch in range(num_train_epochs):
             commit_message=f"Training in progress epoch {epoch}", blocking=False
         )
 
-
+'''
 
 
 
