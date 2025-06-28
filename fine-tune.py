@@ -1,10 +1,14 @@
 from datasets import load_dataset
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import TrainingArguments, Trainer
+import torch
 
+
+# load dataset
 dataset = load_dataset('csv', data_files={'train': 'data.csv'}, delimiter=',')
 
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
+# load model
 model_name = 'distilbert-base-uncased'
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
@@ -15,8 +19,8 @@ def preprocess_function(examples):
 
 encoded_dataset = dataset.map(preprocess_function, batched=True)
 
-from transformers import TrainingArguments, Trainer
 
+# train model
 training_args = TrainingArguments(
     output_dir='./results',
     per_device_train_batch_size=8,
@@ -33,8 +37,7 @@ trainer = Trainer(
 trainer.train()
 
 
-import torch
-
+# test model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)  # 把模型放到GPU或CPU
 model.eval()
