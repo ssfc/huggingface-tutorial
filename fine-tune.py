@@ -35,6 +35,14 @@ trainer = Trainer(
 
 trainer.train()
 
+# 保存模型和Tokenizer
+model.save_pretrained('./my_model')
+tokenizer.save_pretrained('./my_model')
+
+# 加载训练好的模型和tokenizer
+model = AutoModelForSequenceClassification.from_pretrained('./my_model')
+tokenizer = AutoTokenizer.from_pretrained('./my_model')
+
 
 # test model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
