@@ -15,7 +15,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name, num_label
 
 
 # load dataset
-dataset = load_dataset('csv', data_files={'train': 'data.csv'}, delimiter=',')
+dataset = load_dataset('csv', data_files={'train': 'data-classification.csv'}, delimiter=',')
 encoded_dataset = dataset.map(preprocess_function, batched=True)
 
 
