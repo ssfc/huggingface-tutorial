@@ -4,8 +4,8 @@ from transformers import TrainingArguments, Trainer
 import torch
 
 
-# load dataset
-dataset = load_dataset('csv', data_files={'train': 'data.csv'}, delimiter=',')
+def preprocess_function(examples):
+    return tokenizer(examples['text'], truncation=True, padding='max_length', max_length=128)
 
 
 # load model
@@ -14,9 +14,8 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
 
-def preprocess_function(examples):
-    return tokenizer(examples['text'], truncation=True, padding='max_length', max_length=128)
-
+# load dataset
+dataset = load_dataset('csv', data_files={'train': 'data.csv'}, delimiter=',')
 encoded_dataset = dataset.map(preprocess_function, batched=True)
 
 
