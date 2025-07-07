@@ -59,6 +59,7 @@ trainer.train()
 model.eval()
 prompt = "Question: If a pen costs $2 and you buy 3 pens, how much do you spend?\nAnswer: "
 inputs = tokenizer(prompt, return_tensors="pt")
+inputs = {k: v.to(model.device) for k, v in inputs.items()}  # ✅ 移动到同一设备
 
 with torch.no_grad():
     outputs = model.generate(**inputs, max_length=100, do_sample=False)
