@@ -3394,6 +3394,8 @@ Git LFS支持多种后端存储，包括自托管的Git LFS服务器、GitHub、
 
 comment:  PCF是一个序列到序列的功能，因此可以据此挑选会用到哪些工具。
 
+comment:  PCF是绝对精神辩证上升（正-反-合，否定-否定之否定）的过程，因此对应的fine-tune工具是思维链。
+
 ## 7.2 Token classification
 
 命名实体识别 （NER）
