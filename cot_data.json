@@ -1,0 +1,5 @@
+[
+  {"question": "What is 2 + 3?", "cot": "To solve 2 + 3, we add 2 and 3. The result is 5."},
+  {"question": "If you have 10 apples and give away 4, how many are left?", "cot": "You start with 10 apples. Giving away 4 leaves you with 6 apples."},
+  {"question": "What is 7 times 6?", "cot": "7 times 6 is the same as adding 7 six times. 7+7+7+7+7+7 = 42."}
+]

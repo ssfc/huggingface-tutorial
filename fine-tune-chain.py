@@ -10,16 +10,9 @@ tokenizer.pad_token = tokenizer.eos_token  # gpt2 默认没有pad_token
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
 # 2. 构造小型CoT数据集
-data = [
-    {"question": "What is 2 + 3?",
-     "cot": "To solve 2 + 3, we add 2 and 3. The result is 5."},
-    {"question": "If you have 10 apples and give away 4, how many are left?",
-     "cot": "You start with 10 apples. Giving away 4 leaves you with 6 apples."},
-    {"question": "What is 7 times 6?",
-     "cot": "7 times 6 is the same as adding 7 six times. 7+7+7+7+7+7 = 42."}
-]
+# 如果是 json 格式
+dataset = load_dataset('json', data_files='cot_data.json', split='train')
 
-dataset = Dataset.from_list(data)
 
 # 3. 预处理函数
 def preprocess(example):
