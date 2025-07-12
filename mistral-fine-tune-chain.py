@@ -3,6 +3,7 @@ from datasets import load_dataset
 import torch
 
 # 1. ★更换为 Mistral-7B
+# 草，Mistral-7B在4090上fine-tune会out of memory. 估计只能用来推理？ =》如果7B模型走不通，就只能尝试更小的qwen或者deepseek了。
 model_name = "mistralai/Mistral-7B-v0.1"
 tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token  # 指定pad_token
