@@ -8,7 +8,8 @@ model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto", torch_
 model.eval()
 
 # 编写 prompt
-prompt = "Question: If Tom has 3 apples and gives 1 away, how many apples does he have?\nAnswer:"
+# prompt = "Question: If Tom has 3 apples and gives 1 away, how many apples does he have?\nAnswer:"
+prompt = "Introduce yourself:"
 
 # 编码
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
